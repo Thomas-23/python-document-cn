@@ -1,0 +1,125 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {1}开胃菜}{3}{chapter.1}
+\contentsline {chapter}{\numberline {2}使用 Python 解释器}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}调用解释器}{5}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}参数传递}{5}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}交互模式}{6}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}解释器及其环境}{6}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}源程序编码}{6}{subsection.2.2.1}
+\contentsline {chapter}{\numberline {3}Python 简介}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}将 Python 当做计算器}{7}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}数字}{7}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}字符串}{8}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}列表}{11}{subsection.3.1.3}
+\contentsline {section}{\numberline {3.2}编程的第一步}{13}{section.3.2}
+\contentsline {chapter}{\numberline {4}深入 Python 流程控制}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}if 语句}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}for 语句}{15}{section.4.2}
+\contentsline {section}{\numberline {4.3}range() 函数}{16}{section.4.3}
+\contentsline {section}{\numberline {4.4}break 和 continue 语句, 以及循环中的 else 子句}{17}{section.4.4}
+\contentsline {section}{\numberline {4.5}pass 语句}{17}{section.4.5}
+\contentsline {section}{\numberline {4.6}定义函数}{18}{section.4.6}
+\contentsline {section}{\numberline {4.7}深入 Python 函数定义}{19}{section.4.7}
+\contentsline {subsection}{\numberline {4.7.1}默认参数值}{19}{subsection.4.7.1}
+\contentsline {subsection}{\numberline {4.7.2}关键字参数}{20}{subsection.4.7.2}
+\contentsline {subsection}{\numberline {4.7.3}可变参数列表}{21}{subsection.4.7.3}
+\contentsline {subsection}{\numberline {4.7.4}参数列表的分拆}{22}{subsection.4.7.4}
+\contentsline {subsection}{\numberline {4.7.5}Lambda 形式}{22}{subsection.4.7.5}
+\contentsline {subsection}{\numberline {4.7.6}文档字符串}{23}{subsection.4.7.6}
+\contentsline {subsection}{\numberline {4.7.7}函数注解}{23}{subsection.4.7.7}
+\contentsline {section}{\numberline {4.8}插曲：编码风格}{23}{section.4.8}
+\contentsline {chapter}{\numberline {5}数据结构}{25}{chapter.5}
+\contentsline {section}{\numberline {5.1}关于列表的更多内容}{25}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}把链表当作堆栈使用}{26}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}把链表当作队列使用}{26}{subsection.5.1.2}
+\contentsline {subsection}{\numberline {5.1.3}列表解析}{27}{subsection.5.1.3}
+\contentsline {subsection}{\numberline {5.1.4}嵌套的列表解析}{28}{subsection.5.1.4}
+\contentsline {section}{\numberline {5.2}del 语句}{29}{section.5.2}
+\contentsline {section}{\numberline {5.3}元组和序列}{29}{section.5.3}
+\contentsline {section}{\numberline {5.4}集合}{30}{section.5.4}
+\contentsline {section}{\numberline {5.5}字典}{31}{section.5.5}
+\contentsline {section}{\numberline {5.6}循环技巧}{32}{section.5.6}
+\contentsline {section}{\numberline {5.7}深入条件控制}{33}{section.5.7}
+\contentsline {section}{\numberline {5.8}比较序列和其它类型}{33}{section.5.8}
+\contentsline {chapter}{\numberline {6}模块}{35}{chapter.6}
+\contentsline {section}{\numberline {6.1}深入模块}{36}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}作为脚本来执行模块}{36}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.2}模块的搜索路径}{37}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}“编译的” Python 文件}{37}{subsection.6.1.3}
+\contentsline {section}{\numberline {6.2}标准模块}{37}{section.6.2}
+\contentsline {section}{\numberline {6.3}dir() 函数}{38}{section.6.3}
+\contentsline {section}{\numberline {6.4}包}{39}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}从 * 导入包}{40}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}包内引用}{41}{subsection.6.4.2}
+\contentsline {subsection}{\numberline {6.4.3}多重目录中的包}{41}{subsection.6.4.3}
+\contentsline {chapter}{\numberline {7}输入和输出}{43}{chapter.7}
+\contentsline {section}{\numberline {7.1}格式化输出}{43}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}旧式的字符串格式化}{45}{subsection.7.1.1}
+\contentsline {section}{\numberline {7.2}文件读写}{46}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}文件对象的方法}{46}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}使用 json 存储结构化数据}{47}{subsection.7.2.2}
+\contentsline {chapter}{\numberline {8}错误和异常}{49}{chapter.8}
+\contentsline {section}{\numberline {8.1}语法错误}{49}{section.8.1}
+\contentsline {section}{\numberline {8.2}异常}{49}{section.8.2}
+\contentsline {section}{\numberline {8.3}异常处理}{50}{section.8.3}
+\contentsline {section}{\numberline {8.4}抛出异常}{51}{section.8.4}
+\contentsline {section}{\numberline {8.5}用户自定义异常}{52}{section.8.5}
+\contentsline {section}{\numberline {8.6}定义清理行为}{53}{section.8.6}
+\contentsline {section}{\numberline {8.7}预定义清理行为}{54}{section.8.7}
+\contentsline {chapter}{\numberline {9}类}{55}{chapter.9}
+\contentsline {section}{\numberline {9.1}术语相关}{55}{section.9.1}
+\contentsline {section}{\numberline {9.2}Python 作用域和命名空间}{55}{section.9.2}
+\contentsline {subsection}{\numberline {9.2.1}作用域和命名空间示例}{56}{subsection.9.2.1}
+\contentsline {section}{\numberline {9.3}初识类}{57}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}类定义语法}{57}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}类对象}{58}{subsection.9.3.2}
+\contentsline {subsection}{\numberline {9.3.3}实例对象}{58}{subsection.9.3.3}
+\contentsline {subsection}{\numberline {9.3.4}方法对象}{59}{subsection.9.3.4}
+\contentsline {subsection}{\numberline {9.3.5}类和实例变量}{59}{subsection.9.3.5}
+\contentsline {section}{\numberline {9.4}一些说明}{60}{section.9.4}
+\contentsline {section}{\numberline {9.5}继承}{61}{section.9.5}
+\contentsline {subsection}{\numberline {9.5.1}多继承}{62}{subsection.9.5.1}
+\contentsline {section}{\numberline {9.6}私有变量}{62}{section.9.6}
+\contentsline {section}{\numberline {9.7}补充}{63}{section.9.7}
+\contentsline {section}{\numberline {9.8}异常也是类}{63}{section.9.8}
+\contentsline {section}{\numberline {9.9}迭代器}{64}{section.9.9}
+\contentsline {section}{\numberline {9.10}生成器}{65}{section.9.10}
+\contentsline {section}{\numberline {9.11}生成器表达式}{65}{section.9.11}
+\contentsline {chapter}{\numberline {10}Python 标准库概览}{67}{chapter.10}
+\contentsline {section}{\numberline {10.1}操作系统接口}{67}{section.10.1}
+\contentsline {section}{\numberline {10.2}文件通配符}{67}{section.10.2}
+\contentsline {section}{\numberline {10.3}命令行参数}{67}{section.10.3}
+\contentsline {section}{\numberline {10.4}错误输出重定向和程序终止}{68}{section.10.4}
+\contentsline {section}{\numberline {10.5}字符串正则匹配}{68}{section.10.5}
+\contentsline {section}{\numberline {10.6}数学}{68}{section.10.6}
+\contentsline {section}{\numberline {10.7}互联网访问}{69}{section.10.7}
+\contentsline {section}{\numberline {10.8}日期和时间}{69}{section.10.8}
+\contentsline {section}{\numberline {10.9}数据压缩}{70}{section.10.9}
+\contentsline {section}{\numberline {10.10}性能度量}{70}{section.10.10}
+\contentsline {section}{\numberline {10.11}质量控制}{70}{section.10.11}
+\contentsline {section}{\numberline {10.12}自带能量包}{71}{section.10.12}
+\contentsline {chapter}{\numberline {11}标准库浏览 -- Part II}{73}{chapter.11}
+\contentsline {section}{\numberline {11.1}输出格式}{73}{section.11.1}
+\contentsline {section}{\numberline {11.2}模板}{74}{section.11.2}
+\contentsline {section}{\numberline {11.3}使用二进制数据记录布局}{74}{section.11.3}
+\contentsline {section}{\numberline {11.4}多线程}{75}{section.11.4}
+\contentsline {section}{\numberline {11.5}日志}{75}{section.11.5}
+\contentsline {section}{\numberline {11.6}弱引用}{76}{section.11.6}
+\contentsline {section}{\numberline {11.7}列表工具}{76}{section.11.7}
+\contentsline {section}{\numberline {11.8}十进制浮点数算法}{77}{section.11.8}
+\contentsline {chapter}{\numberline {12}虚拟环境和包}{79}{chapter.12}
+\contentsline {section}{\numberline {12.1}介绍}{79}{section.12.1}
+\contentsline {section}{\numberline {12.2}创建虚拟环境}{79}{section.12.2}
+\contentsline {section}{\numberline {12.3}使用 pip 管理包}{80}{section.12.3}
+\contentsline {chapter}{\numberline {13}接下来？}{83}{chapter.13}
+\contentsline {chapter}{\numberline {14}交互式输入行编辑和历史回溯}{85}{chapter.14}
+\contentsline {section}{\numberline {14.1}Tab 补全和历史编辑}{85}{section.14.1}
+\contentsline {section}{\numberline {14.2}其它交互式解释器}{85}{section.14.2}
+\contentsline {chapter}{\numberline {15}浮点数算法：争议和限制}{87}{chapter.15}
+\contentsline {section}{\numberline {15.1}表达错误}{89}{section.15.1}
+\contentsline {chapter}{\numberline {16}附录}{91}{chapter.16}
+\contentsline {section}{\numberline {16.1}交互模式}{91}{section.16.1}
+\contentsline {subsection}{\numberline {16.1.1}错误处理}{91}{subsection.16.1.1}
+\contentsline {subsection}{\numberline {16.1.2}可执行 Python 脚本}{91}{subsection.16.1.2}
+\contentsline {subsection}{\numberline {16.1.3}交互式启动文件}{91}{subsection.16.1.3}
+\contentsline {subsection}{\numberline {16.1.4}定制模块}{92}{subsection.16.1.4}

@@ -1,0 +1,87 @@
+\BOOKMARK [0][-]{chapter.1}{开胃菜}{}% 1
+\BOOKMARK [0][-]{chapter.2}{使用 Python 解释器}{}% 2
+\BOOKMARK [1][-]{section.2.1}{调用解释器}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{解释器及其环境}{chapter.2}% 4
+\BOOKMARK [0][-]{chapter.3}{Python 简介}{}% 5
+\BOOKMARK [1][-]{section.3.1}{将 Python 当做计算器}{chapter.3}% 6
+\BOOKMARK [1][-]{section.3.2}{编程的第一步}{chapter.3}% 7
+\BOOKMARK [0][-]{chapter.4}{深入 Python 流程控制}{}% 8
+\BOOKMARK [1][-]{section.4.1}{if 语句}{chapter.4}% 9
+\BOOKMARK [1][-]{section.4.2}{for 语句}{chapter.4}% 10
+\BOOKMARK [1][-]{section.4.3}{range\(\) 函数}{chapter.4}% 11
+\BOOKMARK [1][-]{section.4.4}{break 和 continue 语句, 以及循环中的 else 子句}{chapter.4}% 12
+\BOOKMARK [1][-]{section.4.5}{pass 语句}{chapter.4}% 13
+\BOOKMARK [1][-]{section.4.6}{定义函数}{chapter.4}% 14
+\BOOKMARK [1][-]{section.4.7}{深入 Python 函数定义}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.8}{插曲：编码风格}{chapter.4}% 16
+\BOOKMARK [0][-]{chapter.5}{数据结构}{}% 17
+\BOOKMARK [1][-]{section.5.1}{关于列表的更多内容}{chapter.5}% 18
+\BOOKMARK [1][-]{section.5.2}{del 语句}{chapter.5}% 19
+\BOOKMARK [1][-]{section.5.3}{元组和序列}{chapter.5}% 20
+\BOOKMARK [1][-]{section.5.4}{集合}{chapter.5}% 21
+\BOOKMARK [1][-]{section.5.5}{字典}{chapter.5}% 22
+\BOOKMARK [1][-]{section.5.6}{循环技巧}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.7}{深入条件控制}{chapter.5}% 24
+\BOOKMARK [1][-]{section.5.8}{比较序列和其它类型}{chapter.5}% 25
+\BOOKMARK [0][-]{chapter.6}{模块}{}% 26
+\BOOKMARK [1][-]{section.6.1}{深入模块}{chapter.6}% 27
+\BOOKMARK [1][-]{section.6.2}{标准模块}{chapter.6}% 28
+\BOOKMARK [1][-]{section.6.3}{dir\(\) 函数}{chapter.6}% 29
+\BOOKMARK [1][-]{section.6.4}{包}{chapter.6}% 30
+\BOOKMARK [0][-]{chapter.7}{输入和输出}{}% 31
+\BOOKMARK [1][-]{section.7.1}{格式化输出}{chapter.7}% 32
+\BOOKMARK [1][-]{section.7.2}{文件读写}{chapter.7}% 33
+\BOOKMARK [0][-]{chapter.8}{错误和异常}{}% 34
+\BOOKMARK [1][-]{section.8.1}{语法错误}{chapter.8}% 35
+\BOOKMARK [1][-]{section.8.2}{异常}{chapter.8}% 36
+\BOOKMARK [1][-]{section.8.3}{异常处理}{chapter.8}% 37
+\BOOKMARK [1][-]{section.8.4}{抛出异常}{chapter.8}% 38
+\BOOKMARK [1][-]{section.8.5}{用户自定义异常}{chapter.8}% 39
+\BOOKMARK [1][-]{section.8.6}{定义清理行为}{chapter.8}% 40
+\BOOKMARK [1][-]{section.8.7}{预定义清理行为}{chapter.8}% 41
+\BOOKMARK [0][-]{chapter.9}{类}{}% 42
+\BOOKMARK [1][-]{section.9.1}{术语相关}{chapter.9}% 43
+\BOOKMARK [1][-]{section.9.2}{Python 作用域和命名空间}{chapter.9}% 44
+\BOOKMARK [1][-]{section.9.3}{初识类}{chapter.9}% 45
+\BOOKMARK [1][-]{section.9.4}{一些说明}{chapter.9}% 46
+\BOOKMARK [1][-]{section.9.5}{继承}{chapter.9}% 47
+\BOOKMARK [1][-]{section.9.6}{私有变量}{chapter.9}% 48
+\BOOKMARK [1][-]{section.9.7}{补充}{chapter.9}% 49
+\BOOKMARK [1][-]{section.9.8}{异常也是类}{chapter.9}% 50
+\BOOKMARK [1][-]{section.9.9}{迭代器}{chapter.9}% 51
+\BOOKMARK [1][-]{section.9.10}{生成器}{chapter.9}% 52
+\BOOKMARK [1][-]{section.9.11}{生成器表达式}{chapter.9}% 53
+\BOOKMARK [0][-]{chapter.10}{Python 标准库概览}{}% 54
+\BOOKMARK [1][-]{section.10.1}{操作系统接口}{chapter.10}% 55
+\BOOKMARK [1][-]{section.10.2}{文件通配符}{chapter.10}% 56
+\BOOKMARK [1][-]{section.10.3}{命令行参数}{chapter.10}% 57
+\BOOKMARK [1][-]{section.10.4}{错误输出重定向和程序终止}{chapter.10}% 58
+\BOOKMARK [1][-]{section.10.5}{字符串正则匹配}{chapter.10}% 59
+\BOOKMARK [1][-]{section.10.6}{数学}{chapter.10}% 60
+\BOOKMARK [1][-]{section.10.7}{互联网访问}{chapter.10}% 61
+\BOOKMARK [1][-]{section.10.8}{日期和时间}{chapter.10}% 62
+\BOOKMARK [1][-]{section.10.9}{数据压缩}{chapter.10}% 63
+\BOOKMARK [1][-]{section.10.10}{性能度量}{chapter.10}% 64
+\BOOKMARK [1][-]{section.10.11}{质量控制}{chapter.10}% 65
+\BOOKMARK [1][-]{section.10.12}{自带能量包}{chapter.10}% 66
+\BOOKMARK [0][-]{chapter.11}{标准库浏览 – Part II}{}% 67
+\BOOKMARK [1][-]{section.11.1}{输出格式}{chapter.11}% 68
+\BOOKMARK [1][-]{section.11.2}{模板}{chapter.11}% 69
+\BOOKMARK [1][-]{section.11.3}{使用二进制数据记录布局}{chapter.11}% 70
+\BOOKMARK [1][-]{section.11.4}{多线程}{chapter.11}% 71
+\BOOKMARK [1][-]{section.11.5}{日志}{chapter.11}% 72
+\BOOKMARK [1][-]{section.11.6}{弱引用}{chapter.11}% 73
+\BOOKMARK [1][-]{section.11.7}{列表工具}{chapter.11}% 74
+\BOOKMARK [1][-]{section.11.8}{十进制浮点数算法}{chapter.11}% 75
+\BOOKMARK [0][-]{chapter.12}{虚拟环境和包}{}% 76
+\BOOKMARK [1][-]{section.12.1}{介绍}{chapter.12}% 77
+\BOOKMARK [1][-]{section.12.2}{创建虚拟环境}{chapter.12}% 78
+\BOOKMARK [1][-]{section.12.3}{使用 pip 管理包}{chapter.12}% 79
+\BOOKMARK [0][-]{chapter.13}{接下来？}{}% 80
+\BOOKMARK [0][-]{chapter.14}{交互式输入行编辑和历史回溯}{}% 81
+\BOOKMARK [1][-]{section.14.1}{Tab 补全和历史编辑}{chapter.14}% 82
+\BOOKMARK [1][-]{section.14.2}{其它交互式解释器}{chapter.14}% 83
+\BOOKMARK [0][-]{chapter.15}{浮点数算法：争议和限制}{}% 84
+\BOOKMARK [1][-]{section.15.1}{表达错误}{chapter.15}% 85
+\BOOKMARK [0][-]{chapter.16}{附录}{}% 86
+\BOOKMARK [1][-]{section.16.1}{交互模式}{chapter.16}% 87
