@@ -1,25 +1,22 @@
-:mod:`_dummy_thread` --- Drop-in replacement for the :mod:`_thread` module
+:mod:`_dummy_thread` --- 替换掉原来的 :mod:`_thread` 模块
 ==========================================================================
 
 .. module:: _dummy_thread
-   :synopsis: Drop-in replacement for the _thread module.
+   :synopsis: 替换掉原来的 _thread 模块.
 
 **Source code:** :source:`Lib/_dummy_thread.py`
 
 --------------
 
-This module provides a duplicate interface to the :mod:`_thread` module.  It is
-meant to be imported when the :mod:`_thread` module is not provided on a
-platform.
+这个模块提供了一个与 :mod:`_thread` 模块重复了的接口。
+这就表示在被导入的时候，同一个平台下面不提供 :mod:`_thread` 模块。
 
-Suggested usage is::
+建议使用方式::
 
    try:
        import _thread
    except ImportError:
        import _dummy_thread as _thread
 
-Be careful to not use this module where deadlock might occur from a thread being
-created that blocks waiting for another thread to be created.  This often occurs
-with blocking I/O.
+谨慎使用这个模块，当一个线程被创建的时候被阻塞了等待另一个线程被创建时候，容易出现死锁。这经常发生在阻塞 I/O。
 

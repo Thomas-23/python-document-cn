@@ -1,23 +1,20 @@
 
-:mod:`__main__` --- Top-level script environment
+:mod:`__main__` --- 最上层脚本环境
 ================================================
 
 .. module:: __main__
-   :synopsis: The environment where the top-level script is run.
+   :synopsis: 最上层脚本跑的时候所处环境。
 
-``'__main__'`` is the name of the scope in which top-level code executes.
-A module's __name__ is set equal to ``'__main__'`` when read from
-standard input, a script, or from an interactive prompt.
+``'__main__'`` 是一个最上层脚本执行作用域的名字。当从标准输入，脚本或者一个交互式提示中读入时，
+一个模块的 __name__ 设置与 ``'__main__'`` 相等。
 
-A module can discover whether or not it is running in the main scope by
-checking its own ``__name__``, which allows a common idiom for conditionally
-executing code in a module when it is run as a script or with ``python
--m`` but not when it is imported::
+一个模块能够通过检查它的 ``__name__`` 来发现它当前是否运行在 main 作用域中。
+当一个模块以脚本或者使用 ``python -m`` 运行时，它允许一个普通语句块，一个有条件的执行代码运行在模块中，
+但如果被导入将不会执行条件执行代码。::
 
    if __name__ == "__main__":
        # execute only if run as a script
        main()
 
-For a package, the same effect can be achieved by including a
-``__main__.py`` module, the contents of which will be executed when the
-module is run with ``-m``.
+它可以作为一个包来看，类似效果可以用包含一个 ``__main__.py`` 模块来实现，在模块以 ``-m`` 运行时，里面的内容会被执行。
+

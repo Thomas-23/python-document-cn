@@ -1,8 +1,8 @@
-:mod:`abc` --- Abstract Base Classes
+:mod:`abc` --- 抽象基类
 ====================================
 
 .. module:: abc
-   :synopsis: Abstract base classes according to PEP 3119.
+   :synopsis: 依据 PEP 3119 的抽象基类.
 .. moduleauthor:: Guido van Rossum
 .. sectionauthor:: Georg Brandl
 .. much of the content adapted from docstrings
