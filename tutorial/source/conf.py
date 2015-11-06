@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Python简介 documentation build configuration file, created by
+# Python tutorial documentation build configuration file, created by
 # sphinx-quickstart on Sun Oct 25 12:57:20 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Python 简介文档'
+project = 'Python tutorial documentation'
 copyright = '2015, 冯龙辉，https://docs.python.org/3.6/'
 author = '冯龙辉'
 
@@ -236,7 +236,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Python.tex', 'Python 简介文档',
+  (master_doc, 'Python.tex', 'Python documentation',
    '冯龙辉', 'manual'),
 ]
 
@@ -266,7 +266,7 @@ latex_domain_indices = True
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'python', 'Python 简介文档',
+    (master_doc, 'python', 'Python tutorial document',
      [author], 1)
 ]
 
@@ -280,7 +280,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'Python', 'Python 简介文档',
+  (master_doc, 'Python', 'Python tutorial document',
    author, 'Python', 'Python 3.6 tutorial 翻译文档',
    'Miscellaneous'),
 ]
