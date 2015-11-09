@@ -8,79 +8,60 @@
 .. sectionauthor:: Fred L. Drake, Jr. <fdrake@acm.org>
 .. sectionauthor:: Raymond Hettinger <python@rcn.com>
 
-(If you are already familiar with the basic concepts of testing, you might want
-to skip to :ref:`the list of assert methods <assert-methods>`.)
+(如果你已经对测试相关的基础概念非常熟悉了，那么你可以跳过 :ref:`the list of assert methods <assert-methods>`.)
 
-The :mod:`unittest` unit testing framework was originally inspired by JUnit
-and has a similar flavor as major unit testing frameworks in other
-languages.  It supports test automation, sharing of setup and shutdown code
-for tests, aggregation of tests into collections, and independence of the
-tests from the reporting framework.
+单元测试框架 :mod:`unittest` 最初的灵感来自于 JUnit ， Junit 是一个在其他语言中，很受欢迎的单元测试框架。
+它支持包括，测试自动化，所有的测试可以共享setup 和 shutdown 中的代码，可以按组合聚集测试，以及独立于测试报告框架。
 
-To achieve this, :mod:`unittest` supports some important concepts in an
-object-oriented way:
+为了实现这些功能, :mod:`unittest` 以面向对象的方式，提供了一些重要的概念:
 
 test fixture
-   A :dfn:`test fixture` represents the preparation needed to perform one or more
-   tests, and any associate cleanup actions.  This may involve, for example,
-   creating temporary or proxy databases, directories, or starting a server
-   process.
+   一个 :dfn:`test fixture` 描述了执行一个或多个测试所要做的准备工作，以及与之相关的清理工作。
+   这包括，例如创建一个零时文件或者代理数据库，目录或者启动一个服务进程。
 
 test case
-   A :dfn:`test case` is the individual unit of testing.  It checks for a specific
-   response to a particular set of inputs.  :mod:`unittest` provides a base class,
-   :class:`TestCase`, which may be used to create new test cases.
+   一个 :dfn:`test case` 是一个独立的单元测试.  通过一系列的输入来检查一个指定的返回.
+   :mod:`unittest` 提供了一个基类, :class:`TestCase` , 可以用它来创建新的测试用例。
 
 test suite
-   A :dfn:`test suite` is a collection of test cases, test suites, or both.  It is
-   used to aggregate tests that should be executed together.
+   一个 :dfn:`test suite` 是测试用例，测试集或者两者都有的测试集合。它用来聚集测试一块执行。
 
 test runner
-   A :dfn:`test runner` is a component which orchestrates the execution of tests
-   and provides the outcome to the user.  The runner may use a graphical interface,
-   a textual interface, or return a special value to indicate the results of
-   executing the tests.
+   一个 :dfn:`test runner` 是一个用来安排执行测试的组件并且为用户提供运行结果。运行者可以使用图形接口。
 
 
 .. seealso::
 
    Module :mod:`doctest`
-      Another test-support module with a very different flavor.
+      另一个挺受欢迎的支持测试的模块。
 
-   `Simple Smalltalk Testing: With Patterns <https://web.archive.org/web/20150315073817/http://www.xprogramming.com/testfram.htm>`_
-      Kent Beck's original paper on testing frameworks using the pattern shared
-      by :mod:`unittest`.
+   `使用模式进行简单的 Smalltalk 测试 <https://web.archive.org/web/20150315073817/http://www.xprogramming.com/testfram.htm>`_
+      Kent Beck 共享的关于 :mod:`unittest` 测试框架使用模式的原稿.
 
    `Nose <https://nose.readthedocs.org/en/latest/>`_ and `py.test <http://pytest.org>`_
-      Third-party unittest frameworks with a lighter-weight syntax for writing
-      tests.  For example, ``assert func(10) == 42``.
+      第三方的单元测试框架，它使用了轻量级的语法来编写测试。
+      例如, ``assert func(10) == 42``.
 
-   `The Python Testing Tools Taxonomy <https://wiki.python.org/moin/PythonTestingToolsTaxonomy>`_
-      An extensive list of Python testing tools including functional testing
-      frameworks and mock object libraries.
+   `Python 测试工具分类 <https://wiki.python.org/moin/PythonTestingToolsTaxonomy>`_
+      关于 Python 的扩展的测试工具列表， 包括功能测试框架和仿对象库。
 
-   `Testing in Python Mailing List <http://lists.idyll.org/listinfo/testing-in-python>`_
-      A special-interest-group for discussion of testing, and testing tools,
-      in Python.
+   `Python 测试邮件列表 <http://lists.idyll.org/listinfo/testing-in-python>`_
+      一个讨论 Python 测试和测试工具的有趣的组织。
 
-   The script :file:`Tools/unittestgui/unittestgui.py` in the Python source distribution is
-   a GUI tool for test discovery and execution.  This is intended largely for ease of use
-   for those new to unit testing.  For production environments it is
-   recommended that tests be driven by a continuous integration system such as
+   在 Python 发布的源代码中有一个用来发现和执行测试 GUI 脚本 :file:`Tools/unittestgui/unittestgui.py`
+   它的目地是使单元测试新手更容易上手。 对于生产环境，推荐使用持续集成系统来驱动，例如
    `Buildbot <http://buildbot.net/>`_, `Jenkins <http://jenkins-ci.org/>`_
-   or  `Hudson <http://hudson-ci.org/>`_.
+   或者  `Hudson <http://hudson-ci.org/>`_.
 
 
 .. _unittest-minimal-example:
 
-Basic example
+基础的例子
 -------------
 
-The :mod:`unittest` module provides a rich set of tools for constructing and
-running tests.  This section demonstrates that a small subset of the tools
-suffice to meet the needs of most users.
+:mod:`unittest` 模块提供丰富的工具集来组织和运行测试。这一章节将演示一小部分工具，但足以满足大多数用户的需要了。
 
-Here is a short script to test three string methods::
+这里是一个测试三个字符串方法的简短脚本::
 
   import unittest
 
@@ -104,25 +85,19 @@ Here is a short script to test three string methods::
       unittest.main()
 
 
-A testcase is created by subclassing :class:`unittest.TestCase`.  The three
-individual tests are defined with methods whose names start with the letters
-``test``.  This naming convention informs the test runner about which methods
-represent tests.
+测试用例是通过 :class:`unittest.TestCase` 的子类来创建的.  这三个独立的测试都定义成方法，并且他们名字都是以
+``test`` 开头。  这种命名约定告诉测试执行者哪些方法是表示要测试的。
 
-The crux of each test is a call to :meth:`~TestCase.assertEqual` to check for an
-expected result; :meth:`~TestCase.assertTrue` or :meth:`~TestCase.assertFalse`
-to verify a condition; or :meth:`~TestCase.assertRaises` to verify that a
-specific exception gets raised.  These methods are used instead of the
-:keyword:`assert` statement so the test runner can accumulate all test results
-and produce a report.
+这里测试的关键在于调用 :meth:`~TestCase.assertEqual` 来检查期望的结果；
+:meth:`~TestCase.assertTrue` 或者 :meth:`~TestCase.assertFalse`
+来验证条件; 调用 :meth:`~TestCase.assertRaises` 来验证一个指定的异常是否会被抛出。
+使用这些方法来代替 :keyword:`assert` 语句可以使得测试运行组件积累测试结果然后生成报告。
 
-The :meth:`~TestCase.setUp` and :meth:`~TestCase.tearDown` methods allow you
-to define instructions that will be executed before and after each test method.
-They are covered in more details in the section :ref:`organizing-tests`.
+方法 :meth:`~TestCase.setUp` 和 :meth:`~TestCase.tearDown` 允许你定义一些指令，
+这些指令在每个测试开始前和运行结束时都会被执行。关于这些方法， :ref:`organizing-tests` 章节包含了更详细的信息。
 
-The final block shows a simple way to run the tests. :func:`unittest.main`
-provides a command-line interface to the test script.  When run from the command
-line, the above script produces an output that looks like this::
+最后一块显示了一个运行测试的简单方法。 :func:`unittest.main` 给测试脚本提供了一个命令行接口。
+当从命令行运行时， 脚本会生成类似如下的结果::
 
    ...
    ----------------------------------------------------------------------
@@ -130,8 +105,8 @@ line, the above script produces an output that looks like this::
 
    OK
 
-Passing the ``-v`` option to your test script will instruct :func:`unittest.main`
-to enable a higher level of verbosity, and produce the following output::
+如果给你的脚步提供一个 ``-v`` 的选项， 它会指示 :func:`unittest.main` 开启更多更高级别的结果信息。
+并生成如下结果::
 
    test_isupper (__main__.TestStringMethods) ... ok
    test_split (__main__.TestStringMethods) ... ok
@@ -142,191 +117,163 @@ to enable a higher level of verbosity, and produce the following output::
 
    OK
 
-The above examples show the most commonly used :mod:`unittest` features which
-are sufficient to meet many everyday testing needs.  The remainder of the
-documentation explores the full feature set from first principles.
+在上面这些例子中，使用的是 :mod:`unittest` 最常用的功能，它们足以满足我们日常生活中测试的需要。
+接下来的文档中将追本溯源的来解释所有的功能。
 
 
 .. _unittest-command-line-interface:
 
-Command-Line Interface
+命令行接口
 ----------------------
 
-The unittest module can be used from the command line to run tests from
-modules, classes or even individual test methods::
+单元测试模块能够在模块，类，甚至独立的方法中使用命令行来运行测试::
 
    python -m unittest test_module1 test_module2
    python -m unittest test_module.TestClass
    python -m unittest test_module.TestClass.test_method
 
-You can pass in a list with any combination of module names, and fully
-qualified class or method names.
+你可以提供一个以任意模块名字，和完全符合要求的类或者方法的名字组成的列表。
 
-Test modules can be specified by file path as well::
+测试模块也可以指定文件路径::
 
    python -m unittest tests/test_something.py
 
-This allows you to use the shell filename completion to specify the test module.
-The file specified must still be importable as a module. The path is converted
-to a module name by removing the '.py' and converting path separators into '.'.
-If you want to execute a test file that isn't importable as a module you should
-execute the file directly instead.
+这允许你完全使用一个 shell 文件名字来指定测试模块。这个指定的文件必需依然是可以导入的模块。
+文件路径将通过移除后缀名 '.py' ，以及将路径分隔符转换为 '. '的方式，将其变为一个模块名字。
+如果你想在不到导入模块的情况下执行一个测试文件，那么你应该使用直接执行文件的方式。
 
-You can run tests with more detail (higher verbosity) by passing in the -v flag::
+如果你想在运行测试的时候，获取更多的信息 (更多高级别的信息)，使用 -v 参数。::
 
    python -m unittest -v test_module
 
-When executed without arguments :ref:`unittest-test-discovery` is started::
+如果执行时没有跟参数，那么从 :ref:`unittest-test-discovery` 开始::
 
    python -m unittest
 
-For a list of all the command-line options::
+如果想要列出所有的命令行选项::
 
    python -m unittest -h
 
 .. versionchanged:: 3.2
-   In earlier versions it was only possible to run individual test methods and
-   not modules or classes.
+   在早起的版本中，它只能运行单个的测试方法，不能是模块或者类。
 
 
-Command-line options
+命令行参数选项
 ~~~~~~~~~~~~~~~~~~~~
 
-:program:`unittest` supports these command-line options:
+:program:`unittest` 支持下面这些命令行参数:
 
 .. program:: unittest
 
 .. cmdoption:: -b, --buffer
 
-   The standard output and standard error streams are buffered during the test
-   run. Output during a passing test is discarded. Output is echoed normally
-   on test fail or error and is added to the failure messages.
+   在运行测试的时候，标准的输出和错误流会加入到缓冲区。当传过来的测试消失后输出结果。
+   在测试失败或者有错误时，它会加入到失败消息中，输出正常的结果。
 
 .. cmdoption:: -c, --catch
 
-   :kbd:`Control-C` during the test run waits for the current test to end and then
-   reports all the results so far. A second :kbd:`Control-C` raises the normal
-   :exc:`KeyboardInterrupt` exception.
+   :kbd:`Control-C` 会在测试运行中，等待当前的测试结束，然后报告到目前为止所有的测试结果。第二个 :kbd:`Control-C`
+   会抛出正常情况的 :exc:`KeyboardInterrupt` 异常.
 
-   See `Signal Handling`_ for the functions that provide this functionality.
+   可以查看 `Signal Handling`_ 函数， 这个函数提供了上面的功能.
 
 .. cmdoption:: -f, --failfast
 
-   Stop the test run on the first error or failure.
+   在遇到错误或者失败时，停止运行测试。
 
 .. cmdoption:: --locals
 
-   Show local variables in tracebacks.
+   在追朔信息中显示本地变量。
 
 .. versionadded:: 3.2
-   The command-line options ``-b``, ``-c`` and ``-f`` were added.
+   加入 ``-b``, ``-c`` 和 ``-f`` 命令行选项。
 
 .. versionadded:: 3.5
-   The command-line option ``--locals``.
+   加入 ``--locals`` 命令行选项
 
-The command line can also be used for test discovery, for running all of the
-tests in a project or just a subset.
+在运行一个项目或者子项目所有测试时，命令行可以用来发现测试。
 
 
 .. _unittest-test-discovery:
 
-Test Discovery
+发现测试
 --------------
 
 .. versionadded:: 3.2
 
-Unittest supports simple test discovery. In order to be compatible with test
-discovery, all of the test files must be :ref:`modules <tut-modules>` or
-:ref:`packages <tut-packages>` (including :term:`namespace packages
-<namespace package>`) importable from the top-level directory of
-the project (this means that their filenames must be valid :ref:`identifiers
-<identifiers>`).
+Unittest 支持发现简单的测试。 为了能够支持发现测试，所有的测试文件必需是能够从项目的最上层目录导入的
+:ref:`modules <tut-modules>` 或者 :ref:`packages <tut-packages>` 。
+（也就是说他们的名字必需是合法的 :ref:`identifiers <identifiers>` ）
 
-Test discovery is implemented in :meth:`TestLoader.discover`, but can also be
-used from the command line. The basic command-line usage is::
+发现测试是在 :meth:`TestLoader.discover` 中实现的， 但是它同样能够在命令行中使用。
+基本的命令行使用如下::
 
    cd project_directory
    python -m unittest discover
 
 .. note::
 
-   As a shortcut, ``python -m unittest`` is the equivalent of
-   ``python -m unittest discover``. If you want to pass arguments to test
-   discovery the ``discover`` sub-command must be used explicitly.
+   作为一个快捷方式, ``python -m unittest`` 和 ``python -m unittest discover`` 是等价的.
+   如果你想给测试发现模块传递参数， ``discover`` 的子命令必需显示的给出。
 
-The ``discover`` sub-command has the following options:
+``discover`` 的子命令有下面一些选项:
 
 .. program:: unittest discover
 
 .. cmdoption:: -v, --verbose
 
-   Verbose output
+   更详细的输出
 
 .. cmdoption:: -s, --start-directory directory
 
-   Directory to start discovery (``.`` default)
+   从哪个目录开始查找 (默认为 ``.`` )
 
 .. cmdoption:: -p, --pattern pattern
 
-   Pattern to match test files (``test*.py`` default)
+   使用模式来匹配文件 (默认为 ``test*.py`` )
 
 .. cmdoption:: -t, --top-level-directory directory
 
-   Top level directory of project (defaults to start directory)
+   项目的最上层目录 (默认为的开始目录)
 
-The :option:`-s`, :option:`-p`, and :option:`-t` options can be passed in
-as positional arguments in that order. The following two command lines
-are equivalent::
+:option:`-s`, :option:`-p`, and :option:`-t` 选项可以按照这种顺序选择性的提供。
+下面这两个命令行是相等的::
 
    python -m unittest discover -s project_directory -p "*_test.py"
    python -m unittest discover project_directory "*_test.py"
 
-As well as being a path it is possible to pass a package name, for example
-``myproject.subpackage.test``, as the start directory. The package name you
-supply will then be imported and its location on the filesystem will be used
-as the start directory.
+类似于路径你也可以以一个包的名字为起始目录，例如 ``myproject.subpackage.test`` . 你提供的包
+的名字将会被导入进来，并且它所在系统的目录位置会作为起始目录。
 
 .. caution::
 
-    Test discovery loads tests by importing them. Once test discovery has found
-    all the test files from the start directory you specify it turns the paths
-    into package names to import. For example :file:`foo/bar/baz.py` will be
-    imported as ``foo.bar.baz``.
+    测试查找模块通过导入来加载测试的。一旦从你指定的起始目录找到了所有的测试文件，它会把这些文件路径转换为包名导入进来。
+    例如 :file:`foo/bar/baz.py` 文件将会以 ``foo.bar.baz`` 导入进来。
 
-    If you have a package installed globally and attempt test discovery on
-    a different copy of the package then the import *could* happen from the
-    wrong place. If this happens test discovery will warn you and exit.
+    如果你有一个全局的安装包，并尝试在另一个不同的备份包中来查找测试，会出现一个错误地方导入的问题 (import *could* ) .
+    如果出现这种问题，测试查找模块会警告你并且退出。
 
-    If you supply the start directory as a package name rather than a
-    path to a directory then discover assumes that whichever location it
-    imports from is the location you intended, so you will not get the
-    warning.
+    但如果你是以包名而不是目录路径的方式提供起始目录的话，那么查找模块会假设导入的位置即是想要的其实位置，
+    因此你不会收到像上面那样的警告。
 
-Test modules and packages can customize test loading and discovery by through
-the `load_tests protocol`_.
+通过  `load_tests protocol`_ ，测试模块和包能够定制测试加载和查找。
 
 .. versionchanged:: 3.4
-   Test discovery supports :term:`namespace packages <namespace package>`.
+   测试查找支持 :term:`namespace packages <namespace package>`.
 
 
 .. _organizing-tests:
 
-Organizing test code
+组织测试代码
 --------------------
 
-The basic building blocks of unit testing are :dfn:`test cases` --- single
-scenarios that must be set up and checked for correctness.  In :mod:`unittest`,
-test cases are represented by :class:`unittest.TestCase` instances.
-To make your own test cases you must write subclasses of
-:class:`TestCase` or use :class:`FunctionTestCase`.
+单元测试中基本的构建代码块是 :dfn:`test cases` --- 一个必需设置和检查正确与否的单一场景。在 :mod:`unittest`
+中，测试用例由 :class:`unittest.TestCase` 实例所描述。如果想创建自己的测试用例，你必需编写 :class:`TestCase`
+的子类或者使用 :class:`FunctionTestCase` 。
 
-The testing code of a :class:`TestCase` instance should be entirely self
-contained, such that it can be run either in isolation or in arbitrary
-combination with any number of other test cases.
+:class:`TestCase` 实例中的测试代码必需完整自包含的， 这样的话它们可以独立或者跟其他测试用例以任意组合的数量来运行。
 
-The simplest :class:`TestCase` subclass will simply implement a test method
-(i.e. a method whose name starts with ``test``) in order to perform specific
-testing code::
+简单的 :class:`TestCase` 子类只简单的实现了一个测试方法(如以 ``test`` 开头的方法) 来执行指定的测试代码::
 
    import unittest
 
@@ -335,15 +282,12 @@ testing code::
            widget = Widget('The widget')
            self.assertEqual(widget.size(), (50, 50))
 
-Note that in order to test something, we use one of the :meth:`assert\*`
-methods provided by the :class:`TestCase` base class.  If the test fails, an
-exception will be raised, and :mod:`unittest` will identify the test case as a
-:dfn:`failure`.  Any other exceptions will be treated as :dfn:`errors`.
+注意为了测试一些东西，我们使用了 :class:`TestCase` 基类提供的 :meth:`assert\*` 方法。
+如果一个测试失败了，将抛出一个异常，然后 :mod:`unittest` 会标记这个测试为 :dfn:`failure` 。
+其他任何的异常都被视为 :dfn:`errors` 。
 
-Tests can be numerous, and their set-up can be repetitive.  Luckily, we
-can factor out set-up code by implementing a method called
-:meth:`~TestCase.setUp`, which the testing framework will automatically
-call for every single test we run::
+可以同时有很多个测试，并且它们的 set-up 可以重复做一些事情。幸运的是，我们可以实现一个叫做 :meth:`~TestCase.setUp` 方法，
+然后提取 set-up 的代码放入其中，我们的测试框架在每一个测试运行时，会自动调用这个方法::
 
    import unittest
 
@@ -361,16 +305,11 @@ call for every single test we run::
                             'wrong size after resize')
 
 .. note::
-   The order in which the various tests will be run is determined
-   by sorting the test method names with respect to the built-in
-   ordering for strings.
+   测试的执行顺序由测试方法的名字的排序来决定，关于排序与内置的字符串排序方法有关。
 
-If the :meth:`~TestCase.setUp` method raises an exception while the test is
-running, the framework will consider the test to have suffered an error, and
-the test method will not be executed.
+如果在测试运行过程中， :meth:`~TestCase.setUp` 方法抛出了一个异常。那么框架会认为测试遇到了错误，测试方法将不会被执行。
 
-Similarly, we can provide a :meth:`~TestCase.tearDown` method that tidies up
-after the test method has been run::
+同样的, 我们可以在测试方法运行结束后，提供一个 :meth:`~TestCase.tearDown` 方法用于扫尾的工作::
 
    import unittest
 
@@ -381,19 +320,16 @@ after the test method has been run::
        def tearDown(self):
            self.widget.dispose()
 
-If :meth:`~TestCase.setUp` succeeded, :meth:`~TestCase.tearDown` will be
-run whether the test method succeeded or not.
+只要 :meth:`~TestCase.setUp` 运行成功，无论测试方法是否成功或者失败， :meth:`~TestCase.tearDown` 方法都会被执行。
 
-Such a working environment for the testing code is called a :dfn:`fixture`.
+像这样的测试代码工作环境我们叫他 :dfn:`fixture`.
 
-Test case instances are grouped together according to the features they test.
-:mod:`unittest` provides a mechanism for this: the :dfn:`test suite`,
-represented by :mod:`unittest`'s :class:`TestSuite` class.  In most cases,
-calling :func:`unittest.main` will do the right thing and collect all the
-module's test cases for you, and then execute them.
+根据测试的功能，测试用例实例被组合在一起。 :mod:`unittest` 为这种情况提供了一种机制: :dfn:`test suite`,
+它由 :mod:`unittest` 的 :class:`TestSuite` 类表示。大多数情况下，调用 :func:`unittest.main` 方法
+会做正确的事情，并且为你收集所有模块的测试，然后执行这些测试。
 
-However, should you want to customize the building of your test suite,
-you can do it yourself::
+有时, 您可能想定制测试集的构建。
+你可以这样做::
 
    def suite():
        suite = unittest.TestSuite()
@@ -401,50 +337,44 @@ you can do it yourself::
        suite.addTest(WidgetTestCase('test_resize'))
        return suite
 
-You can place the definitions of test cases and test suites in the same modules
-as the code they are to test (such as :file:`widget.py`), but there are several
-advantages to placing the test code in a separate module, such as
-:file:`test_widget.py`:
+你可以放置这些测试用例和测试集的定义到同一个模块，就像他们测试的代码那样(例如 :file:`widget.py`),
+但是将这些测试代码放置在不同的模块有很多优势，例如 :file:`test_widget.py`:
 
-* The test module can be run standalone from the command line.
+* 这个测试模块可以在命令行中独立的运行。
 
-* The test code can more easily be separated from shipped code.
+* 测试代码可以很容易的从发布代码中区分开来。
 
-* There is less temptation to change test code to fit the code it tests without
-  a good reason.
+* 对于改变测试代码来满足代码要求缺乏诱惑力，这缺乏一个好的理由。
 
-* Test code should be modified much less frequently than the code it tests.
+* 测试代码并不会像它们要测的代码那样频繁的更新。
 
-* Tested code can be refactored more easily.
+* 测试代码可以很容易被重构。
 
-* Tests for modules written in C must be in separate modules anyway, so why not
-  be consistent?
+* 在测试 C 编写的模块时，无论如何必需在一个单独的模块中， 为什么我们不保持一致了?
 
-* If the testing strategy changes, there is no need to change the source code.
+* 如果测试策略发生了改变， 我们不需要去改变源代码。
 
 
 .. _legacy-unit-tests:
 
-Re-using old test code
+重用老的测试代码
 ----------------------
 
-Some users will find that they have existing test code that they would like to
-run from :mod:`unittest`, without converting every old test function to a
-:class:`TestCase` subclass.
+一些用户会发现它们有一些已存在的测试代码运行在 :mod:`unittest` 上， 但是这些老测试方法并没有全部转换为 :class:`TestCase` 的子类
 
-For this reason, :mod:`unittest` provides a :class:`FunctionTestCase` class.
-This subclass of :class:`TestCase` can be used to wrap an existing test
-function.  Set-up and tear-down functions can also be provided.
+基于这个原因, :mod:`unittest` 提供了一个 :class:`FunctionTestCase` 类.
+它是 :class:`TestCase` 的子类，用来包裹已经存在的测试方法。
+它同样可以提供 Set-up 和 tear-down 方法.
 
-Given the following test function::
+给出下面的测试方法::
 
    def testSomething():
        something = makeSomething()
        assert something.name is not None
        # ...
 
-one can create an equivalent test case instance as follows, with optional
-set-up and tear-down methods::
+它可以创建一个像下面那样的等价的测试用例实例， 并提供可选的
+set-up 和 tear-down 方法::
 
    testcase = unittest.FunctionTestCase(testSomething,
                                         setUp=makeSomethingDB,
@@ -452,33 +382,26 @@ set-up and tear-down methods::
 
 .. note::
 
-   Even though :class:`FunctionTestCase` can be used to quickly convert an
-   existing test base over to a :mod:`unittest`\ -based system, this approach is
-   not recommended.  Taking the time to set up proper :class:`TestCase`
-   subclasses will make future test refactorings infinitely easier.
+   尽管 :class:`FunctionTestCase` 能够基于 :mod:`unittest` 基础系统上快速转换已经存在的测试方法。但这种做法并不推荐
+   花一些时间创建一个合适的 :class:`TestCase` 子类， 将会使得未来重构测试非常的轻松。
 
-In some cases, the existing tests may have been written using the :mod:`doctest`
-module.  If so, :mod:`doctest` provides a :class:`DocTestSuite` class that can
-automatically build :class:`unittest.TestSuite` instances from the existing
-:mod:`doctest`\ -based tests.
+有些情况下，存在的测试可能是为 :mod:`doctest` 模块编写的, 因此 :mod:`doctest` 提供了一个 :class:`DocTestSuite`类， 它能够
+从已经存在的，基于 :mod:`doctest` 基础上的测试，自动创建一个 :class:`unittest.TestSuite` 实例。
 
 
 .. _unittest-skipping:
 
-Skipping tests and expected failures
+跳过测试和期望失败
 ------------------------------------
 
 .. versionadded:: 3.1
 
-Unittest supports skipping individual test methods and even whole classes of
-tests.  In addition, it supports marking a test as a "expected failure," a test
-that is broken and will fail, but shouldn't be counted as a failure on a
-:class:`TestResult`.
+Unittest 支持跳过单独的测试方法和整个测试类。 另外它还支持标记一个测试为 "期望失败"， 这种测试即使失败了，但是在 :class:`TestResult`
+看来它不是失败的。
 
-Skipping a test is simply a matter of using the :func:`skip` :term:`decorator`
-or one of its conditional variants.
+跳过测试与使用 :func:`skip` :term:`decorator` 或者与其加了条件的变体有关。
 
-Basic skipping looks like this::
+基础的跳过像下面这样::
 
    class MyTestCase(unittest.TestCase):
 
@@ -497,7 +420,7 @@ Basic skipping looks like this::
            # windows specific testing code
            pass
 
-This is the output of running the example above in verbose mode::
+在使用详细输出模式时，下面是上面例子的运行结果::
 
    test_format (__main__.MyTestCase) ... skipped 'not supported in this library version'
    test_nothing (__main__.MyTestCase) ... skipped 'demonstrating skipping'
@@ -508,76 +431,70 @@ This is the output of running the example above in verbose mode::
 
    OK (skipped=3)
 
-Classes can be skipped just like methods::
+类也能像方法那样被跳过::
 
    @unittest.skip("showing class skipping")
    class MySkippedTestCase(unittest.TestCase):
        def test_not_run(self):
            pass
 
-:meth:`TestCase.setUp` can also skip the test.  This is useful when a resource
-that needs to be set up is not available.
+:meth:`TestCase.setUp` 也同样能够跳过测试. 当有资源无法使用时，使用了set up，这种方法很有用。
 
-Expected failures use the :func:`expectedFailure` decorator. ::
+期望失败使用 :func:`expectedFailure` 修饰器. ::
 
    class ExpectedFailureTestCase(unittest.TestCase):
        @unittest.expectedFailure
        def test_fail(self):
            self.assertEqual(1, 0, "broken")
 
-It's easy to roll your own skipping decorators by making a decorator that calls
-:func:`skip` on the test when it wants it to be skipped.  This decorator skips
-the test unless the passed object has a certain attribute::
+很容易包裹一个你自己的跳过修饰器，当你想跳过某个测试的时候，你可以通过在测试上调用 :func:`skip` 来创建一个修饰器。
+除非传递的对象中包含一个特定属性的测试， 否则下面这个修饰器会跳过测试::
 
    def skipUnlessHasattr(obj, attr):
        if hasattr(obj, attr):
            return lambda func: func
        return unittest.skip("{!r} doesn't have {!r}".format(obj, attr))
 
-The following decorators implement test skipping and expected failures:
+下面的修饰器实现了跳过测试和期望失败:
 
 .. decorator:: skip(reason)
 
-   Unconditionally skip the decorated test.  *reason* should describe why the
-   test is being skipped.
+   无条件的跳过修饰的测试。 参数 *reason* 应该用来描述这个测试被跳过的原因。
 
 .. decorator:: skipIf(condition, reason)
 
-   Skip the decorated test if *condition* is true.
+   如果条件为真的话，跳过修饰的测试。
 
 .. decorator:: skipUnless(condition, reason)
 
-   Skip the decorated test unless *condition* is true.
+   除非 *condition* 为真，否则跳过修饰的测试。
 
 .. decorator:: expectedFailure
 
-   Mark the test as an expected failure.  If the test fails when run, the test
-   is not counted as a failure.
+   标记这个测试的期望结果是失败的。如果在运行中测试失败，这个测试将不会以失败对待。
 
 .. exception:: SkipTest(reason)
 
-   This exception is raised to skip a test.
+   在跳过测试的时候，这个异常会被抛出。
 
-   Usually you can use :meth:`TestCase.skipTest` or one of the skipping
-   decorators instead of raising this directly.
+   通常你可以使用 :meth:`TestCase.skipTest` 或者其中一个跳过修饰器来代替直接抛出这个异常。
 
-Skipped tests will not have :meth:`~TestCase.setUp` or :meth:`~TestCase.tearDown` run around them.
-Skipped classes will not have :meth:`~TestCase.setUpClass` or :meth:`~TestCase.tearDownClass` run.
-Skipped modules will not have :func:`setUpModule` or :func:`tearDownModule` run.
+跳过的测试不会执行 :meth:`~TestCase.setUp` 或 :meth:`~TestCase.tearDown` 。
+跳过的类不会执行 :meth:`~TestCase.setUpClass` 或 :meth:`~TestCase.tearDownClass` 。
+跳过的模块不会执行 :func:`setUpModule` 或 :func:`tearDownModule` 。
 
 
 .. _subtests:
 
-Distinguishing test iterations using subtests
+使用 subtests 区分测试迭代次数
 ---------------------------------------------
 
 .. versionadded:: 3.4
 
-When some of your tests differ only by a some very small differences, for
-instance some parameters, unittest allows you to distinguish them inside
-the body of a test method using the :meth:`~TestCase.subTest` context manager.
+当你的很多测试，只有一些细微的区别又或是实例化一些参数的时候， unittest 允许你在测试方法体的内部，使用
+:meth:`~TestCase.subTest` 上下文管理方法区分它们。
 
-For example, the following test::
+例如下面这个测试::
 
    class NumbersTest(unittest.TestCase):
 
@@ -589,7 +506,7 @@ For example, the following test::
                with self.subTest(i=i):
                    self.assertEqual(i % 2, 0)
 
-will produce the following output::
+将会生成下面的输出::
 
    ======================================================================
    FAIL: test_even (__main__.NumbersTest) (i=1)
@@ -615,9 +532,8 @@ will produce the following output::
        self.assertEqual(i % 2, 0)
    AssertionError: 1 != 0
 
-Without using a subtest, execution would stop after the first failure,
-and the error would be less easy to diagnose because the value of ``i``
-wouldn't be displayed::
+如果不是使用 subtest, 在第一次失败之后会停止执行，这种情况下错误不容易诊断出来，因为
+这里 ``i`` 的值并没有显示出来::
 
    ======================================================================
    FAIL: test_even (__main__.NumbersTest)
@@ -630,10 +546,10 @@ wouldn't be displayed::
 
 .. _unittest-contents:
 
-Classes and functions
+类和方法
 ---------------------
 
-This section describes in depth the API of :mod:`unittest`.
+这一章节将深入表述 :mod:`unittest` 的API.
 
 
 .. _testcase-objects:
@@ -643,127 +559,107 @@ Test cases
 
 .. class:: TestCase(methodName='runTest')
 
-   Instances of the :class:`TestCase` class represent the logical test units
-   in the :mod:`unittest` universe.  This class is intended to be used as a base
-   class, with specific tests being implemented by concrete subclasses.  This class
-   implements the interface needed by the test runner to allow it to drive the
-   tests, and methods that the test code can use to check for and report various
-   kinds of failure.
+   在 :mod:`unittest` 领域，类 :class:`TestCase` 的实例描述了单元测试逻辑。
+   这个类将作为基类使用，具体的测试通过具体的子类实现。这个类实现了测试运行组件 （test runner） 所要求的接口，
+   并由它来驱动测试，方法中的测试代码能够用来检查以及报告不同种类的失败原因。
 
-   Each instance of :class:`TestCase` will run a single base method: the method
-   named *methodName*.
-   In most uses of :class:`TestCase`, you will neither change
-   the *methodName* nor reimplement the default ``runTest()`` method.
+   每一个 :class:`TestCase` 的实例将用到一个基本的方法: 就是 *methodName*。
+   你在多数使用 :class:`TestCase` 的时候, 你不会去修改这个 *methodName* ，也不会重复实现
+   这个默认的 ``runTest()`` 方法。
 
    .. versionchanged:: 3.2
-      :class:`TestCase` can be instantiated successfully without providing a
-      *methodName*. This makes it easier to experiment with :class:`TestCase`
-      from the interactive interpreter.
+      :class:`TestCase` 在不提供 *methodName* 的情况下，可以被成功实例化。
+      这样做使得在交互解释器中使用个 :class:`TestCase` 更加简单。
 
-   :class:`TestCase` instances provide three groups of methods: one group used
-   to run the test, another used by the test implementation to check conditions
-   and report failures, and some inquiry methods allowing information about the
-   test itself to be gathered.
+   :class:`TestCase` 实例提供了三组方法: 第一组是用来跑测试的， 第二组是用来给测试实现者检查条件和输出错误报告的
+   第三组是一些探查方法，用来给测试自身收集信息的。
 
-   Methods in the first group (running the test) are:
+   第一组中的方法 (运行测试) :
 
    .. method:: setUp()
 
-      Method called to prepare the test fixture.  This is called immediately
-      before calling the test method; other than :exc:`AssertionError` or :exc:`SkipTest`,
-      any exception raised by this method will be considered an error rather than
-      a test failure. The default implementation does nothing.
+      调用这个方法来准备测试夹具. 它是在测试方法调用之前直接被调用的;
+      它不像 :exc:`AssertionError` 或者 :exc:`SkipTest` ， 这个方法抛出
+      任何异常将被当作错误处理而不是测试失败。默认实现为不做任何事。
 
 
    .. method:: tearDown()
 
-      Method called immediately after the test method has been called and the
-      result recorded.  This is called even if the test method raised an
-      exception, so the implementation in subclasses may need to be particularly
-      careful about checking internal state.  Any exception, other than :exc:`AssertionError`
-      or :exc:`SkipTest`, raised by this method will be considered an error rather than a
-      test failure.  This method will only be called if the :meth:`setUp` succeeds,
-      regardless of the outcome of the test method. The default implementation does nothing.
+      在测试方法调用完并记录结果后，直接调用这个方法。即使测试方法抛出异常，这个方法
+      也会被调用， 因此在子类中实现它时，要格外小心检查它的内部状态。除 :exc:`AssertionError`
+      和 :exc:`SkipTest` 之外的任何其他异常，这个方法都会认为是错误而不是测试失败。
+      这个方法仅在 :meth:`setUp` 方法被成功执行的情况下，被调用，它不关心测试方法的输出结果。
+      默认实现为不做任何事。
 
 
    .. method:: setUpClass()
 
-      A class method called before tests in an individual class run.
-      ``setUpClass`` is called with the class as the only argument
-      and must be decorated as a :func:`classmethod`::
+      在一个独立的测试类执行之前，会调用这个方法。``setUpClass`` 被调用的时候，类将是唯一的一个参数，并且
+      这个方法必需被 :func:`classmethod` 修饰::
 
         @classmethod
         def setUpClass(cls):
             ...
 
-      See `Class and Module Fixtures`_ for more details.
+      详情请看 `Class and Module Fixtures`_ 。
 
       .. versionadded:: 3.2
 
 
    .. method:: tearDownClass()
 
-      A class method called after tests in an individual class have run.
-      ``tearDownClass`` is called with the class as the only argument
-      and must be decorated as a :meth:`classmethod`::
+      在一个单独的类中所有测试运行完之后，会调用这个方法。
+      类将作为 ``tearDownClass`` 方法的唯一参数， 并且它必需被 :meth:`classmethod` 修饰::
 
         @classmethod
         def tearDownClass(cls):
             ...
 
-      See `Class and Module Fixtures`_ for more details.
+      详情请看 `Class and Module Fixtures`_ 。
 
       .. versionadded:: 3.2
 
 
    .. method:: run(result=None)
 
-      Run the test, collecting the result into the :class:`TestResult` object
-      passed as *result*.  If *result* is omitted or ``None``, a temporary
-      result object is created (by calling the :meth:`defaultTestResult`
-      method) and used. The result object is returned to :meth:`run`'s
-      caller.
+      运行测试, 将收集的结果以 *result* 参数传递给 :class:`TestResult` 对象。
+      如果 *result* 被忽略了或者为 ``None``, 将创建并使用一个临时的 result 对象
+      (通过调用 :meth:`defaultTestResult` 方法实现). result 对象将返回给 :meth:`run`
+      的调用者。
 
-      The same effect may be had by simply calling the :class:`TestCase`
-      instance.
+      同样的效果很难通过简单调用 :class:`TestCase` 实例实现。
 
       .. versionchanged:: 3.3
-         Previous versions of ``run`` did not return the result. Neither did
-         calling an instance.
+         前面版本的 ``run`` 将不返回结果. 也不会调用实例。
 
    .. method:: skipTest(reason)
 
-      Calling this during a test method or :meth:`setUp` skips the current
-      test.  See :ref:`unittest-skipping` for more information.
+      在测试方法中或者 :meth:`setUp` 中调用这个方法，将跳过当前的测试。
+      详情请查看 :ref:`unittest-skipping` 。
 
       .. versionadded:: 3.1
 
 
    .. method:: subTest(msg=None, **params)
 
-      Return a context manager which executes the enclosed code block as a
-      subtest.  *msg* and *params* are optional, arbitrary values which are
-      displayed whenever a subtest fails, allowing you to identify them
-      clearly.
+      返回一个用来执行封闭代码块的上下文管理器，它被当作为一个 subtest 。
+      参数 *msg* 和 *params* 是可选的, 当一个 subtest 失败时，里面的任何的值都会显示出来。
+      这样允许你更清晰的识别它们。
 
-      A test case can contain any number of subtest declarations, and
-      they can be arbitrarily nested.
+      一个测试用例可以包含任意个 subtest 描述, 并且它们可以任意的嵌套。
 
-      See :ref:`subtests` for more information.
+      详情请查看 :ref:`subtests` 。
 
       .. versionadded:: 3.4
 
 
    .. method:: debug()
 
-      Run the test without collecting the result.  This allows exceptions raised
-      by the test to be propagated to the caller, and can be used to support
-      running tests under a debugger.
+      在测试的时候不收集测试结果。 这就允许测试抛出异常，然后传送给调用者，并且可以用来支持在调试器下运行测试
 
    .. _assert-methods:
 
-   The :class:`TestCase` class provides a number of methods to check for and
-   report failures, such as:
+   类 :class:`TestCase` 提供一系列的方法来检查测试方法和报告失败，例如:
 
    +-----------------------------------------+-----------------------------+---------------+
    | Method                                  | Checks that                 | New in        |

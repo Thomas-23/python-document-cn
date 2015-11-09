@@ -1,5 +1,5 @@
 
-:mod:`unittest.mock` --- mock object library
+:mod:`unittest.mock` --- 仿对象库
 ============================================
 
 .. module:: unittest.mock
@@ -9,28 +9,22 @@
 
 .. versionadded:: 3.3
 
-:mod:`unittest.mock` is a library for testing in Python. It allows you to
-replace parts of your system under test with mock objects and make assertions
-about how they have been used.
+:mod:`unittest.mock` 是一个 Python 测试类库。 它允许你使用仿对象替换要测试的系统的某些部分，
+并且断言系统是如何被使用的。
 
-:mod:`unittest.mock` provides a core :class:`Mock` class removing the need to
-create a host of stubs throughout your test suite. After performing an
-action, you can make assertions about which methods / attributes were used
-and arguments they were called with. You can also specify return values and
-set needed attributes in the normal way.
+:mod:`unittest.mock` 提供一个核心类 :class:`Mock` ，自始至终它为你在整个测试集中
+移除了许多需要创建的测试桩。在执行完一个动作之后，你可以断言哪个方法或属性被使用了，哪些参数被调用了。
+你也可以指定返回值以及使用普通方法设置需要的属性。
 
-Additionally, mock provides a :func:`patch` decorator that handles patching
-module and class level attributes within the scope of a test, along with
-:const:`sentinel` for creating unique objects. See the `quick guide`_ for
-some examples of how to use :class:`Mock`, :class:`MagicMock` and
-:func:`patch`.
+另外， mock 提供了一个 :func:`patch` 修饰符，它可以在一个测试作用域内修补模块和类级别的属性，
+与 :const:`sentinel` 一起来创建唯一的对象。 查看 `quick guide`_ 提供的一些简单的例子，来学习如何使用
+:class:`Mock`, :class:`MagicMock` 和 :func:`patch` 。
 
-Mock is very easy to use and is designed for use with :mod:`unittest`. Mock
-is based on the 'action -> assertion' pattern instead of 'record -> replay'
-used by many mocking frameworks.
+Mock 非常易于使用，它为 :mod:`unittest` 而设计。 Mock 是基于 'action -> assertion' 模式之上的，
+它代替了其他以 'record -> replay' 为模式的仿对象框架。
 
-There is a backport of :mod:`unittest.mock` for earlier versions of Python,
-available as `mock on PyPI <https://pypi.python.org/pypi/mock>`_.
+这里有一个关于早期 Python 版本 :mod:`unittest.mock` 的补丁包。
+可以从这里获取: `mock on PyPI <https://pypi.python.org/pypi/mock>`_ 。
 
 **Source code:** :source:`Lib/unittest/mock.py`
 
@@ -38,10 +32,9 @@ available as `mock on PyPI <https://pypi.python.org/pypi/mock>`_.
 Quick Guide
 -----------
 
-:class:`Mock` and :class:`MagicMock` objects create all attributes and
-methods as you access them and store details of how they have been used. You
-can configure them, to specify return values or limit what attributes are
-available, and then make assertions about how they have been used:
+在你使用 :class:`Mock` 和 :class:`MagicMock` 对象时， 它们为你创建了所有的属性和方法，
+并且保存了它们被使用的详细信息。你可以对它们进行配置，例如指定它们的返回值，限制他们使用的属性
+，并且对它们如何被使用进行断言:
 
     >>> from unittest.mock import MagicMock
     >>> thing = ProductionClass()
@@ -50,8 +43,7 @@ available, and then make assertions about how they have been used:
     3
     >>> thing.method.assert_called_with(3, 4, 5, key='value')
 
-:attr:`side_effect` allows you to perform side effects, including raising an
-exception when a mock is called:
+:attr:`side_effect` 允许你实现副作用。这包括当 mock 被调用时抛出一个异常:
 
    >>> mock = Mock(side_effect=KeyError('foo'))
    >>> mock()
@@ -70,14 +62,11 @@ exception when a mock is called:
    >>> mock(), mock(), mock()
    (5, 4, 3)
 
-Mock has many other ways you can configure it and control its behaviour. For
-example the *spec* argument configures the mock to take its specification
-from another object. Attempting to access attributes or methods on the mock
-that don't exist on the spec will fail with an :exc:`AttributeError`.
+有很多方法可以配置 Mock 和控制她的行为。例如 *spec* 参数配置了其他对象获取这个 mock 的指定项。
+当试图访问这个 mock 的属性或者方法时， 如果不存在这个 spec, 将会以 :exc:`AttributeError` 失败。
 
-The :func:`patch` decorator / context manager makes it easy to mock classes or
-objects in a module under test. The object you specify will be replaced with a
-mock (or other object) during the test and restored when the test ends:
+在测试中 :func:`patch` 修饰符和上下文管理器使得模仿模块中的类或者对象变得容易。
+在测试中你指定的对象将会替换成一个 mock (或者其他对象), 当测试结束对象被还原:
 
     >>> from unittest.mock import patch
     >>> @patch('module.ClassName2')
@@ -94,17 +83,13 @@ mock (or other object) during the test and restored when the test ends:
 
 .. note::
 
-   When you nest patch decorators the mocks are passed in to the decorated
-   function in the same order they applied (the normal *python* order that
-   decorators are applied). This means from the bottom up, so in the example
-   above the mock for ``module.ClassName1`` is passed in first.
+   当你嵌套 patch 修饰符时，仿对象将以修饰仿对象的顺序修饰方法 （ 它与平时 *python* 中的应用顺序一致)
+   这就意味着是从下到上的顺序， 因此上面的例子中 ``module.ClassName1`` 的仿对象首先被传入。
 
-   With :func:`patch` it matters that you patch objects in the namespace where they
-   are looked up. This is normally straightforward, but for a quick guide
-   read :ref:`where to patch <where-to-patch>`.
+   对 :func:`patch` 值得一提的是，你修补的对象是在他们所查找的命名空间的， 这理所当然，
+   这里有一个快速指南 :ref:`where to patch <where-to-patch>`.
 
-As well as a decorator :func:`patch` can be used as a context manager in a with
-statement:
+:func:`patch` 修饰符可以使用 with 语句来作为一个上下文管理器:
 
     >>> with patch.object(ProductionClass, 'method', return_value=None) as mock_method:
     ...     thing = ProductionClass()
@@ -113,9 +98,7 @@ statement:
     >>> mock_method.assert_called_once_with(1, 2, 3)
 
 
-There is also :func:`patch.dict` for setting values in a dictionary just
-during a scope and restoring the dictionary to its original state when the test
-ends:
+在一个作用域中，有一个 :func:`patch.dict` 用于将值存储到一个字典中，测试运行完后，会还原字典中的值到原来的状态:
 
    >>> foo = {'key': 'value'}
    >>> original = foo.copy()
@@ -124,9 +107,8 @@ ends:
    ...
    >>> assert foo == original
 
-Mock supports the mocking of Python :ref:`magic methods <magic-methods>`. The
-easiest way of using magic methods is with the :class:`MagicMock` class. It
-allows you to do things like:
+Mock 支持 Python :ref:`magic methods <magic-methods>` 模仿. 通过 :class:`MagicMock`
+类可以很简单的使用魔法方法， 它允许你像下面那样做:
 
     >>> mock = MagicMock()
     >>> mock.__str__.return_value = 'foobarbaz'
@@ -134,29 +116,23 @@ allows you to do things like:
     'foobarbaz'
     >>> mock.__str__.assert_called_with()
 
-Mock allows you to assign functions (or other Mock instances) to magic methods
-and they will be called appropriately. The :class:`MagicMock` class is just a Mock
-variant that has all of the magic methods pre-created for you (well, all the
-useful ones anyway).
+Mock 允许你赋值方法(或者其他的 Mock实例)给魔法方法，赋值后他们可以被正确的调用。
+类 :class:`MagicMock` 是一个 Mock 变体， 它给你提前预备了所有的魔法方法（好吧， 可以
+说每一个都非常有用)。
 
-The following is an example of using magic methods with the ordinary Mock
-class:
+下面这个例子使用了普通 Mock 类的魔法方法:
 
     >>> mock = Mock()
     >>> mock.__str__ = Mock(return_value='wheeeeee')
     >>> str(mock)
     'wheeeeee'
 
-For ensuring that the mock objects in your tests have the same api as the
-objects they are replacing, you can use :ref:`auto-speccing <auto-speccing>`.
-Auto-speccing can be done through the *autospec* argument to patch, or the
-:func:`create_autospec` function. Auto-speccing creates mock objects that
-have the same attributes and methods as the objects they are replacing, and
-any functions and methods (including constructors) have the same call
-signature as the real object.
+为了确保在你的测试中，仿对象跟替换的对象有同样的 api 。你可以使用 :ref:`auto-speccing <auto-speccing>`
+Auto-speccing 可以通过 patch 的 *autospec* 参数，或者 :func:`create_autospec` 方法实现。
+Auto-speccing 创建的仿对象与替换的对象的属性和方法是一样的，并且所有的函数和方法（包括 构造方法） 
+都保持与原对象一样的签名。
 
-This ensures that your mocks will fail in the same way as your production
-code if they are used incorrectly:
+这就保证了你的仿对象会像产品代码中那样，当它们使用不正确的时候会失败:
 
    >>> from unittest.mock import create_autospec
    >>> def function(a, b, c):
@@ -1504,19 +1480,16 @@ passed into your test function matches this order.
 
 .. _where-to-patch:
 
-Where to patch
+在哪里修补
 ~~~~~~~~~~~~~~
 
-:func:`patch` works by (temporarily) changing the object that a *name* points to with
-another one. There can be many names pointing to any individual object, so
-for patching to work you must ensure that you patch the name used by the system
-under test.
+:func:`patch` 的工作是临时性的改变一个 *名字* 指针为另外的一个指针。
+可以有很多名字指针指向其他独立的对象， 因此你必需确保你修补的名字补丁是在测试系统下面的。
 
-The basic principle is that you patch where an object is *looked up*, which
-is not necessarily the same place as where it is defined. A couple of
-examples will help to clarify this.
+基本的原则是，你补丁的地方是查找这个对象的地方，
+它不是必需要和定义是同一个地方。大量的例子可以帮你理清这个原则。
 
-Imagine we have a project that we want to test with the following structure::
+想象一下我们有一个项目有下面的结构，我们想要测试它::
 
     a.py
         -> Defines SomeClass
@@ -1525,28 +1498,24 @@ Imagine we have a project that we want to test with the following structure::
         -> from a import SomeClass
         -> some_function instantiates SomeClass
 
-Now we want to test ``some_function`` but we want to mock out ``SomeClass`` using
-:func:`patch`. The problem is that when we import module b, which we will have to
-do then it imports ``SomeClass`` from module a. If we use :func:`patch` to mock out
-``a.SomeClass`` then it will have no effect on our test; module b already has a
-reference to the *real* ``SomeClass`` and it looks like our patching had no
-effect.
+现在我们想要测试 ``some_function`` 但是我们这里不能使用 :func:`patch` 仿造出 ``SomeClass`` 。 
+这里的问题是当我们导入模块 b, 这模块 b 需要从模块 a 中导入 ``SomeClass`` 。如果我们使用 :func:`patch` 
+仿造出 ``a.SomeClass`` ，那么它对我们的测试是没有影响的； 因为模块b依然有 *真正*  ``SomeClass`` 的引用。
 
-The key is to patch out ``SomeClass`` where it is used (or where it is looked up
-). In this case ``some_function`` will actually look up ``SomeClass`` in module b,
-where we have imported it. The patching should look like::
+这里的关键在于仿造出在哪里使用的 ``SomeClass`` 。
+这种情况下，我们已经导入了  ``SomeClass``  ，``some_function`` 
+将会实际的去查找模块 b 中 ``SomeClass`` ，这个补丁看起来像这样::
 
     @patch('b.SomeClass')
 
-However, consider the alternative scenario where instead of ``from a import
-SomeClass`` module b does ``import a`` and ``some_function`` uses ``a.SomeClass``. Both
-of these import forms are common. In this case the class we want to patch is
-being looked up in the module and so we have to patch ``a.SomeClass`` instead::
+然而, 考虑换一种场景，我们在模块 b 中使用  ``import a`` 代替 ``from a import SomeClass``
+使用 ``a.SomeClass`` 代替  ``some_function`` 。上面两种导入格式都非常普遍。 在这种情况下
+我们想要修补的类是在模块中查找的，这样我们就可以代替以 ``a.SomeClass`` 补丁::
 
     @patch('a.SomeClass')
 
 
-Patching Descriptors and Proxy Objects
+补丁修饰符和代理对象
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Both patch_ and patch.object_ correctly patch and restore descriptors: class

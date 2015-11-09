@@ -15,7 +15,7 @@
 
 import sys
 import os
-#import shlex
+import shlex
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -47,9 +47,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Python tutorial'
-copyright = '2015, Thomas'
-author = 'Thomas'
+project = 'Python library documentation'
+copyright = '2015, 冯龙辉，https://docs.python.org/3.6/'
+author = '冯龙辉'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -65,14 +65,14 @@ release = '3.6'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-# language = 'zh-CN'
-language = 'en'
+language = 'zh_CN'
+# language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
 #today = ''
 # Else, today_fmt is used as the format for a strftime call.
-#today_fmt = '%B %d, %Y'
+today_fmt = '%Y-%m-%d'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -119,7 +119,7 @@ html_theme = 'sphinx_rtd_theme'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+html_theme_path = ['_themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -149,7 +149,7 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%Y-%m-%d'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -209,45 +209,56 @@ htmlhelp_basename = 'Pythondoc'
 
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+'papersize': 'a4paper',
 
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
-
+'classoptions': ',english',
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
+'utf8extra': '',
+'inputenc': '',
 
 # Latex figure (float) alignment
 #'figure_align': 'htbp',
+'preamble': '''
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setCJKmainfont[BoldFont=SimHei, ItalicFont=STKaiti]{SimSun}
+\setCJKmonofont[Scale=0.9]{SimHei}
+\setCJKfamilyfont{song}[BoldFont=SimSun]{SimSun}
+\setCJKfamilyfont{sf}[BoldFont=SimSun]{SimSun}
+''',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Python.tex', 'Python tutorial Documentation',
-   'Thomas-23', 'manual'),
+  (master_doc, 'Python.tex', 'Python 类库手册',
+   '冯龙辉', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = None
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_use_parts = False
 
 # If true, show page references after internal links.
-#latex_show_pagerefs = False
+latex_show_pagerefs = True
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+latex_show_urls = False
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
 
 # If false, no module index is generated.
-#latex_domain_indices = True
+latex_domain_indices = True
 
 
 # -- Options for manual page output ---------------------------------------
@@ -255,7 +266,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'python', 'Python tutorial Documentation',
+    (master_doc, 'python', 'Python library documentation',
      [author], 1)
 ]
 
@@ -269,8 +280,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'Python', 'Python tutorial Documentation',
-   author, 'Python', 'One line description of project.',
+  (master_doc, 'Python', 'Python library documentation',
+   author, 'Python', 'Python 3.6 library documentation 翻译文档',
    'Miscellaneous'),
 ]
 

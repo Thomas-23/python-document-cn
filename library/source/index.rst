@@ -1,36 +1,22 @@
 .. _library-index:
 
 ###############################
-  The Python Standard Library
+  Python 标准库
 ###############################
 
-While :ref:`reference-index` describes the exact syntax and
-semantics of the Python language, this library reference manual
-describes the standard library that is distributed with Python. It also
-describes some of the optional components that are commonly included
-in Python distributions.
+在 :ref:`reference-index` 中已经准确的描述了Python语言的语法
+而这本标准库参考手册则主要介绍Python发行版中的标准库，以及通常随着发行版发布的可选组件。
 
-Python's standard library is very extensive, offering a wide range of
-facilities as indicated by the long table of contents listed below. The
-library contains built-in modules (written in C) that provide access to
-system functionality such as file I/O that would otherwise be
-inaccessible to Python programmers, as well as modules written in Python
-that provide standardized solutions for many problems that occur in
-everyday programming. Some of these modules are explicitly designed to
-encourage and enhance the portability of Python programs by abstracting
-away platform-specifics into platform-neutral APIs.
+正如下面的目录中所表明的那样，Python标准库涉及的内容非常广泛，它提供了大量的工具。
+标准库中包括一些用C编写的内置模块，提供一些必要的系统功能，
+还包括一些用Python编写的模块，提供针对日常编程问题的一些标准化解决方案；
+也包括一些针对Python程序可移植性设计的模块，它们将特定系统平台抽象为与平台无关的API接口。
 
-The Python installers for the Windows platform usually include
-the entire standard library and often also include many additional
-components. For Unix-like operating systems Python is normally provided
-as a collection of packages, so it may be necessary to use the packaging
-tools provided with the operating system to obtain some or all of the
-optional components.
+windows平台下的Python安装程序一般包含完整的标准库以及一些额外组件。
+而类Unix操作系统则一般将Python捆绑在包中，所以如有需要，使用系统的包管理工具获取一些或所有的可选组件。
 
-In addition to the standard library, there is a growing collection of
-several thousand components (from individual programs and modules to
-packages and entire application development frameworks), available from
-the `Python Package Index <https://pypi.python.org/pypi>`_.
+当然除了标准库以外，你还可以在  `Python Package Index <https://pypi.python.org/pypi>`_ 中还可以获取成千上万的组件，
+包括从单独的程序或模块到完整的应用开发框架。
 
 
 .. toctree::

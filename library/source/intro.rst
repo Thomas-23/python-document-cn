@@ -1,49 +1,33 @@
 .. _library-intro:
 
 ************
-Introduction
+介绍
 ************
 
-The "Python library" contains several different kinds of components.
+Python 标准库包括了各种不同类型的组件.
 
-It contains data types that would normally be considered part of the "core" of a
-language, such as numbers and lists.  For these types, the Python language core
-defines the form of literals and places some constraints on their semantics, but
-does not fully define the semantics.  (On the other hand, the language core does
-define syntactic properties like the spelling and priorities of operators.)
+首先，它包括一些作为 Python 核心部分的数据类型，比如数字和列表类型。
+对于这些累些，语言核心只是定义了这些数据类型的书写方式，并对其语法做了一定的限制。
+（换句话说，语言核心只是定义了语法层面的属性，比如书写方式以及运算符的优先级。）
 
-The library also contains built-in functions and exceptions --- objects that can
-be used by all Python code without the need of an :keyword:`import` statement.
-Some of these are defined by the core language, but many are not essential for
-the core semantics and are only described here.
+标准库还包括了一些内置函数和内置异常 --- 即一些不需要通过 :keyword:`import` 语句就可以被所有 Python 代码使用的对象
+语言核心定义了一小部分, 但是大部分本质上不属于核心语法，他们只在这个文档里描述。
 
-The bulk of the library, however, consists of a collection of modules. There are
-many ways to dissect this collection.  Some modules are written in C and built
-in to the Python interpreter; others are written in Python and imported in
-source form.  Some modules provide interfaces that are highly specific to
-Python, like printing a stack trace; some provide interfaces that are specific
-to particular operating systems, such as access to specific hardware; others
-provide interfaces that are specific to a particular application domain, like
-the World Wide Web. Some modules are available in all versions and ports of
-Python; others are only available when the underlying system supports or
-requires them; yet others are available only when a particular configuration
-option was chosen at the time when Python was compiled and installed.
+标准库的很大一部分，是由一系列的模块集组成的，有很多对它们进行分类的方式，
+从编程语言来看，一些模块用 C 语言编写并内置于 Python 解释器中，另一些则用 Python 编写并通过 import 导入。
+从接口类型上看，一些模块提供针对python自身的接口，例如打印堆栈回溯信息，另一些则提供针对于特定操作系统的接口，
+如访问特定硬件或特定应用领域，例如万维网。从兼容性角度看，一些模块在所有版本的 Python 中都是可用的，
+一些只有在底层系统支持它们时才可用，还有一些则只有在特定的编译及安装环境才是可用的。
 
-This manual is organized "from the inside out:" it first describes the built-in
-functions, data types and exceptions, and finally the modules, grouped in
-chapters of related modules.
+这一手册是按照 "由里及表"（From the inside out）的原则组织的： 它首先叙述了内置的数据类型，然后是内置函数和内置异常
+， 最后再分章节叙述相关联模块。
 
-This means that if you start reading this manual from the start, and skip to the
-next chapter when you get bored, you will get a reasonable overview of the
-available modules and application areas that are supported by the Python
-library.  Of course, you don't *have* to read it like a novel --- you can also
-browse the table of contents (in front of the manual), or look for a specific
-function, module or term in the index (in the back).  And finally, if you enjoy
-learning about random subjects, you choose a random page number (see module
-:mod:`random`) and read a section or two.  Regardless of the order in which you
-read the sections of this manual, it helps to start with chapter
-:ref:`built-in-funcs`, as the remainder of the manual assumes familiarity with
-this material.
+这意味着，如果你从头开始读这本手册并且跳过你觉得无聊的章节，
+你就可以对可用的模块及 Python 标准库支持的应用领域有一个很好的了解。
+当然，你不一定要将它当成一本小说从头读到尾 --- 你直接可以浏览目录或者在索引中找到特定的函数、模块或术语。
+最后，如果你想学习和随机数相关的主题， 你可以选择随机数(查看 :mod:`random` )的页面读上一到两节。
+不论你按照什么顺序来阅读这本手册，最好还是从 :ref:`built-in-funcs` 这一章开始，
+因为这本手册的其他部分都假设你熟悉内置函数这一部分。
 
-Let the show begin!
+让我们开始吧！
 

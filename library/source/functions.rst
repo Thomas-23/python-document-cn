@@ -1,11 +1,10 @@
 .. XXX document all delegations to __special__ methods
 .. _built-in-funcs:
 
-Built-in Functions
+内置函数
 ==================
 
-The Python interpreter has a number of functions and types built into it that
-are always available.  They are listed here in alphabetical order.
+在 Python 解释器中存在大量常用内置方法和类型，下面以字母表的顺序列出来。
 
 ===================  =================  ==================  ================  ====================
 ..                   ..                 Built-in Functions  ..                ..
@@ -26,8 +25,7 @@ are always available.  They are listed here in alphabetical order.
 :func:`delattr`      :func:`hash`       |func-memoryview|_  |func-set|_
 ===================  =================  ==================  ================  ====================
 
-.. using :func:`dict` would create a link to another page, so local targets are
-   used, with replacement texts to make the output in the table consistent
+.. 使用 :func:`dict` 能够创建一个链接到其他页面的链接， 为了保证输出在表中的一致性，因此使用了一个本地的链接来代替这个文本
 
 .. |func-dict| replace:: ``dict()``
 .. |func-frozenset| replace:: ``frozenset()``
@@ -41,15 +39,13 @@ are always available.  They are listed here in alphabetical order.
 
 .. function:: abs(x)
 
-   Return the absolute value of a number.  The argument may be an
-   integer or a floating point number.  If the argument is a complex number, its
-   magnitude is returned.
+   返回一个数的绝对值。
+   参数可以是任意整数或者浮点数。当参数是复数时，则返回它的模。
 
 
 .. function:: all(iterable)
 
-   Return ``True`` if all elements of the *iterable* are true (or if the iterable
-   is empty).  Equivalent to::
+   当 *iterable* 的所有元素都为真时（或者 iterable 为空）返回 ``True`` 。  相当于::
 
       def all(iterable):
           for element in iterable:
@@ -60,8 +56,8 @@ are always available.  They are listed here in alphabetical order.
 
 .. function:: any(iterable)
 
-   Return ``True`` if any element of the *iterable* is true.  If the iterable
-   is empty, return ``False``.  Equivalent to::
+   当 *iterable* 中只要存在一个为真时返回 ``True`` ，当 iterable 为空时返回 ``False``
+   相当于::
 
       def any(iterable):
           for element in iterable:
