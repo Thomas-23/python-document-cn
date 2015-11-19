@@ -1,8 +1,8 @@
-:mod:`unittest` --- Unit testing framework
+:mod:`unittest` --- 单元测试框架
 ==========================================
 
 .. module:: unittest
-   :synopsis: Unit testing framework for Python.
+   :synopsis: 针对于 Python 的单元测试框架.
 .. moduleauthor:: Steve Purcell <stephen_purcell@yahoo.com>
 .. sectionauthor:: Steve Purcell <stephen_purcell@yahoo.com>
 .. sectionauthor:: Fred L. Drake, Jr. <fdrake@acm.org>
@@ -385,7 +385,7 @@ set-up 和 tear-down 方法::
    尽管 :class:`FunctionTestCase` 能够基于 :mod:`unittest` 基础系统上快速转换已经存在的测试方法。但这种做法并不推荐
    花一些时间创建一个合适的 :class:`TestCase` 子类， 将会使得未来重构测试非常的轻松。
 
-有些情况下，存在的测试可能是为 :mod:`doctest` 模块编写的, 因此 :mod:`doctest` 提供了一个 :class:`DocTestSuite`类， 它能够
+有些情况下，存在的测试可能是为 :mod:`doctest` 模块编写的, 因此 :mod:`doctest` 提供了一个 :class:`DocTestSuite` 类，它能够
 从已经存在的，基于 :mod:`doctest` 基础上的测试，自动创建一个 :class:`unittest.TestSuite` 实例。
 
 

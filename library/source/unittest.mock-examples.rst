@@ -1,4 +1,4 @@
-:mod:`unittest.mock` --- getting started
+:mod:`unittest.mock` --- 开始 mock 之旅
 ========================================
 
 .. moduleauthor:: Michael Foord <michael@python.org>
@@ -9,41 +9,36 @@
 
 .. _getting-started:
 
-Using Mock
+使用 Mock
 ----------
 
-Mock Patching Methods
+Mock 补丁方法
 ~~~~~~~~~~~~~~~~~~~~~
 
-Common uses for :class:`Mock` objects include:
+通常使用的 :class:`Mock` 对象包括:
 
-* Patching methods
-* Recording method calls on objects
+* 给方法打补丁
+* 记录方法在对象上的调用
 
-You might want to replace a method on an object to check that
-it is called with the correct arguments by another part of the system:
+你可能想要替换对象的某个方法，来检查这个方法是否被系统的其它部分以正确参数调用:
 
     >>> real = SomeClass()
     >>> real.method = MagicMock(name='method')
     >>> real.method(3, 4, 5, key='value')
     <MagicMock name='method()' id='...'>
 
-Once our mock has been used (``real.method`` in this example) it has methods
-and attributes that allow you to make assertions about how it has been used.
+一旦你的 mock 被使用了 (这个例子中是指 ``real.method`` )， 这个mock就包含了允许你进行断言的方法和属性.
 
 .. note::
 
-    In most of these examples the :class:`Mock` and :class:`MagicMock` classes
-    are interchangeable. As the ``MagicMock`` is the more capable class it makes
-    a sensible one to use by default.
+    在大多数例子中，:class:`Mock` 和 :class:`MagicMock` 类是可以互换的。  
+    ``MagicMock`` 更加适合类， 默认使用它是明智的选择。
 
-Once the mock has been called its :attr:`~Mock.called` attribute is set to
-``True``. More importantly we can use the :meth:`~Mock.assert_called_with` or
-:meth:`~Mock.assert_called_once_with` method to check that it was called with
-the correct arguments.
+一旦一个 mock 被调用了， 它的 :attr:`~Mock.called` 属性将会设置程 ``True``. 
+更重要的是我们可以使用方法 :meth:`~Mock.assert_called_with` 或者 :meth:`~Mock.assert_called_once_with` 
+来检查方法是不是使用了正确的参数调用。
 
-This example tests that calling ``ProductionClass().method`` results in a call to
-the ``something`` method:
+这个例子中测试了调用方法 ``ProductionClass().method`` 的结果是，调用了一次 ``something`` 方法:
 
     >>> class ProductionClass:
     ...     def method(self):
@@ -58,48 +53,41 @@ the ``something`` method:
 
 
 
-Mock for Method Calls on an Object
+模仿对象上的方法调用
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the last example we patched a method directly on an object to check that it
-was called correctly. Another common use case is to pass an object into a
-method (or some part of the system under test) and then check that it is used
-in the correct way.
+在最后这个例子中，我们直接在一个对象上补丁了一个方法，来检查这个方法是不是被正确调用了
+另外一种普通的做法是传递一个对象到方法中 (或者系统中要测试的某部分)， 
+然后检查这个对象是不是以正确方法使用。
 
-The simple ``ProductionClass`` below has a ``closer`` method. If it is called with
-an object then it calls ``close`` on it.
+下面这个简单 ``ProductionClass`` 类中还有一个 ``closer`` 方法. 如果它被一个对象调用，那么它就会调用这个对象的 
+``close`` 方法。
 
     >>> class ProductionClass:
     ...     def closer(self, something):
     ...         something.close()
     ...
 
-So to test it we need to pass in an object with a ``close`` method and check
-that it was called correctly.
+因此为了测试，我们需要传递的对象中包含 ``close`` 方法， 然后检查这个方法是不是被正确调用了。
 
     >>> real = ProductionClass()
     >>> mock = Mock()
     >>> real.closer(mock)
     >>> mock.close.assert_called_with()
 
-We don't have to do any work to provide the 'close' method on our mock.
-Accessing close creates it. So, if 'close' hasn't already been called then
-accessing it in the test will create it, but :meth:`~Mock.assert_called_with`
-will raise a failure exception.
+我们在给我们的 mock 提供 'close' 方法上没有做任何事情。 访问 close 时就就创建了它。 因此在测试中如果 'close' 
+还没有被调用，就去访问它 ，会创建它， 但是 :meth:`~Mock.assert_called_with` 将会抛出一个失败的异常。
 
 
-Mocking Classes
+仿造类
 ~~~~~~~~~~~~~~~
 
-A common use case is to mock out classes instantiated by your code under test.
-When you patch a class, then that class is replaced with a mock. Instances
-are created by *calling the class*. This means you access the "mock instance"
-by looking at the return value of the mocked class.
+一个常用的做法是在我们的测试代码中仿造类的实例。当你给一个类打补丁的时候，这个类被替换成了一个 mock.
+实例的创建是通过 *调用这个类* . 也就是说，你可以通过查看仿造类的返回值来访问这个 "mock 实例"
 
-In the example below we have a function ``some_function`` that instantiates ``Foo``
-and calls a method on it. The call to :func:`patch` replaces the class ``Foo`` with a
-mock. The ``Foo`` instance is the result of calling the mock, so it is configured
-by modifying the mock :attr:`~Mock.return_value`.
+在下面的例子中，我们有一个方法 ``some_function`` ，实例化了 ``Foo`` 并调用这个实例中的一方法。
+调用 :func:`patch` 从而将 ``Foo`` 类替换成了一个 mock. 这个 ``Foo`` 实例是调用 mock 的结果，所以它可以通过
+修改 mock 的  :attr:`~Mock.return_value` 来配置。
 
     >>> def some_function():
     ...     instance = module.Foo()
@@ -112,12 +100,11 @@ by modifying the mock :attr:`~Mock.return_value`.
     ...     assert result == 'the result'
 
 
-Naming your mocks
+给你的 mocks 命名
 ~~~~~~~~~~~~~~~~~
 
-It can be useful to give your mocks a name. The name is shown in the repr of
-the mock and can be helpful when the mock appears in test failure messages. The
-name is also propagated to attributes or methods of the mock:
+给 mocks 提供一个名字非常有用。 这个名字会在 repr 中显示， 并且当测试失败信息中出现 mock
+时，可以提供帮助。命名同样可以针对于 mock 的属性和方法:
 
     >>> mock = MagicMock(name='foo')
     >>> mock
@@ -126,12 +113,11 @@ name is also propagated to attributes or methods of the mock:
     <MagicMock name='foo.method' id='...'>
 
 
-Tracking all Calls
+跟踪所有的调用
 ~~~~~~~~~~~~~~~~~~
 
-Often you want to track more than a single call to a method. The
-:attr:`~Mock.mock_calls` attribute records all calls
-to child attributes of the mock - and also to their children.
+经常，你想跟踪不止一个方法的调用。mock 有个 :attr:`~Mock.mock_calls` 
+属性记录了所有的子属性的调用 - 也包括它们的子类.
 
     >>> mock = MagicMock()
     >>> mock.method()
@@ -141,55 +127,51 @@ to child attributes of the mock - and also to their children.
     >>> mock.mock_calls
     [call.method(), call.attribute.method(10, x=53)]
 
-If you make an assertion about ``mock_calls`` and any unexpected methods
-have been called, then the assertion will fail. This is useful because as well
-as asserting that the calls you expected have been made, you are also checking
-that they were made in the right order and with no additional calls:
+如果你给 ``mock_calls`` 做了一个断言，任何非预期的方法被调用了，这个断言都会失败。
+这非常有用，因为在断言的时候，你已经知道调用是你所期望的，你同样想检查他们调用的顺序
+以及不会有多余的调用:
 
-You use the :data:`call` object to construct lists for comparing with
-``mock_calls``:
+你使用对象 :data:`call` 构造了一个列表用来比较 ``mock_calls``:
 
     >>> expected = [call.method(), call.attribute.method(10, x=53)]
     >>> mock.mock_calls == expected
     True
 
 
-Setting Return Values and Attributes
+设置返回值和属性
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Setting the return values on a mock object is trivially easy:
+在 mock 对象上设置返回值很简单:
 
     >>> mock = Mock()
     >>> mock.return_value = 3
     >>> mock()
     3
 
-Of course you can do the same for methods on the mock:
+当然你也可以在方法上这样做：
 
     >>> mock = Mock()
     >>> mock.method.return_value = 3
     >>> mock.method()
     3
 
-The return value can also be set in the constructor:
+返回值也可以在构造器中设置:
 
     >>> mock = Mock(return_value=3)
     >>> mock()
     3
 
-If you need an attribute setting on your mock, just do it:
+如果你想在 mock 上设置一个属性，像下面这样做:
 
     >>> mock = Mock()
     >>> mock.x = 3
     >>> mock.x
     3
 
-Sometimes you want to mock up a more complex situation, like for example
-``mock.connection.cursor().execute("SELECT 1")``. If we wanted this call to
-return a list, then we have to configure the result of the nested call.
+有时你想仿造一种很复杂的情况，例如 ``mock.connection.cursor().execute("SELECT 1")``. 
+如果我们想在调用的时候返回一个列表， 我们需要配置这个结果为嵌套调用。
 
-We can use :data:`call` to construct the set of calls in a "chained call" like
-this for easy assertion afterwards:
+我们可以使用 :data:`call` ，在 "chained call" 中构造一个调用集合， 然后后来就可以像下面这样轻松断言了:
 
     >>> mock = Mock()
     >>> cursor = mock.connection.cursor.return_value
@@ -202,16 +184,14 @@ this for easy assertion afterwards:
     >>> mock.mock_calls == expected
     True
 
-It is the call to ``.call_list()`` that turns our call object into a list of
-calls representing the chained calls.
+调用 ``.call_list()`` 将我们的调用对象转换为一个调用列表， 来描述调用链。
 
 
-Raising exceptions with mocks
+mocks 抛出异常
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A useful attribute is :attr:`~Mock.side_effect`. If you set this to an
-exception class or instance then the exception will be raised when the mock
-is called.
+:attr:`~Mock.side_effect` 是一个有用的属性. 如果你在一个异常类中设置了它或者实例化，
+当mock被调用时，这个异常将会被抛出。
 
     >>> mock = Mock(side_effect=Exception('Boom!'))
     >>> mock()
@@ -220,14 +200,13 @@ is called.
     Exception: Boom!
 
 
-Side effect functions and iterables
+边效应方法和迭代器
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``side_effect`` can also be set to a function or an iterable. The use case for
-``side_effect`` as an iterable is where your mock is going to be called several
-times, and you want each call to return a different value. When you set
-``side_effect`` to an iterable every call to the mock returns the next value
-from the iterable:
+``side_effect`` 同样可以设置在方法或者迭代器上面。一种使用情况是，
+一个mock 被调用多次时，并且你希望每次调用都返回不同的值， 
+可以将 ``side_effect`` 作为一个迭代器。当你作为迭代器上面设置了 ``side_effect`` 
+，每次调用 mock 返回的值将是从迭代器中取下一个的值:
 
     >>> mock = MagicMock(side_effect=[4, 5, 6])
     >>> mock()
@@ -238,10 +217,8 @@ from the iterable:
     6
 
 
-For more advanced use cases, like dynamically varying the return values
-depending on what the mock is called with, ``side_effect`` can be a function.
-The function will be called with the same arguments as the mock. Whatever the
-function returns is what the call returns:
+其他一些高级用法，例如依赖于具体哪个 mock 的调用动态改变返回值， ``side_effect`` 可以是一个函数。
+这个函数作为一个 mock 以同样的参数被调用. 无论函数如何返回都和它的调用返回一样:
 
     >>> vals = {(1, 2): 1, (2, 3): 2}
     >>> def side_effect(*args):
@@ -254,22 +231,17 @@ function returns is what the call returns:
     2
 
 
-Creating a Mock from an Existing Object
+从一个已存在的对象中创建 Mock 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One problem with over use of mocking is that it couples your tests to the
-implementation of your mocks rather than your real code. Suppose you have a
-class that implements ``some_method``. In a test for another class, you
-provide a mock of this object that *also* provides ``some_method``. If later
-you refactor the first class, so that it no longer has ``some_method`` - then
-your tests will continue to pass even though your code is now broken!
+在使用仿技术的时候，会有一个问题，与你测试的实现代码是你的 mocks 而不是你的真实代码。
+假设你有一个类实现了 ``some_method`` 方法。在其他类中测试时， 你提供了这个对象的 mock
+并且也提供了 ``some_method`` 。 如果你后来想要重构第一个类， 这时它已经没有 ``some_method`` 
+- 然后对你的测试来说它是可以通过的，即使此时代码是有问题的!
 
-:class:`Mock` allows you to provide an object as a specification for the mock,
-using the *spec* keyword argument. Accessing methods / attributes on the
-mock that don't exist on your specification object will immediately raise an
-attribute error. If you change the implementation of your specification, then
-tests that use that class will start failing immediately without you having to
-instantiate the class in those tests.
+:class:`Mock` 允许你提供一个对象，然后定制这个对象的 mock, 使用 *spec* 关键字参数。
+访问这个 mock 所制定的对象中不存在的方法或者属性时，将会立即抛出属性错误。如果你改变定制
+对象的实现，那么对于这个类的测试将会失败，因为在这些测试当中已经没有这个类的实例了。
 
     >>> mock = Mock(spec=SomeClass)
     >>> mock.old_method()
@@ -277,9 +249,7 @@ instantiate the class in those tests.
        ...
     AttributeError: object has no attribute 'old_method'
 
-Using a specification also enables a smarter matching of calls made to the
-mock, regardless of whether some parameters were passed as positional or
-named arguments::
+使用定制对象能够精确的匹配对 mock 所做的调用，它不管是否参数传递的是位置还是命名参数::
 
    >>> def f(a, b, c): pass
    ...
@@ -288,38 +258,28 @@ named arguments::
    <Mock name='mock()' id='140161580456576'>
    >>> mock.assert_called_with(a=1, b=2, c=3)
 
-If you want this smarter matching to also work with method calls on the mock,
-you can use :ref:`auto-speccing <auto-speccing>`.
+如果你想这种精确匹配可以同样在 mock 的方法调用时工作， :ref:`auto-speccing <auto-speccing>`.
 
-If you want a stronger form of specification that prevents the setting
-of arbitrary attributes as well as the getting of them then you can use
-*spec_set* instead of *spec*.
+如果你想更强模型的定制对象，来阻值任意属性的设置以及获取这些属性，你可以使用
+*spec_set* 代替上面的 *spec*.
 
 
-
-Patch Decorators
+Patch 修饰符
 ----------------
 
 .. note::
 
-   With :func:`patch` it matters that you patch objects in the namespace where
-   they are looked up. This is normally straightforward, but for a quick guide
-   read :ref:`where to patch <where-to-patch>`.
+   :func:`patch` 很重要的一点是，你打补丁的对象是在他们所查的命名空间中的
+   这很简单，你可以阅读快速指南 :ref:`where to patch <where-to-patch>` .
 
+在一个测试中通常需要对类的属性或者模块属性打补丁， 例如修补内置类或模块中的类的实例。
+模块和类是全局有效的，因此修补他们之后最后进行还原，否则它会对其他测试造成影响而导致一些很难诊断出来的问题。
 
-A common need in tests is to patch a class attribute or a module attribute,
-for example patching a builtin or patching a class in a module to test that it
-is instantiated. Modules and classes are effectively global, so patching on
-them has to be undone after the test or the patch will persist into other
-tests and cause hard to diagnose problems.
+基于此，mock 提供了三个非常方便的修饰符: :func:`patch`, :func:`patch.object` 和
+:func:`patch.dict`. ``patch`` 使用了一个独立的字符串，来指定你要修补的属性，字符串的格式是这样
+``package.module.Class.attribute`` . 它也可以选择性的使用一个值，来替换你想要的替换的属性（或者类以及其他).
+'patch.object' 使用了一个对象以及想要修补的属性名字, 并加上可选的值来修补它。
 
-mock provides three convenient decorators for this: :func:`patch`, :func:`patch.object` and
-:func:`patch.dict`. ``patch`` takes a single string, of the form
-``package.module.Class.attribute`` to specify the attribute you are patching. It
-also optionally takes a value that you want the attribute (or class or
-whatever) to be replaced with. 'patch.object' takes an object and the name of
-the attribute you would like patched, plus optionally the value to patch it
-with.
 
 ``patch.object``:
 
@@ -338,8 +298,8 @@ with.
     ...
     >>> test()
 
-If you are patching a module (including :mod:`builtins`) then use :func:`patch`
-instead of :func:`patch.object`:
+如果你要修补一个模块 (包括 :mod:`builtins`) 那么使用 :func:`patch`
+代替 :func:`patch.object`:
 
     >>> mock = MagicMock(return_value=sentinel.file_handle)
     >>> with patch('builtins.open', mock):
@@ -368,9 +328,8 @@ A nice pattern is to actually decorate test methods themselves:
     >>> MyTest('test_something').test_something()
     >>> assert SomeClass.attribute == original
 
-If you want to patch with a Mock, you can use :func:`patch` with only one argument
-(or :func:`patch.object` with two arguments). The mock will be created for you and
-passed into the test function / method:
+如果你想使用一个 Mock 来修补, 你可以使用带有一个参数的 :func:`patch` 
+(或者带两个参数的 :func:`patch.object` ). mock 将会为你创建，并且传递到测试函数 / 方法中:
 
     >>> class MyTest(unittest2.TestCase):
     ...     @patch.object(SomeClass, 'static_method')
@@ -380,7 +339,7 @@ passed into the test function / method:
     ...
     >>> MyTest('test_something').test_something()
 
-You can stack up multiple patch decorators using this pattern:
+你可以叠加多个 patch 修饰，像下面这样:
 
     >>> class MyTest(unittest2.TestCase):
     ...     @patch('package.module.ClassName1')
@@ -391,14 +350,10 @@ You can stack up multiple patch decorators using this pattern:
     ...
     >>> MyTest('test_something').test_something()
 
-When you nest patch decorators the mocks are passed in to the decorated
-function in the same order they applied (the normal *python* order that
-decorators are applied). This means from the bottom up, so in the example
-above the mock for ``test_module.ClassName2`` is passed in first.
+当你嵌套多个 patch 修饰符时，mock 传递给修饰方法的顺序与它修饰时一致。(与普通 *python* 修饰符使用是一样的)
+这也就意味着是自底向上的，所以在上面的这个例子中 ``test_module.ClassName2`` 仿类将首先被传递进修饰方法。
 
-There is also :func:`patch.dict` for setting values in a dictionary just
-during a scope and restoring the dictionary to its original state when the test
-ends:
+:func:`patch.dict` 是用来在一个字典中设置值的，这些值会一段时间内存在， 当测试结束它们被还原:
 
    >>> foo = {'key': 'value'}
    >>> original = foo.copy()
@@ -407,10 +362,10 @@ ends:
    ...
    >>> assert foo == original
 
-``patch``, ``patch.object`` and ``patch.dict`` can all be used as context managers.
+``patch``, ``patch.object`` 和 ``patch.dict`` 都可以使用上下文管理。
 
-Where you use :func:`patch` to create a mock for you, you can get a reference to the
-mock using the "as" form of the with statement:
+当在某个地方，你使用 :func:`patch` 为你创建了一个 mock, 你可以获得这个 mock 的引用, 然后使用 with 语句里
+的  "as" 格式:
 
     >>> class ProductionClass:
     ...     def method(self):
@@ -424,21 +379,20 @@ mock using the "as" form of the with statement:
     >>> mock_method.assert_called_with(1, 2, 3)
 
 
-As an alternative ``patch``, ``patch.object`` and ``patch.dict`` can be used as
-class decorators. When used in this way it is the same as applying the
-decorator individually to every method whose name starts with "test".
+作为一种替代， ``patch``, ``patch.object`` 和 ``patch.dict`` 能够可以用于类修饰符
+如果你使用这种方式，它等同于你给每个以  "test" 方法上面单独的使用了这个修饰符.
 
 
 .. _further-examples:
 
-Further Examples
+深入的例子
 ----------------
 
 
-Here are some more examples for some slightly more advanced scenarios.
+这里有一些更高级场景的例子。
 
 
-Mocking chained calls
+仿造链式调用
 ~~~~~~~~~~~~~~~~~~~~~
 
 Mocking chained calls is actually straightforward with mock once you
