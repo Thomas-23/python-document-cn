@@ -1,17 +1,14 @@
 .. _development:
 
 *****************
-Development Tools
+开发工具
 *****************
 
-The modules described in this chapter help you write software.  For example, the
-:mod:`pydoc` module takes a module and generates documentation based on the
-module's contents.  The :mod:`doctest` and :mod:`unittest` modules contains
-frameworks for writing unit tests that automatically exercise code and verify
-that the expected output is produced.  :program:`2to3` can translate Python 2.x
-source code into valid Python 3.x code.
+在这个章节中描述的模块将会帮助你编写软件， 例如 :mod:`pydoc` 模块基于使用模块的内容生成文档。
+:mod:`doctest` 和 :mod:`unittest` 模块包含编写单元测试的框架， 框架会执行测试代码并验证期望
+值，生成结果。  :program:`2to3` 可以将 Python 2.x 的源代码转换成正确的 3.x 的代码。
 
-The list of modules described in this chapter is:
+下面是这一章将会描述的模块列表:
 
 
 .. toctree::

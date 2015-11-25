@@ -5,8 +5,8 @@
 开发 asyncio
 ====================
 
-Asynchronous programming is different than classical "sequential" programming.
-This page lists common traps and explains how to avoid them.
+异步编程不同于传统的 "有序" 编程.
+这个页面列出了常见的陷阱并阐述了如何来避免这些陷阱。
 
 
 .. _asyncio-debug-mode:
@@ -14,38 +14,36 @@ This page lists common traps and explains how to avoid them.
 asyncio 的调试模式
 ---------------------
 
-The implementation of :mod:`asyncio` module has been written for performances.
-To development with asyncio, it's required to enable the debug checks to ease
-the development of asynchronous code.
+:mod:`asyncio` 模块的实现是为了性能。开发 asyncio ， 需要开启 debug 检查，这样可以更轻松开发异步代码。
 
-Setup an application to enable all debug checks:
+设置应用程序开启所有的 debug 检查:
 
-* Enable the asyncio debug mode globally by setting the environment variable
-  :envvar:`PYTHONASYNCIODEBUG` to ``1``
-* Set the log level of the :ref:`asyncio logger <asyncio-logger>` to
-  :py:data:`logging.DEBUG`. For example, call
-  ``logging.basicConfig(level=logging.DEBUG)`` at startup.
-* Configure the :mod:`warnings` module to display :exc:`ResourceWarning`
-  warnings. For example, use the ``-Wdefault`` command line option of Python to
-  display them.
+* 通过设置环境变量 :envvar:`PYTHONASYNCIODEBUG` 为 ``1`` 来开启全局的 asyncio debug 模式。
 
-Examples debug checks:
+* 设置日志 :ref:`asyncio logger <asyncio-logger>` 的级别 :py:data:`logging.DEBUG`. 
+  例如在启动时，调用 ``logging.basicConfig(level=logging.DEBUG)`` 。
 
-* Log :ref:`coroutines defined but never "yielded from"
-  <asyncio-coroutine-not-scheduled>`
-* :meth:`~BaseEventLoop.call_soon` and :meth:`~BaseEventLoop.call_at` methods
-  raise an exception if they are called from the wrong thread.
-* Log the execution time of the selector
-* Log callbacks taking more than 100 ms to be executed. The
-  :attr:`BaseEventLoop.slow_callback_duration` attribute is the minimum
-  duration in seconds of "slow" callbacks.
-* :exc:`ResourceWarning` warnings are emitted when transports and event loops
-  are :ref:`not closed explicitly <asyncio-close-transports>`.
+* 配置 :mod:`warnings` 模块显示 :exc:`ResourceWarning` 警告信息。
+  例如, 使用 Python 的 ``-Wdefault`` 命令行选项来显示警告信息。
+
+debug 检查的例子:
+
+* 日志 :ref:`coroutines 定义了但是没有 "yielded from" <asyncio-coroutine-not-scheduled>`
+
+* 如果 :meth:`~BaseEventLoop.call_soon` 和 :meth:`~BaseEventLoop.call_at` 方法被错误的线程调用
+  它们将会抛出异常。
+
+* 日志 selector 执行时间
+
+* 日志 回调方法执行耗时超过 100 毫秒. 这个
+  :attr:`BaseEventLoop.slow_callback_duration` 属性表示 "慢" 回调函数的最小时间间隔以秒为单位。
+  
+* 当 transports 和 event loops 没有显式的关闭 :ref:`not closed explicitly <asyncio-close-transports>` 
+  时， 会报出 :exc:`ResourceWarning` 警告信息。
 
 .. seealso::
 
-   The :meth:`BaseEventLoop.set_debug` method and the :ref:`asyncio logger
-   <asyncio-logger>`.
+   :meth:`BaseEventLoop.set_debug` 方法和 :ref:`asyncio logger<asyncio-logger>` 。
 
 
 清除

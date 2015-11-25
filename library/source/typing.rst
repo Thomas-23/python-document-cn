@@ -1,33 +1,29 @@
-:mod:`typing` --- Support for type hints
+:mod:`typing` --- 支持类型提示
 ========================================
 
 .. module:: typing
-   :synopsis: Support for type hints (see PEP 484).
+   :synopsis: 支持类型提示 (see PEP 484).
 
 **Source code:** :source:`Lib/typing.py`
 
 --------------
 
-This module supports type hints as specified by :pep:`484`.  The most
-fundamental support consists of the type :class:`Any`, :class:`Union`,
-:class:`Tuple`, :class:`Callable`, :class:`TypeVar`, and
-:class:`Generic`.  For full specification please see :pep:`484`.  For
-a simplified introduction to type hints see :pep:`483`.
+根据 :pep:`484` 这个模块支持类型提示。支持的基本组成类型 :class:`Any`, :class:`Union`,
+:class:`Tuple`, :class:`Callable`, :class:`TypeVar`, 和
+:class:`Generic` 。 详细描述请看 :pep:`484`.  对于类型提示的简要介绍请看 :pep:`483` 。
 
-
-The function below takes and returns a string and is annotated as follows::
+下面的这个函数使用并返回了一个字符串， 它的注解如下::
 
    def greeting(name: str) -> str:
        return 'Hello ' + name
 
-In the function ``greeting``, the argument ``name`` is expected to by of type
-:class:`str` and the return type :class:`str`. Subtypes are accepted as
-arguments.
+在函数 ``greeting`` 中, 参数 ``name`` 期望的类型为 :class:`str` ， 返回值期望类型为 :class:`str`. 
+参数接受子类型。
 
-Type aliases
+类型别名
 ------------
 
-A type alias is defined by assigning the type to the alias::
+通过赋值类型一个别名来定义类型别名::
 
    Vector = List[float]
 
