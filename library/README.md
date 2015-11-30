@@ -11,6 +11,8 @@ index [%100]
 
 intro [%100]
 
+pydoc [%100]
+
 unittest [%30]
 
 unittest.mock [%10]
