@@ -1,31 +1,27 @@
 .. _2to3-reference:
 
-2to3 - Automated Python 2 to 3 code translation
+2to3 - 自动 Python 2 到 3 代码转换
 ===============================================
 
 .. sectionauthor:: Benjamin Peterson <benjamin@python.org>
 
-2to3 is a Python program that reads Python 2.x source code and applies a series
-of *fixers* to transform it into valid Python 3.x code.  The standard library
-contains a rich set of fixers that will handle almost all code.  2to3 supporting
-library :mod:`lib2to3` is, however, a flexible and generic library, so it is
-possible to write your own fixers for 2to3.  :mod:`lib2to3` could also be
-adapted to custom applications in which Python code needs to be edited
-automatically.
+2to3 是一个 Python 程序， 它读取 Python 2.x 源代码，然后通过一系列的 *fixers* 
+将源代码转换为正确的 Python 3.x 代码.  标准库包含丰富的 fixers 它几乎可以处理所有的代码
+2to3 库为 :mod:`lib2to3` ，它是一个灵活通用的库， 因此它允许你给 2to3 编写自己的 fixers
+:mod:`lib2to3` 还可以适配 Python 代码需要自动被编辑的一般应用程序。
 
 
 .. _2to3-using:
 
-Using 2to3
+使用 2to3
 ----------
 
-2to3 will usually be installed with the Python interpreter as a script.  It is
-also located in the :file:`Tools/scripts` directory of the Python root.
+2to3 通常会作为一个脚本安装在 Python 解释器上.  它存放的位置为 Python 根目录下面的
+:file:`Tools/scripts` 目录下面。
 
-2to3's basic arguments are a list of files or directories to transform.  The
-directories are recursively traversed for Python sources.
+2to3 的基本参数为一个要转换的文件或者目录的列表。目录是递归遍历 Python 源文件的。
 
-Here is a sample Python 2.x source file, :file:`example.py`::
+下面是一个 Python 2.x 源文件例子, :file:`example.py`::
 
    def greet(name):
        print "Hello, {0}!".format(name)
@@ -33,18 +29,16 @@ Here is a sample Python 2.x source file, :file:`example.py`::
    name = raw_input()
    greet(name)
 
-It can be converted to Python 3.x code via 2to3 on the command line::
+它可以通过 2to3 的命令行，将其转换为 Python 3.x 代码::
 
    $ 2to3 example.py
 
-A diff against the original source file is printed.  2to3 can also write the
-needed modifications right back to the source file.  (A backup of the original
-file is made unless :option:`-n` is also given.)  Writing the changes back is
-enabled with the :option:`-w` flag::
+与源文件不同的地方会打印出来.  2to3 也可以将需要修改的部分写回源文件。
+(一个原文件的备份，使用  :option:`-n` )  ， :option:`-w` 表示允许写入改变::
 
    $ 2to3 -w example.py
 
-After transformation, :file:`example.py` looks like this::
+转换之后, :file:`example.py` 变为::
 
    def greet(name):
        print("Hello, {0}!".format(name))
@@ -52,77 +46,65 @@ After transformation, :file:`example.py` looks like this::
    name = input()
    greet(name)
 
-Comments and exact indentation are preserved throughout the translation process.
+注解和额外的缩进将会在转换过程中保留。
 
-By default, 2to3 runs a set of :ref:`predefined fixers <2to3-fixers>`.  The
-:option:`-l` flag lists all available fixers.  An explicit set of fixers to run
-can be given with :option:`-f`.  Likewise the :option:`-x` explicitly disables a
-fixer.  The following example runs only the ``imports`` and ``has_key`` fixers::
+默认, 2to3 运行着预备好的 :ref:`predefined fixers <2to3-fixers>` 集合.  使用
+:option:`-l` 列出所有可用的 fixers.  运行一个显式的 fixers 集合使用 :option:`-f`.  
+相反 :option:`-x` 显式的禁止一个 fixer.  
+下面这个例子仅运行 ``imports`` 和 ``has_key`` fixers::
 
    $ 2to3 -f imports -f has_key example.py
 
-This command runs every fixer except the ``apply`` fixer::
+这个命令运行除了 ``apply`` 之外的每一个 fixer::
 
    $ 2to3 -x apply example.py
 
-Some fixers are *explicit*, meaning they aren't run by default and must be
-listed on the command line to be run.  Here, in addition to the default fixers,
-the ``idioms`` fixer is run::
+某些 fixers 是 *显式的*, 意味着它们默认不会运行，必需在命令后面指明。
+下面这里，除了默认的 fixers，还运行了 ``idioms`` ::
 
    $ 2to3 -f all -f idioms example.py
 
-Notice how passing ``all`` enables all default fixers.
+注意怎样传递 ``all`` 来开启所有的默认 fixers.
 
-Sometimes 2to3 will find a place in your source code that needs to be changed,
-but 2to3 cannot fix automatically.  In this case, 2to3 will print a warning
-beneath the diff for a file.  You should address the warning in order to have
-compliant 3.x code.
+某些时候 2to3 会在你的源代码中找到一个需要改变的地方, 但是
+2to3 无法自动修复。 在这种情况下 2to3 会在底下输出一个警告来告诉你需要修改之处。
+为了得到没有问题的 3.x 代码，你应该定位到警告处。
 
-2to3 can also refactor doctests.  To enable this mode, use the :option:`-d`
-flag.  Note that *only* doctests will be refactored.  This also doesn't require
-the module to be valid Python.  For example, doctest like examples in a reST
-document could also be refactored with this option.
+2to3 还可以重构 doctests.  开启这种模式，使用 :option:`-d` 。注意 *仅仅* 
+doctests 会被重构。 这也不需要这个模块是正确的 Python 。 还有就是
+resT 文档中的 doctest 例子也可以通过这个选项重构。
 
-The :option:`-v` option enables output of more information on the translation
-process.
+:option:`-v` 选项允许你在转换的过程中，输出更多的信息。
 
-Since some print statements can be parsed as function calls or statements, 2to3
-cannot always read files containing the print function.  When 2to3 detects the
-presence of the ``from __future__ import print_function`` compiler directive, it
-modifies its internal grammar to interpret :func:`print` as a function.  This
-change can also be enabled manually with the :option:`-p` flag.  Use
-:option:`-p` to run fixers on code that already has had its print statements
-converted.
+由于某些输出语句，能够像方法调用那样解析或者是语句, 2to3 不能一直读取包含 print 方法的文件。
+当 2to3 发现有 ``from __future__ import print_function`` 编译器指令， 它会针对于解释器的改变内部的
+语法，将 :func:`print` 作为函数处理。 这种改变可以通过加上 :option:`-p` 选项手动处理。 使用
+:option:`-p` 来在代码上运行 fixers ， 这将会包含有这个 print 语句的转换。
 
-The :option:`-o` or :option:`--output-dir` option allows specification of an
-alternate directory for processed output files to be written to.  The
-:option:`-n` flag is required when using this as backup files do not make sense
-when not overwriting the input files.
+:option:`-o` 或者 :option:`--output-dir` 选项允许指定一个可选目录来写入转换处理输出的文件。
+:option:`-n` 选项用来备份文件很有必要，但在不重写输入文件的情况下，它没有意义。
 
 .. versionadded:: 3.2.3
-   The :option:`-o` option was added.
+   增加了 :option:`-o` 。
 
-The :option:`-W` or :option:`--write-unchanged-files` flag tells 2to3 to always
-write output files even if no changes were required to the file.  This is most
-useful with :option:`-o` so that an entire Python source tree is copied with
-translation from one directory to another.
-This option implies the :option:`-w` flag as it would not make sense otherwise.
+:option:`-W` 或者 :option:`--write-unchanged-files` 告诉 2to3 即使没有什么改变时也输出文件。
+这和 :option:`-o` 一起使用时非常有用，它可以将整个 Python 代码的树结构从一个目录拷贝到另外一个目录。
+相反，如果不跟上 :option:`-w` ，它没有什么实际意义。
 
 .. versionadded:: 3.2.3
-   The :option:`-W` flag was added.
+   增加 :option:`-W` 选项.
 
-The :option:`--add-suffix` option specifies a string to append to all output
-filenames.  The :option:`-n` flag is required when specifying this as backups
-are not necessary when writing to different filenames.  Example::
+:option:`--add-suffix` 选项指定一个字符串加到所有的输出文件当中。
+如果将其作为备份，这时需要用到 :option:`-n` ，如果只是写入到不同的文件名，那就没有必要::
 
    $ 2to3 -n -W --add-suffix=3 example.py
 
-Will cause a converted file named ``example.py3`` to be written.
+这会生成一个 ``example.py3`` 文件.
 
 .. versionadded:: 3.2.3
-   The :option:`--add-suffix` option was added.
+   增加 :option:`--add-suffix` 选项.
 
-To translate an entire project from one directory tree to another use::
+将整个项目从一个目录转换到另外一个目录使用::
 
    $ 2to3 --output-dir=python3-version/mycode -W -n python2-version/mycode
 
@@ -132,19 +114,19 @@ To translate an entire project from one directory tree to another use::
 Fixers
 ------
 
-Each step of transforming code is encapsulated in a fixer.  The command ``2to3
--l`` lists them.  As :ref:`documented above <2to3-using>`, each can be turned on
-and off individually.  They are described here in more detail.
+每一步的转代码都封装了一个 fixer.  命令 ``2to3
+-l`` 可以将它们列出来.  就像前面的 :ref:`documented above <2to3-using>`, 每个 fixer 都能够
+单独关闭和打开。下面是它们的详细描述。
 
 
 .. 2to3fixer:: apply
 
-   Removes usage of :func:`apply`.  For example ``apply(function, *args,
-   **kwargs)`` is converted to ``function(*args, **kwargs)``.
+   移除使用 :func:`apply`.  例如 ``apply(function, *args,
+   **kwargs)`` 转换为 ``function(*args, **kwargs)``.
 
 .. 2to3fixer:: asserts
 
-   Replaces deprecated :mod:`unittest` method names with the correct ones.
+   替换低版本的 :mod:`unittest` 方法名为正确的.
 
    ================================  ==========================================
    From                              To
@@ -177,82 +159,78 @@ and off individually.  They are described here in more detail.
 
 .. 2to3fixer:: basestring
 
-   Converts :class:`basestring` to :class:`str`.
+   转换 :class:`basestring` 为 :class:`str`.
 
 .. 2to3fixer:: buffer
 
-   Converts :class:`buffer` to :class:`memoryview`.  This fixer is optional
-   because the :class:`memoryview` API is similar but not exactly the same as
-   that of :class:`buffer`.
+   转换 :class:`buffer` 为 :class:`memoryview`.  这个 fixer 是可选的。
+   因为 :class:`memoryview` API 是与  :class:`buffer` 相似但并不完全相同。
 
 .. 2to3fixer:: callable
 
-   Converts ``callable(x)`` to ``isinstance(x, collections.Callable)``, adding
-   an import to :mod:`collections` if needed. Note ``callable(x)`` has returned
-   in Python 3.2, so if you do not intend to support Python 3.1, you can disable
-   this fixer.
+   转换 ``callable(x)`` 为 ``isinstance(x, collections.Callable)``, 如果需要增加一个
+   :mod:`collections` 导入. 注意在 Python 3.2 中 ``callable(x)`` 是有返回的,
+   因此如果你不打算支持 Python 3.1, 你可以禁用掉这个 fixer.
 
 .. 2to3fixer:: dict
 
-   Fixes dictionary iteration methods.  :meth:`dict.iteritems` is converted to
-   :meth:`dict.items`, :meth:`dict.iterkeys` to :meth:`dict.keys`, and
-   :meth:`dict.itervalues` to :meth:`dict.values`.  Similarly,
-   :meth:`dict.viewitems`, :meth:`dict.viewkeys` and :meth:`dict.viewvalues` are
-   converted respectively to :meth:`dict.items`, :meth:`dict.keys` and
-   :meth:`dict.values`.  It also wraps existing usages of :meth:`dict.items`,
-   :meth:`dict.keys`, and :meth:`dict.values` in a call to :class:`list`.
+   修复字典迭代器方法.  :meth:`dict.iteritems` 转换为
+   :meth:`dict.items`, :meth:`dict.iterkeys` 为 :meth:`dict.keys`, 
+   :meth:`dict.itervalues` 为 :meth:`dict.values`.  同理,
+   :meth:`dict.viewitems`, :meth:`dict.viewkeys` 和 :meth:`dict.viewvalues` 会分
+   别转换为 :meth:`dict.items`, :meth:`dict.keys` 和
+   :meth:`dict.values`.  它还包裹着已经存在使用的 :meth:`dict.items`,
+   :meth:`dict.keys`, 和 :meth:`dict.values` 为一个 :class:`list` 的调用方式。
 
 .. 2to3fixer:: except
-
-   Converts ``except X, T`` to ``except X as T``.
+   转换 ``except X, T`` 为 ``except X as T`` 。
 
 .. 2to3fixer:: exec
 
-   Converts the ``exec`` statement to the :func:`exec` function.
+   转换 ``exec`` 语句为 :func:`exec` 函数.
 
 .. 2to3fixer:: execfile
 
-   Removes usage of :func:`execfile`.  The argument to :func:`execfile` is
-   wrapped in calls to :func:`open`, :func:`compile`, and :func:`exec`.
+   移除使用 :func:`execfile`.  这个 :func:`execfile` 参数是包裹在
+   :func:`open`, :func:`compile`, 和 :func:`exec` 的调用中。
 
 .. 2to3fixer:: exitfunc
 
-   Changes assignment of :attr:`sys.exitfunc` to use of the :mod:`atexit`
-   module.
+   改变 :attr:`sys.exitfunc` 的赋值，使用 :mod:`atexit` 模块。
 
 .. 2to3fixer:: filter
 
-   Wraps :func:`filter` usage in a :class:`list` call.
+   包裹 :func:`filter` 使用为 :class:`list` 调用.
 
 .. 2to3fixer:: funcattrs
 
-   Fixes function attributes that have been renamed.  For example,
-   ``my_function.func_closure`` is converted to ``my_function.__closure__``.
+   修复方法属性，对其重命名。例如,
+   ``my_function.func_closure`` 转换为 ``my_function.__closure__``.
 
 .. 2to3fixer:: future
 
-   Removes ``from __future__ import new_feature`` statements.
+   移除 ``from __future__ import new_feature`` 语句.
 
 .. 2to3fixer:: getcwdu
 
-   Renames :func:`os.getcwdu` to :func:`os.getcwd`.
+   重命名 :func:`os.getcwdu` 为 :func:`os.getcwd`.
 
 .. 2to3fixer:: has_key
 
-   Changes ``dict.has_key(key)`` to ``key in dict``.
+   改变 ``dict.has_key(key)`` 为 ``key in dict``.
 
 .. 2to3fixer:: idioms
 
-   This optional fixer performs several transformations that make Python code
-   more idiomatic.  Type comparisons like ``type(x) is SomeClass`` and
-   ``type(x) == SomeClass`` are converted to ``isinstance(x, SomeClass)``.
-   ``while 1`` becomes ``while True``.  This fixer also tries to make use of
-   :func:`sorted` in appropriate places.  For example, this block ::
+   这个 fixer 选项执行多个转换，使得 Python 代码更加的地道
+   类型比较像 ``type(x) is SomeClass`` 和
+   ``type(x) == SomeClass`` 会转换为 ``isinstance(x, SomeClass)``.
+   ``while 1`` 会变成 ``while True``.  这个 fixer 还会尝试在合适的地方使用
+   :func:`sorted` .  例如, 这个模块 ::
 
        L = list(some_iterable)
        L.sort()
 
-   is changed to ::
+   会变成 ::
 
       L = sorted(some_iterable)
 

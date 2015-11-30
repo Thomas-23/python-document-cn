@@ -27,13 +27,12 @@
 
    Vector = List[float]
 
-Callable
+调用
 --------
 
-Frameworks expecting callback functions of specific signatures might be
-type hinted using ``Callable[[Arg1Type, Arg2Type], ReturnType]``.
+框架期望回调函数有指定签名，它可以是类型提示，使用如下 ``Callable[[Arg1Type, Arg2Type], ReturnType]`` 。
 
-For example::
+例如::
 
    from typing import Callable
 
@@ -44,10 +43,8 @@ For example::
                    on_error: Callable[[int, Exception], None]) -> None:
        # Body
 
-It is possible to declare the return type of a callable without specifying
-the call signature by substituting a literal ellipsis
-for the list of arguments in the type hint: ``Callable[..., ReturnType]``.
-``None`` as a type hint is a special case and is replaced by ``type(None)``.
+也可以提示回调函数返回类型，使用省略号不指定签名来作为类型提示: ``Callable[..., ReturnType]`` .
+``None`` 作为类型提示的一个特殊例子，它以 ``type(None)`` 代替。
 
 Generics
 --------

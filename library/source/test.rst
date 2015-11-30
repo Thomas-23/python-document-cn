@@ -1,4 +1,4 @@
-:mod:`test` --- Regression tests package for Python
+:mod:`test` --- Python 的回归测试包
 ===================================================
 
 .. module:: test
@@ -188,7 +188,7 @@ executing :program:`rt.bat` from your :file:`PCBuild` directory will run all
 regression tests.
 
 
-:mod:`test.support` --- Utilities for the Python test suite
+:mod:`test.support` --- 针对于 Python 测试集的工具
 ===========================================================
 
 .. module:: test.support
