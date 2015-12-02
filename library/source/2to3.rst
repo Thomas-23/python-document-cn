@@ -5,9 +5,9 @@
 
 .. sectionauthor:: Benjamin Peterson <benjamin@python.org>
 
-2to3 是一个 Python 程序， 它读取 Python 2.x 源代码，然后通过一系列的 *fixers* 
-将源代码转换为正确的 Python 3.x 代码.  标准库包含丰富的 fixers 它几乎可以处理所有的代码
-2to3 库为 :mod:`lib2to3` ，它是一个灵活通用的库， 因此它允许你给 2to3 编写自己的 fixers
+2to3 是一个 Python 程序， 它读取 Python 2.x 源代码，然后通过一系列的 *修复器* 
+将源代码转换为正确的 Python 3.x 代码.  标准库包含丰富的修复器它几乎可以处理所有的代码
+2to3 库为 :mod:`lib2to3` ，它是一个灵活通用的库， 因此它允许你给 2to3 编写自己的修复器
 :mod:`lib2to3` 还可以适配 Python 代码需要自动被编辑的一般应用程序。
 
 
@@ -49,22 +49,22 @@
 注解和额外的缩进将会在转换过程中保留。
 
 默认, 2to3 运行着预备好的 :ref:`predefined fixers <2to3-fixers>` 集合.  使用
-:option:`-l` 列出所有可用的 fixers.  运行一个显式的 fixers 集合使用 :option:`-f`.  
-相反 :option:`-x` 显式的禁止一个 fixer.  
-下面这个例子仅运行 ``imports`` 和 ``has_key`` fixers::
+:option:`-l` 列出所有可用的修复器.  运行一个显式的修复器集合使用 :option:`-f`.  
+相反 :option:`-x` 显式的禁止一个修复器.  
+下面这个例子仅运行 ``imports`` 和 ``has_key`` 修复器::
 
    $ 2to3 -f imports -f has_key example.py
 
-这个命令运行除了 ``apply`` 之外的每一个 fixer::
+这个命令运行除了 ``apply`` 之外的每一个修复器::
 
    $ 2to3 -x apply example.py
 
-某些 fixers 是 *显式的*, 意味着它们默认不会运行，必需在命令后面指明。
-下面这里，除了默认的 fixers，还运行了 ``idioms`` ::
+某些修复器是 *显式的*, 意味着它们默认不会运行，必需在命令后面指明。
+下面这里，除了默认的修复器，还运行了 ``idioms`` ::
 
    $ 2to3 -f all -f idioms example.py
 
-注意怎样传递 ``all`` 来开启所有的默认 fixers.
+注意怎样传递 ``all`` 来开启所有的默认修复器.
 
 某些时候 2to3 会在你的源代码中找到一个需要改变的地方, 但是
 2to3 无法自动修复。 在这种情况下 2to3 会在底下输出一个警告来告诉你需要修改之处。
@@ -79,7 +79,7 @@ resT 文档中的 doctest 例子也可以通过这个选项重构。
 由于某些输出语句，能够像方法调用那样解析或者是语句, 2to3 不能一直读取包含 print 方法的文件。
 当 2to3 发现有 ``from __future__ import print_function`` 编译器指令， 它会针对于解释器的改变内部的
 语法，将 :func:`print` 作为函数处理。 这种改变可以通过加上 :option:`-p` 选项手动处理。 使用
-:option:`-p` 来在代码上运行 fixers ， 这将会包含有这个 print 语句的转换。
+:option:`-p` 来在代码上运行修复器， 这将会包含有这个 print 语句的转换。
 
 :option:`-o` 或者 :option:`--output-dir` 选项允许指定一个可选目录来写入转换处理输出的文件。
 :option:`-n` 选项用来备份文件很有必要，但在不重写输入文件的情况下，它没有意义。
@@ -111,18 +111,18 @@ resT 文档中的 doctest 例子也可以通过这个选项重构。
 
 .. _2to3-fixers:
 
-Fixers
+修复器
 ------
 
-每一步的转代码都封装了一个 fixer.  命令 ``2to3
--l`` 可以将它们列出来.  就像前面的 :ref:`documented above <2to3-using>`, 每个 fixer 都能够
+每一步的转代码都封装了一个修复器.  命令 ``2to3 -l`` 
+可以将它们列出来.  就像前面的 :ref:`documented above <2to3-using>`, 每个修复器都能够
 单独关闭和打开。下面是它们的详细描述。
 
 
 .. 2to3fixer:: apply
 
-   移除使用 :func:`apply`.  例如 ``apply(function, *args,
-   **kwargs)`` 转换为 ``function(*args, **kwargs)``.
+   移除使用 :func:`apply`.  例如 ``apply(function, *args, **kwargs)`` 
+   转换为 ``function(*args, **kwargs)``.
 
 .. 2to3fixer:: asserts
 
@@ -163,14 +163,14 @@ Fixers
 
 .. 2to3fixer:: buffer
 
-   转换 :class:`buffer` 为 :class:`memoryview`.  这个 fixer 是可选的。
+   转换 :class:`buffer` 为 :class:`memoryview`.  这个修复器是可选的。
    因为 :class:`memoryview` API 是与  :class:`buffer` 相似但并不完全相同。
 
 .. 2to3fixer:: callable
 
    转换 ``callable(x)`` 为 ``isinstance(x, collections.Callable)``, 如果需要增加一个
    :mod:`collections` 导入. 注意在 Python 3.2 中 ``callable(x)`` 是有返回的,
-   因此如果你不打算支持 Python 3.1, 你可以禁用掉这个 fixer.
+   因此如果你不打算支持 Python 3.1, 你可以禁用掉这个修复器.
 
 .. 2to3fixer:: dict
 
@@ -183,6 +183,7 @@ Fixers
    :meth:`dict.keys`, 和 :meth:`dict.values` 为一个 :class:`list` 的调用方式。
 
 .. 2to3fixer:: except
+
    转换 ``except X, T`` 为 ``except X as T`` 。
 
 .. 2to3fixer:: exec
@@ -221,10 +222,10 @@ Fixers
 
 .. 2to3fixer:: idioms
 
-   这个 fixer 选项执行多个转换，使得 Python 代码更加的地道
+   这个修复器选项执行多个转换，使得 Python 代码更加的地道
    类型比较像 ``type(x) is SomeClass`` 和
    ``type(x) == SomeClass`` 会转换为 ``isinstance(x, SomeClass)``.
-   ``while 1`` 会变成 ``while True``.  这个 fixer 还会尝试在合适的地方使用
+   ``while 1`` 会变成 ``while True``.  这个修复器还会尝试在合适的地方使用
    :func:`sorted` .  例如, 这个模块 ::
 
        L = list(some_iterable)
@@ -236,87 +237,85 @@ Fixers
 
 .. 2to3fixer:: import
 
-   Detects sibling imports and converts them to relative imports.
+   发现兄弟姐妹导入然后将它们转换为相对导入.
 
 .. 2to3fixer:: imports
 
-   Handles module renames in the standard library.
+   在标准库中处理模块重命名.
 
 .. 2to3fixer:: imports2
 
-   Handles other modules renames in the standard library.  It is separate from
-   the :2to3fixer:`imports` fixer only because of technical limitations.
+   在标准库中处理其他模块的命名。它是从
+   :2to3fixer:`imports` 分离出来的修复器， 是由于技术上的限制。
 
 .. 2to3fixer:: input
 
-   Converts ``input(prompt)`` to ``eval(input(prompt))``
+   转换 ``input(prompt)`` 为 ``eval(input(prompt))``
 
 .. 2to3fixer:: intern
 
-   Converts :func:`intern` to :func:`sys.intern`.
+   转换 :func:`intern` 为 :func:`sys.intern`.
 
 .. 2to3fixer:: isinstance
 
-   Fixes duplicate types in the second argument of :func:`isinstance`.  For
-   example, ``isinstance(x, (int, int))`` is converted to ``isinstance(x,
+   在 :func:`isinstance` 的第二个参数上修复重复类型.  例如
+   , ``isinstance(x, (int, int))`` 会转化为 ``isinstance(x,
    (int))``.
 
 .. 2to3fixer:: itertools_imports
 
-   Removes imports of :func:`itertools.ifilter`, :func:`itertools.izip`, and
-   :func:`itertools.imap`.  Imports of :func:`itertools.ifilterfalse` are also
-   changed to :func:`itertools.filterfalse`.
+   移除 :func:`itertools.ifilter`, :func:`itertools.izip`, 和
+   :func:`itertools.imap` 导入.   :func:`itertools.ifilterfalse` 的导入变为
+   :func:`itertools.filterfalse`.
 
 .. 2to3fixer:: itertools
 
-   Changes usage of :func:`itertools.ifilter`, :func:`itertools.izip`, and
-   :func:`itertools.imap` to their built-in equivalents.
-   :func:`itertools.ifilterfalse` is changed to :func:`itertools.filterfalse`.
+   改变使用 :func:`itertools.ifilter`, :func:`itertools.izip`, and
+   :func:`itertools.imap` 为它们相等的内置方法.
+   :func:`itertools.ifilterfalse` 改变为 :func:`itertools.filterfalse`.
 
 .. 2to3fixer:: long
 
-   Renames :class:`long` to :class:`int`.
+   重命名 :class:`long` 为 :class:`int`.
 
 .. 2to3fixer:: map
 
-   Wraps :func:`map` in a :class:`list` call.  It also changes ``map(None, x)``
-   to ``list(x)``.  Using ``from future_builtins import map`` disables this
-   fixer.
+   包裹 :func:`map` 到一个 :class:`list` 调用.  它也改变 ``map(None, x)``
+   为 ``list(x)``.  使用 ``from future_builtins import map`` 来禁用这个
+   修复器.
 
 .. 2to3fixer:: metaclass
 
-   Converts the old metaclass syntax (``__metaclass__ = Meta`` in the class
-   body) to the new (``class X(metaclass=Meta)``).
+   转换老的 metaclass 语法 ( 在类体里面的 ``__metaclass__ = Meta`` in the class ) 
+   为新的 (``class X(metaclass=Meta)``).
 
 .. 2to3fixer:: methodattrs
 
-   Fixes old method attribute names.  For example, ``meth.im_func`` is converted
-   to ``meth.__func__``.
+   修复老的方法属性名字。例如 ``meth.im_func`` 转换为 ``meth.__func__``.
 
 .. 2to3fixer:: ne
 
-   Converts the old not-equal syntax, ``<>``, to ``!=``.
+   转换老的不相等的语法, ``<>``, 为 ``!=``.
 
 .. 2to3fixer:: next
 
-   Converts the use of iterator's :meth:`~iterator.next` methods to the
-   :func:`next` function.  It also renames :meth:`next` methods to
+   转换使用迭代器中的 :meth:`~iterator.next` 方法为
+   :func:`next` 函数.  并重命名 :meth:`next` 方法为
    :meth:`~iterator.__next__`.
 
 .. 2to3fixer:: nonzero
 
-   Renames :meth:`__nonzero__` to :meth:`~object.__bool__`.
+   重命名 :meth:`__nonzero__` 为 :meth:`~object.__bool__`.
 
 .. 2to3fixer:: numliterals
 
-   Converts octal literals into the new syntax.
+   转换八进制常量为新的语法.
 
 .. 2to3fixer:: operator
 
-   Converts calls to various functions in the :mod:`operator` module to other,
-   but equivalent, function calls.  When needed, the appropriate ``import``
-   statements are added, e.g. ``import collections``.  The following mapping
-   are made:
+   在 :mod:`operator` 模块中转换调用不同的函数为其他相对的函数调用，
+   如果需要, 正确的 ``import``
+   statements 会被加上, 如. ``import collections``.  会做下面这些映射:
 
    ==================================  ==========================================
    From                                To
@@ -332,97 +331,90 @@ Fixers
 
 .. 2to3fixer:: paren
 
-   Add extra parenthesis where they are required in list comprehensions.  For
-   example, ``[x for x in 1, 2]`` becomes ``[x for x in (1, 2)]``.
+   在列表解析中在需要的地方. 例如 ``[x for x in 1, 2]`` 变为 ``[x for x in (1, 2)]``.
 
 .. 2to3fixer:: print
 
-   Converts the ``print`` statement to the :func:`print` function.
+   转换 ``print`` 语句为 :func:`print` 函数.
 
 .. 2to3fixer:: raise
 
-   Converts ``raise E, V`` to ``raise E(V)``, and ``raise E, V, T`` to ``raise
-   E(V).with_traceback(T)``.  If ``E`` is a tuple, the translation will be
-   incorrect because substituting tuples for exceptions has been removed in 3.0.
+   转换``raise E, V`` 为 ``raise E(V)``, 和 ``raise E, V, T`` 为 ``raise
+   E(V).with_traceback(T)``.  如果 ``E`` 是一个元组, 转换将不正确，
+   因为对于异常的替代元组已经在3.0中移除.
 
 .. 2to3fixer:: raw_input
 
-   Converts :func:`raw_input` to :func:`input`.
+   转换 :func:`raw_input` 为 :func:`input`.
 
 .. 2to3fixer:: reduce
 
-   Handles the move of :func:`reduce` to :func:`functools.reduce`.
+   处理移动 :func:`reduce` 为 :func:`functools.reduce`.
 
 .. 2to3fixer:: reload
 
-   Converts :func:`reload` to :func:`imp.reload`.
+   转换 :func:`reload` 为 :func:`imp.reload`.
 
 .. 2to3fixer:: renames
 
-   Changes :data:`sys.maxint` to :data:`sys.maxsize`.
+   改变 :data:`sys.maxint` 为 :data:`sys.maxsize`.
 
 .. 2to3fixer:: repr
 
-   Replaces backtick repr with the :func:`repr` function.
+   转换那些 repr 为 :func:`repr` 函数.
 
 .. 2to3fixer:: set_literal
 
-   Replaces use of the :class:`set` constructor with set literals.  This fixer
-   is optional.
+   替换使用 :class:`set` 构造器为集合常量.  这个修复器可选.
 
 .. 2to3fixer:: standarderror
 
-   Renames :exc:`StandardError` to :exc:`Exception`.
+   重命名 :exc:`StandardError` 为 :exc:`Exception`.
 
 .. 2to3fixer:: sys_exc
 
-   Changes the deprecated :data:`sys.exc_value`, :data:`sys.exc_type`,
-   :data:`sys.exc_traceback` to use :func:`sys.exc_info`.
+   改变即将去除的 :data:`sys.exc_value`, :data:`sys.exc_type`,
+   :data:`sys.exc_traceback` 为使用 :func:`sys.exc_info`.
 
 .. 2to3fixer:: throw
 
-   Fixes the API change in generator's :meth:`throw` method.
+   修复在生成器中的 :meth:`throw` 方法改变的 API .
 
 .. 2to3fixer:: tuple_params
 
-   Removes implicit tuple parameter unpacking.  This fixer inserts temporary
-   variables.
+   移除隐示的元组参数解包.  这个修复器插入了零时变量.
 
 .. 2to3fixer:: types
 
-   Fixes code broken from the removal of some members in the :mod:`types`
-   module.
+   修复从移除了一些成员的 :mod:`types` 模块的错误代码.
 
 .. 2to3fixer:: unicode
 
-   Renames :class:`unicode` to :class:`str`.
+   重命名 :class:`unicode` 为 :class:`str`.
 
 .. 2to3fixer:: urllib
 
-   Handles the rename of :mod:`urllib` and :mod:`urllib2` to the :mod:`urllib`
-   package.
+   处理重命名 :mod:`urllib` 和 :mod:`urllib2` 为 :mod:`urllib` 包。
 
 .. 2to3fixer:: ws_comma
 
-   Removes excess whitespace from comma separated items.  This fixer is
-   optional.
+   移除来自逗号分割选项的多余空格.  这个修复器可选.
 
 .. 2to3fixer:: xrange
 
-   Renames :func:`xrange` to :func:`range` and wraps existing :func:`range`
-   calls with :class:`list`.
+   重命名 :func:`xrange` 为 :func:`range` 并且包裹已存在的 :func:`range` 调用为 :class:`list`.
 
 .. 2to3fixer:: xreadlines
 
-   Changes ``for x in file.xreadlines()`` to ``for x in file``.
+   改变 ``for x in file.xreadlines()`` 为 ``for x in file``.
 
 .. 2to3fixer:: zip
 
-   Wraps :func:`zip` usage in a :class:`list` call.  This is disabled when
-   ``from future_builtins import zip`` appears.
+   报告 :func:`zip` 使用为一个 :class:`list` 调用.  当
+   ``from future_builtins import zip`` 出现时，这个修复器会被禁用.
 
 
-:mod:`lib2to3` - 2to3's library
+:mod:`lib2to3` - 2to3 的库
 -------------------------------
 
 .. module:: lib2to3
@@ -434,7 +426,6 @@ Fixers
 
 .. note::
 
-   The :mod:`lib2to3` API should be considered unstable and may change
-   drastically in the future.
+   应该考虑到 :mod:`lib2to3` API 是不稳定的并且在未来是会有大大改动的.
 
-.. XXX What is the public interface anyway?
+.. XXX 什么是公共的接口?
