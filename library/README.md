@@ -15,6 +15,8 @@ pydoc [%100]
 
 2to3 [%100]
 
+logging [%30]
+
 unittest [%30]
 
 unittest.mock [%10]
