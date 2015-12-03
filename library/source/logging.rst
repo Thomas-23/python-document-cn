@@ -1,4 +1,4 @@
-:mod:`logging` --- Logging facility for Python
+:mod:`logging` --- Python 日志工具
 ==============================================
 
 .. module:: logging
@@ -11,10 +11,9 @@
 
 .. index:: pair: Errors; logging
 
-.. sidebar:: Important
+.. sidebar:: 重要
 
-   This page contains the API reference information. For tutorial
-   information and discussion of more advanced topics, see
+   这个页面包含 API 参考信息. 对于入门教程和更高级的讨论， 请看
 
    * :ref:`Basic Tutorial <logging-basic-tutorial>`
    * :ref:`Advanced Tutorial <logging-advanced-tutorial>`
@@ -25,171 +24,138 @@
 
 --------------
 
-This module defines functions and classes which implement a flexible event
-logging system for applications and libraries.
+这个模块定义函数和类，实现了一个用于应用程序和库的灵活的事件日志系统.
 
-The key benefit of having the logging API provided by a standard library module
-is that all Python modules can participate in logging, so your application log
-can include your own messages integrated with messages from third-party
-modules.
+标准库模块体提供的 日志 API 的关键作用是所有的 Python 模块都能加入到日志中来, 
+因此你的应用程序日志能够包含你自己的信息，这些信息集合了来自第三方模块的信息.
 
-The module provides a lot of functionality and flexibility.  If you are
-unfamiliar with logging, the best way to get to grips with it is to see the
-tutorials (see the links on the right).
+这个模块提供很多功能和灵活性。如果你不熟悉使用日志，最好的办法是通过入门教程
+掌握它（查看右边的链接）.
 
-The basic classes defined by the module, together with their functions, are
-listed below.
+模块定义的基本类，包括它们的方法，列出如下.
 
-* Loggers expose the interface that application code directly uses.
-* Handlers send the log records (created by loggers) to the appropriate
-  destination.
-* Filters provide a finer grained facility for determining which log records
-  to output.
-* Formatters specify the layout of log records in the final output.
+* Loggers 暴露出接口以供应用程序代码直接使用.
+* Handlers 发送由 loggers 创建的日志记录到达正确的目的地.
+* Filters 提供了一个出色条理的工具由于决定具体哪些日志记录被输出.
+* Formatters 指定最终输出的日志记录格式.
 
 
 .. _logger:
 
-Logger Objects
+日志对象
 --------------
 
-Loggers have the following attributes and methods.  Note that Loggers are never
-instantiated directly, but always through the module-level function
-``logging.getLogger(name)``.  Multiple calls to :func:`getLogger` with the same
-name will always return a reference to the same Logger object.
+Loggers 有以下属性和方法。注意 Loggers 从不直接实例化， 通常通过模块级别的方法
+``logging.getLogger(name)`` 来实例化.  多次调用同一个名字的 :func:`getLogger` 
+将会返回同一个日志对象。
 
-The ``name`` is potentially a period-separated hierarchical value, like
-``foo.bar.baz`` (though it could also be just plain ``foo``, for example).
-Loggers that are further down in the hierarchical list are children of loggers
-higher up in the list.  For example, given a logger with a name of ``foo``,
-loggers with names of ``foo.bar``, ``foo.bar.baz``, and ``foo.bam`` are all
-descendants of ``foo``.  The logger name hierarchy is analogous to the Python
-package hierarchy, and identical to it if you organise your loggers on a
-per-module basis using the recommended construction
-``logging.getLogger(__name__)``.  That's because in a module, ``__name__``
-is the module's name in the Python package namespace.
+``name`` 是潜在的一个间隔分割有层次的值，例如
+``foo.bar.baz`` (虽然它也可以是仅仅很清晰的,例如 ``foo`` ).
+Loggers 是在一个层次列表上逐层下降的，这些日志对象视为更高层的子日志对象.  
+例如，给定一个 logger 的名字为 ``foo``,
+loggers 的名字为 ``foo.bar``, ``foo.bar.baz``, 和 ``foo.bam`` 它们都是
+``foo`` 的后代.  logger 名次层次关系类似于 Python 包的层次关系，
+如果你组织你的 loggers 在每个模块中使用推荐的构造方式 ``logging.getLogger(__name__)`` ，
+它们会完全相同, 那是因为在一个模块中 ``__name__`` 就是 Python 包命名空间中模块名字。
 
 
 .. class:: Logger
 
 .. attribute:: Logger.propagate
 
-   If this evaluates to true, events logged to this logger will be passed to the
-   handlers of higher level (ancestor) loggers, in addition to any handlers
-   attached to this logger. Messages are passed directly to the ancestor
-   loggers' handlers - neither the level nor filters of the ancestor loggers in
-   question are considered.
+   如果这个取值为真, 对于这个日志对象的事件记录将会传递给更高级别的（父集别的）
+   日志对象的处理器, 增加任何处理器都会附加到这个日志对象. 
+   消息直接传递到父集的日志处理器 - 无论父集日志对象的级别还是过滤器的问题都考虑在内.
 
-   If this evaluates to false, logging messages are not passed to the handlers
-   of ancestor loggers.
+   如果取值为假，日志消息不会传递给父集的日志对象的处理器.
 
-   The constructor sets this attribute to ``True``.
+   构造器设置这个属性为 ``True``.
 
-   .. note:: If you attach a handler to a logger *and* one or more of its
-      ancestors, it may emit the same record multiple times. In general, you
-      should not need to attach a handler to more than one logger - if you just
-      attach it to the appropriate logger which is highest in the logger
-      hierarchy, then it will see all events logged by all descendant loggers,
-      provided that their propagate setting is left set to ``True``. A common
-      scenario is to attach handlers only to the root logger, and to let
-      propagation take care of the rest.
+   .. note:: 如果你附加了一个处理器到一个日志对象和它有一个或多个父集，
+      它可能会发送同一个记录多次。通常来说， 你不应该附加一个处理器到超过一个
+      日志对象  - 如果你仅仅附件它到合适的日志对象，即它是在日志的最高层次上, 
+      那么它将会通过全部的子孙日志对象观察所有的事件记录， 以供它们传播设置将其余的
+      设置为 ``True``.  一个常用的场景是附件处理器给根日志对象，然后让其传播，以留意剩下的.
 
 .. method:: Logger.setLevel(lvl)
 
-   Sets the threshold for this logger to *lvl*. Logging messages which are less
-   severe than *lvl* will be ignored. When a logger is created, the level is set to
-   :const:`NOTSET` (which causes all messages to be processed when the logger is
-   the root logger, or delegation to the parent when the logger is a non-root
-   logger). Note that the root logger is created with level :const:`WARNING`.
+   对 logger 的 *lvl* 设置一个阈值。 记录的消息严重程度低于 *lvl* 会被忽略。
+   如果一个 logger 被创建，级别设置为
+   :const:`NOTSET` (当 logger 是根 logger时，将导致所有的消息都被处理, 如果 logger 是一个父类但不是
+   根，那么会委托给父类). 注意，根 logger 是以级别 :const:`WARNING` 创建的.
 
-   The term 'delegation to the parent' means that if a logger has a level of
-   NOTSET, its chain of ancestor loggers is traversed until either an ancestor with
-   a level other than NOTSET is found, or the root is reached.
+   术语 '委托给父类' 意味着如果一个 logger 有一个 NOTSET 级别， 它会贯穿整个父集 loggers 直到找到一个
+   祖先类不是 NOTSET 为止，否则将使用 root.
 
-   If an ancestor is found with a level other than NOTSET, then that ancestor's
-   level is treated as the effective level of the logger where the ancestor search
-   began, and is used to determine how a logging event is handled.
+   如果一个祖先类的级别不是 NOTSET, 那么从这个祖先类搜索开始地方，祖先类的级别将视为有效的 logger 级别, 
+   然后使用它来决定一个日志事件的处理。
 
-   If the root is reached, and it has a level of NOTSET, then all messages will be
-   processed. Otherwise, the root's level will be used as the effective level.
+   如果到达了根，还是只有 NOTSET, 那么所有的消息将会被处理.
+   否则，根的级别将会作为有效级别.
 
-   See :ref:`levels` for a list of levels.
+   请查看级别列表 :ref:`levels` .
 
    .. versionchanged:: 3.2
-      The *lvl* parameter now accepts a string representation of the
-      level such as 'INFO' as an alternative to the integer constants
-      such as :const:`INFO`. Note, however, that levels are internally stored
-      as integers, and methods such as e.g. :meth:`getEffectiveLevel` and
-      :meth:`isEnabledFor` will return/expect to be passed integers.
+      *lvl* 参数现在可以接收一个字符串描述的级别，例如 'INFO' 可以作为整数常数  :const:`INFO` 的替代
+      注意，注意，不管怎样， 级别的内部存储还是整数，并且例如 :meth:`getEffectiveLevel` 和
+      :meth:`isEnabledFor` 这样的方法，将会返回或期望传递的是整数.
 
 
 .. method:: Logger.isEnabledFor(lvl)
 
-   Indicates if a message of severity *lvl* would be processed by this logger.
-   This method checks first the module-level level set by
-   ``logging.disable(lvl)`` and then the logger's effective level as determined
-   by :meth:`getEffectiveLevel`.
+   指示是否一个消息的严重程度 *lvl* 将会被这个 logger 处理。
+   这个方法通过 ``logging.disable(lvl)`` 检查的首先是模块级别的日志级别
+   然后通过 :meth:`getEffectiveLevel` 来决定这个模块的有效日志级别。
 
 
 .. method:: Logger.getEffectiveLevel()
 
-   Indicates the effective level for this logger. If a value other than
-   :const:`NOTSET` has been set using :meth:`setLevel`, it is returned. Otherwise,
-   the hierarchy is traversed towards the root until a value other than
-   :const:`NOTSET` is found, and that value is returned. The value returned is
-   an integer, typically one of :const:`logging.DEBUG`, :const:`logging.INFO`
-   etc.
+   指示这个 logger 的有效级别。如果已经通过 :meth:`setLevel` 设置了一个非
+   :const:`NOTSET` 的级别, 它将被返回。否则贯穿整个日志层次直到根日志找到一个
+   非 :const:`NOTSET` 值进行返回。返回的值是一个整数，通常为一个 
+   :const:`logging.DEBUG` , :const:`logging.INFO` , 等
 
 
 .. method:: Logger.getChild(suffix)
 
-   Returns a logger which is a descendant to this logger, as determined by the suffix.
-   Thus, ``logging.getLogger('abc').getChild('def.ghi')`` would return the same
-   logger as would be returned by ``logging.getLogger('abc.def.ghi')``. This is a
-   convenience method, useful when the parent logger is named using e.g. ``__name__``
-   rather than a literal string.
-
+   返回当前日志的子孙集日志, 它们通过 suffix 决定。
+   像这样, ``logging.getLogger('abc').getChild('def.ghi')`` 将会返回与
+   ``logging.getLogger('abc.def.ghi')`` 相同的日志. 当父类日志的名字使用的是
+   ``__name__`` 而不是一个单纯的字符串时，这是一个便捷的方法而且很有用。
+    
    .. versionadded:: 3.2
 
 
 .. method:: Logger.debug(msg, *args, **kwargs)
 
-   Logs a message with level :const:`DEBUG` on this logger. The *msg* is the
-   message format string, and the *args* are the arguments which are merged into
-   *msg* using the string formatting operator. (Note that this means that you can
-   use keywords in the format string, together with a single dictionary argument.)
+   在这个 logger 上记录消息的级别为 :const:`DEBUG` . 这个 *msg* 是一个消息格式化字符串
+   参数 *args* 会使用字符串格式化操作符合并成 *msg* 。（注意这表示你可以在格式化字符串中
+   使用关键字，可以结合一个单独的字典参数.)
 
-   There are three keyword arguments in *kwargs* which are inspected:
-   *exc_info*, *stack_info*, and *extra*.
+   在 *kwargs* 有三个关键字参数用于检查:
+   *exc_info*, *stack_info*, 和 *extra*.
 
-   If *exc_info* does not evaluate as false, it causes exception information to be
-   added to the logging message. If an exception tuple (in the format returned by
-   :func:`sys.exc_info`) or an exception instance is provided, it is used;
-   otherwise, :func:`sys.exc_info` is called to get the exception information.
+   如果 *exc_info* 没有赋值为假，它会触发异常信息添加到日志消息中. 
+   可以是一个异常元组（在格式化中由
+   :func:`sys.exc_info` 返回)或者提供一个异常实例，供它使用，否则
+   :func:`sys.exc_info` 被调用时获得异常信息。
 
-   The second optional keyword argument is *stack_info*, which defaults to
-   ``False``. If true, stack information is added to the logging
-   message, including the actual logging call. Note that this is not the same
-   stack information as that displayed through specifying *exc_info*: The
-   former is stack frames from the bottom of the stack up to the logging call
-   in the current thread, whereas the latter is information about stack frames
-   which have been unwound, following an exception, while searching for
-   exception handlers.
+   第二个可选参数是 *stack_info*, 默认为
+   ``False``. 如果为真，堆栈信息将会加到日志信息中，包含实际的日志调用。注意它不同
+   于通过指定的  *exc_info* 的堆栈信息: 这个格式化器是一个堆栈框架，
+   在当前线程中是从栈的底部往上进行日志调用, 而后一个是关于堆栈框架的，当搜索异常处理器时
+   它已经解开，后面跟着一个异常.
 
-   You can specify *stack_info* independently of *exc_info*, e.g. to just show
-   how you got to a certain point in your code, even when no exceptions were
-   raised. The stack frames are printed following a header line which says::
+   你可以独立于  *exc_info* 指定 *stack_info* ,例如仅仅演示怎样在你的代码中获得一个点
+   即使没有异常抛出。 堆栈框架会打印出下面的一个头部行，如下::
 
        Stack (most recent call last):
 
-   This mimics the ``Traceback (most recent call last):`` which is used when
-   displaying exception frames.
+   这是模仿 ``Traceback (most recent call last):`` 它用于显示异常框架.
 
-   The third keyword argument is *extra* which can be used to pass a
-   dictionary which is used to populate the __dict__ of the LogRecord created for
-   the logging event with user-defined attributes. These custom attributes can then
-   be used as you like. For example, they could be incorporated into logged
-   messages. For example::
+   第三个关键字参数时候 *extra* ,它用于使用用户定义的属性，传递一个字典生成
+   LogRecord 的 __dict__ 来创建日志事件. 这些自定义的属性能够在后续使用，例如, 
+   它们能够被纳入日志消息中，例子::
 
       FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
       logging.basicConfig(format=FORMAT)
@@ -197,146 +163,125 @@ is the module's name in the Python package namespace.
       logger = logging.getLogger('tcpserver')
       logger.warning('Protocol problem: %s', 'connection reset', extra=d)
 
-   would print something like  ::
+   能够输出像下面这样的信息  ::
 
       2006-02-08 22:20:02,165 192.168.0.1 fbloggs  Protocol problem: connection reset
 
-   The keys in the dictionary passed in *extra* should not clash with the keys used
-   by the logging system. (See the :class:`Formatter` documentation for more
-   information on which keys are used by the logging system.)
+   字典中的键传递到 *extra* 中，不能与日志系统产生冲突。 (关于日志系统使用的键，
+   详情请看 :class:`Formatter` 文档.)
 
-   If you choose to use these attributes in logged messages, you need to exercise
-   some care. In the above example, for instance, the :class:`Formatter` has been
-   set up with a format string which expects 'clientip' and 'user' in the attribute
-   dictionary of the LogRecord. If these are missing, the message will not be
-   logged because a string formatting exception will occur. So in this case, you
-   always need to pass the *extra* dictionary with these keys.
+   如果你选择在日志消息中使用这些属性，你应该多加练习。在上面的例子中，
+   比如 :class:`Formatter` 已经设置了一个格式化字符串，期望 'clientip' ， 'user' 
+   属性在 LogRecord 属性当中. 如果它们缺失，消息将不会记录，因为会出现一个格式化
+   字符串异常。因此在这种情况下，你必需每次都给字典 *extra* 传递这些键.
 
-   While this might be annoying, this feature is intended for use in specialized
-   circumstances, such as multi-threaded servers where the same code executes in
-   many contexts, and interesting conditions which arise are dependent on this
-   context (such as remote client IP address and authenticated user name, in the
-   above example). In such circumstances, it is likely that specialized
-   :class:`Formatter`\ s would be used with particular :class:`Handler`\ s.
+   这样做很烦人，这个功能的目的是用于特殊的情况下的，例如多线程严重级别，同一段代码运行
+   在多个上下文中，并且与之相关的条件也依赖与这个上下文(例如，上面例子中的远程客户端 ip 
+   地址和认证的用户名字)，这种情况下，它就可以像指定 :class:`Formatter` 一样
+   使用特别的 :class:`Handler` 。
 
    .. versionadded:: 3.2
-      The *stack_info* parameter was added.
+      增加 *stack_info* 参数.
 
    .. versionchanged:: 3.5
-      The *exc_info* parameter can now accept exception instances.
+      参数 *exc_info* 现在可以接受异常实例.
 
 
 .. method:: Logger.info(msg, *args, **kwargs)
 
-   Logs a message with level :const:`INFO` on this logger. The arguments are
-   interpreted as for :meth:`debug`.
+   在这个 logger 上面记录消息的级别为 :const:`INFO` . 这些参数的解释同 :meth:`debug`.
 
 
 .. method:: Logger.warning(msg, *args, **kwargs)
 
-   Logs a message with level :const:`WARNING` on this logger. The arguments are
-   interpreted as for :meth:`debug`.
+   在这个 logger 上面记录消息的级别为 :const:`WARNING` . 这些参数的解释同 :meth:`debug`.
 
-   .. note:: There is an obsolete method ``warn`` which is functionally
-      identical to ``warning``. As ``warn`` is deprecated, please do not use
-      it - use ``warning`` instead.
+   .. note:: 有一个过时的方法 ``warn`` , 它是与 ``warning`` 功能相当的. 由于 ``warn`` 
+      已经弃用, 请不要使用它 - 使用 ``warning`` 代替.
 
 .. method:: Logger.error(msg, *args, **kwargs)
 
-   Logs a message with level :const:`ERROR` on this logger. The arguments are
-   interpreted as for :meth:`debug`.
+   在这个 logger 上面记录消息的级别为 :const:`ERROR` . 这些参数的解释同 :meth:`debug`.
 
 
 .. method:: Logger.critical(msg, *args, **kwargs)
 
-   Logs a message with level :const:`CRITICAL` on this logger. The arguments are
-   interpreted as for :meth:`debug`.
+   在这个 logger 上面记录消息的级别为 :const:`CRITICAL` . 这些参数的解释同 :meth:`debug`.
 
 
 .. method:: Logger.log(lvl, msg, *args, **kwargs)
 
-   Logs a message with integer level *lvl* on this logger. The other arguments are
-   interpreted as for :meth:`debug`.
+   在这个 logger 上面使用一个整数作为消息级别. 其他参数的解释同 :meth:`debug`.
 
 
 .. method:: Logger.exception(msg, *args, **kwargs)
 
-   Logs a message with level :const:`ERROR` on this logger. The arguments are
-   interpreted as for :meth:`debug`. Exception info is added to the logging
-   message. This method should only be called from an exception handler.
+   在这个 logger 上面记录消息的级别为 :const:`ERROR` . 这些参数的解释同 :meth:`debug`. 
+   异常信息将会被加到日志信息中。这个方法应该只能被一个异常处理器调用.
 
 
 .. method:: Logger.addFilter(filt)
 
-   Adds the specified filter *filt* to this logger.
+   给这个 logger 增加一个指定的过滤器 *filt* .
 
 
 .. method:: Logger.removeFilter(filt)
 
-   Removes the specified filter *filt* from this logger.
+   在这个 logger 上 移除一个指定的过滤器 *filt* .
 
 
 .. method:: Logger.filter(record)
 
-   Applies this logger's filters to the record and returns a true value if the
-   record is to be processed. The filters are consulted in turn, until one of
-   them returns a false value. If none of them return a false value, the record
-   will be processed (passed to handlers). If one returns a false value, no
-   further processing of the record occurs.
+   在记录上使用这个 logger 的过滤器，并且如果这个记录被处理了返回一个真值. 
+   过滤器是依次进行的，直到有一个返回假值。 如果它们都没有返回假值，这个记录会传递给
+   处理器处理， 如果出现了返回假值，后面就没有别的操作了。
 
 
 .. method:: Logger.addHandler(hdlr)
 
-   Adds the specified handler *hdlr* to this logger.
+   在这个 logger 上面增加一个指定的处理器 *hdlr* .
 
 
 .. method:: Logger.removeHandler(hdlr)
 
-   Removes the specified handler *hdlr* from this logger.
+   移除这个 logger 上指定的处理器 *hdlr* 。
 
 
 .. method:: Logger.findCaller(stack_info=False)
 
-   Finds the caller's source filename and line number. Returns the filename, line
-   number, function name and stack information as a 4-element tuple. The stack
-   information is returned as *None* unless *stack_info* is *True*.
+   找到调用者源文件的文件名和行号。返回文件名，行号
+   函数名字和堆栈信息，是一个4个元素的元组。除非设置 *stack_info* 
+   为 *True* 否则堆栈信息返回为  *None* .
 
 
 .. method:: Logger.handle(record)
 
-   Handles a record by passing it to all handlers associated with this logger and
-   its ancestors (until a false value of *propagate* is found). This method is used
-   for unpickled records received from a socket, as well as those created locally.
-   Logger-level filtering is applied using :meth:`~Logger.filter`.
+   通过传递一条记录到所有与之关联的 logger 和 它的父集来进行处理。（直到发现 一个
+   *propagate* 假值).这个方法用于从一个套接字接收到 unpickled 记录， 它们同样在本地创建
+    :meth:`~Logger.filter` 应用于日志级别过滤。
 
 
 .. method:: Logger.makeRecord(name, lvl, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None)
 
-   This is a factory method which can be overridden in subclasses to create
-   specialized :class:`LogRecord` instances.
+   这是一个工厂方法，可以在子类中重写，来创建一个指定的 :class:`LogRecord` 实例.
 
 .. method:: Logger.hasHandlers()
 
-   Checks to see if this logger has any handlers configured. This is done by
-   looking for handlers in this logger and its parents in the logger hierarchy.
-   Returns ``True`` if a handler was found, else ``False``. The method stops searching
-   up the hierarchy whenever a logger with the 'propagate' attribute set to
-   False is found - that will be the last logger which is checked for the
-   existence of handlers.
+   检查这个  logger 有配置和好的处理器。它会去找自身和 logger 层次父类中处理器.
+   如果发现一个处理器返回 ``True`` , 否则返回 ``False``. 如果  'propagate'  属性设置为
+   假，这个方法会停止搜索 logger 上面的层次。 - 那么这将是最后一个检查是否存在处理器的 Logger.
 
    .. versionadded:: 3.2
 
 
 .. _levels:
 
-Logging Levels
+日志级别
 --------------
 
-The numeric values of logging levels are given in the following table. These are
-primarily of interest if you want to define your own levels, and need them to
-have specific values relative to the predefined levels. If you define a level
-with the same numeric value, it overwrites the predefined value; the predefined
-name is lost.
+日志级别的数字值见下表. 如果你想定义自己的级别，将对它们会有兴趣,
+并且需要指定一个与预先设置好的级别一个不同的值。如果你定了一个相同的数字值，它
+会重写预先设置好的值；这样预先设置好的值就丢失了.
 
 +--------------+---------------+
 | Level        | Numeric value |
@@ -357,36 +302,34 @@ name is lost.
 
 .. _handler:
 
-Handler Objects
+处理器对象
 ---------------
 
-Handlers have the following attributes and methods. Note that :class:`Handler`
-is never instantiated directly; this class acts as a base for more useful
-subclasses. However, the :meth:`__init__` method in subclasses needs to call
-:meth:`Handler.__init__`.
+处理器对象有下面一些属性和方法。注意 :class:`Handler` 从来不直接进行实例化; 
+这个类将作为子类的一个基础类存在。不论如何，在你子类的 :meth:`__init__` 
+方法中需要调用 :meth:`Handler.__init__`.
 
 
 .. method:: Handler.__init__(level=NOTSET)
 
-   Initializes the :class:`Handler` instance by setting its level, setting the list
-   of filters to the empty list and creating a lock (using :meth:`createLock`) for
-   serializing access to an I/O mechanism.
+   通过设置一个级别初始化一个 :class:`Handler` 实例, 设置一系列的过滤到空列表中并且
+   使用 :meth:`createLock` 创建
+   一个锁来序列化访问一个 I/O 机制.
 
 
 .. method:: Handler.createLock()
 
-   Initializes a thread lock which can be used to serialize access to underlying
-   I/O functionality which may not be threadsafe.
+   初始化一个线程锁，它可以序列号访问底层的 I/O 功能，由于底层的 I/O 并非线程安全的.
 
 
 .. method:: Handler.acquire()
 
-   Acquires the thread lock created with :meth:`createLock`.
+   获取由 :meth:`createLock` 创建的线程锁.
 
 
 .. method:: Handler.release()
 
-   Releases the thread lock acquired with :meth:`acquire`.
+   释放由 :meth:`acquire` 获取到的线程锁.
 
 
 .. method:: Handler.setLevel(lvl)
@@ -477,28 +420,24 @@ For a list of handlers included as standard, see :mod:`logging.handlers`.
 
 .. _formatter-objects:
 
-Formatter Objects
+格式化对象
 -----------------
 
 .. currentmodule:: logging
 
-:class:`Formatter` objects have the following attributes and methods. They are
-responsible for converting a :class:`LogRecord` to (usually) a string which can
-be interpreted by either a human or an external system. The base
-:class:`Formatter` allows a formatting string to be specified. If none is
-supplied, the default value of ``'%(message)s'`` is used, which just includes
-the message in the logging call. To have additional items of information in the
-formatted output (such as a timestamp), keep reading.
+:class:`Formatter` 有下面一些属性和方法. 它们负责转换 :class:`LogRecord` 
+为一个普通的字符串，这个字符串可能适合人理解或者其他外部系统. 
+:class:`Formatter` 基类允许指定一个格式化字符. 如果没有提供这个格式化字符串
+默认使用 ``'%(message)s'`` , 在日志调用时它仅仅消息信息. 如果想包含其他额外选项
+作为输出格式例如时间戳，请往下读。
 
-A Formatter can be initialized with a format string which makes use of knowledge
-of the :class:`LogRecord` attributes - such as the default value mentioned above
-making use of the fact that the user's message and arguments are pre-formatted
-into a :class:`LogRecord`'s *message* attribute.  This format string contains
-standard Python %-style mapping keys. See section :ref:`old-string-formatting`
-for more information on string formatting.
+一个 Formatter 可以以一个格式化字符串初始化，它应用为与 :class:`LogRecord` 
+的属性 - 就像上面提到的默认值一样，对用户消息的影响因素为 :class:`LogRecord`'
+消息属性来预格式化.  这个格式化字符串包含标准的 Python %-形式的映射关键字
+. 对于格式化字符串的详细信息请看章节 :ref:`old-string-formatting` 。
 
-The useful mapping keys in a :class:`LogRecord` are given in the section on
-:ref:`logrecord-attributes`.
+有用的映射关键字由 :class:`LogRecord` 给出，在章节
+:ref:`logrecord-attributes` 上。
 
 
 .. class:: Formatter(fmt=None, datefmt=None, style='%')
@@ -586,15 +525,13 @@ The useful mapping keys in a :class:`LogRecord` are given in the section on
 
 .. _filter:
 
-Filter Objects
+过滤器对象
 --------------
 
-``Filters`` can be used by ``Handlers`` and ``Loggers`` for more sophisticated
-filtering than is provided by levels. The base filter class only allows events
-which are below a certain point in the logger hierarchy. For example, a filter
-initialized with 'A.B' will allow events logged by loggers 'A.B', 'A.B.C',
-'A.B.C.D', 'A.B.D' etc. but not 'A.BB', 'B.A.B' etc. If initialized with the
-empty string, all events are passed.
+``Filters`` 可以被 ``Handlers`` 和 ``Loggers`` 使用，对于复杂的过滤，可以考虑使用级别. 
+filter 基类仅允许在确定某个日志层次点下面的事件. 例如一个过滤器实例化为 'A.B' 
+将允许 'A.B', 'A.B.C' ,'A.B.C.D', 'A.B.D' 等的日志记录的事件, 但不允许 
+'A.BB', 'B.A.B' 等. 如果初始化为空字符串，所有的事件都会通过.
 
 
 .. class:: Filter(name='')
@@ -641,13 +578,11 @@ into logs (see :ref:`filters-contextual`).
 
 .. _log-record:
 
-LogRecord Objects
+日志记录对象
 -----------------
 
-:class:`LogRecord` instances are created automatically by the :class:`Logger`
-every time something is logged, and can be created manually via
-:func:`makeLogRecord` (for example, from a pickled event received over the
-wire).
+在每一次有东西要记录时， :class:`LogRecord` 实例由 :class:`Logger` 自动创建，
+也可以通过 :func:`makeLogRecord` 手动创建（例如， 从一个 pickled 事件中接收电报）.
 
 
 .. class:: LogRecord(name, level, pathname, lineno, msg, args, exc_info, func=None, sinfo=None)
@@ -716,7 +651,7 @@ wire).
 
 .. _logrecord-attributes:
 
-LogRecord attributes
+日志记录属性
 --------------------
 
 The LogRecord has a number of attributes, most of which are derived from the
@@ -743,7 +678,9 @@ the options available to you.
 | Attribute name | Format                  | Description                                   |
 +================+=========================+===============================================+
 | args           | You shouldn't need to   | The tuple of arguments merged into ``msg`` to |
-|                | format this yourself.   | produce ``message``.                          |
+|                | format this yourself.   | produce ``message``, or a dict whose values   |
+|                |                         | are used for the merge (when there is only one|
+|                |                         | argument, and it is a dictionary).            |
 +----------------+-------------------------+-----------------------------------------------+
 | asctime        | ``%(asctime)s``         | Human-readable time when the                  |
 |                |                         | :class:`LogRecord` was created.  By default   |
@@ -817,7 +754,7 @@ the options available to you.
 
 .. _logger-adapter:
 
-LoggerAdapter Objects
+日志适配器对象
 ---------------------
 
 :class:`LoggerAdapter` instances are used to conveniently pass contextual
@@ -852,7 +789,7 @@ interchangeably.
    to :class:`LoggerAdapter`.  These methods delegate to the underlying logger.
 
 
-Thread Safety
+线程安全
 -------------
 
 The logging module is intended to be thread-safe without any special work
@@ -866,23 +803,20 @@ because lock implementations in the :mod:`threading` module are not always
 re-entrant, and so cannot be invoked from such signal handlers.
 
 
-Module-Level Functions
+模块级别的方法
 ----------------------
 
-In addition to the classes described above, there are a number of module- level
-functions.
+除了上面描述的类，还有一些模块级别的方法.
 
 
 .. function:: getLogger(name=None)
 
-   Return a logger with the specified name or, if name is ``None``, return a
-   logger which is the root logger of the hierarchy. If specified, the name is
-   typically a dot-separated hierarchical name like *'a'*, *'a.b'* or *'a.b.c.d'*.
-   Choice of these names is entirely up to the developer who is using logging.
+   返回一个指定名字的 logger , 如果 name ``None``, 返回层次中的根 logger. 
+   如果指定， 这个名字是一个点号分割的层次名字，例如
+   *'a'*, *'a.b'* 或者 *'a.b.c.d'* , 选择这些名字完全取决于使用日志功能的开发人员.
 
-   All calls to this function with a given name return the same logger instance.
-   This means that logger instances never need to be passed between different parts
-   of an application.
+   所有调用这个指定了名字的方法将返回同一个 logger 实例.这就意味着，
+   日志实例无需在应用程序不同的部分之间来回传递。
 
 
 .. function:: getLoggerClass()
@@ -1196,7 +1130,7 @@ functions.
       :kwargs: Additional keyword arguments.
 
 
-Module-Level Attributes
+模块级别的属性
 -----------------------
 
 .. attribute:: lastResort
@@ -1211,7 +1145,7 @@ Module-Level Attributes
 
    .. versionadded:: 3.2
 
-Integration with the warnings module
+集合警告模块
 ------------------------------------
 
 The :func:`captureWarnings` function can be used to integrate :mod:`logging`

@@ -1,13 +1,12 @@
 .. _allos:
 
 *********************************
-Generic Operating System Services
+通用的操作系统服务
 *********************************
 
-The modules described in this chapter provide interfaces to operating system
-features that are available on (almost) all operating systems, such as files and
-a clock.  The interfaces are generally modeled after the Unix or C interfaces,
-but they are available on most other systems as well.  Here's an overview:
+这一章节的这个模块描述了操作系统功能提供的接口，这些功能近乎可以用于所有的操作系统上
+例如文件和闹钟。 这些接口是在 Unix 或者 c 接口之上的通用模型，但是他们同样能够应用到
+大多数其他系统上。 这里是一个大纲:
 
 
 .. toctree::

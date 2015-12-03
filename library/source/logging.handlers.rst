@@ -1,4 +1,4 @@
-:mod:`logging.handlers` --- Logging handlers
+:mod:`logging.handlers` --- 日志处理器
 ============================================
 
 .. module:: logging.handlers
@@ -8,10 +8,9 @@
 .. moduleauthor:: Vinay Sajip <vinay_sajip@red-dove.com>
 .. sectionauthor:: Vinay Sajip <vinay_sajip@red-dove.com>
 
-.. sidebar:: Important
+.. sidebar:: 重要内容
 
-   This page contains only reference information. For tutorials,
-   please see
+   这个页面仅包含参考信息. 对于入们教程请看
 
    * :ref:`Basic Tutorial <logging-basic-tutorial>`
    * :ref:`Advanced Tutorial <logging-advanced-tutorial>`
@@ -23,10 +22,8 @@
 
 .. currentmodule:: logging
 
-The following useful handlers are provided in the package. Note that three of
-the handlers (:class:`StreamHandler`, :class:`FileHandler` and
-:class:`NullHandler`) are actually defined in the :mod:`logging` module itself,
-but have been documented here along with the other handlers.
+在这个包中提供了下面这些有用的处理器. 注意这三个 (:class:`StreamHandler`, :class:`FileHandler` 和
+:class:`NullHandler`) 实际上定义 :mod:`logging` 自身模块当中,但是与其它处理器一起在这里进行文档说明。
 
 .. _stream-handler:
 
@@ -162,11 +159,19 @@ for this value.
    first call to :meth:`emit`.  By default, the file grows indefinitely.
 
 
+   .. method:: reopenIfNeeded()
+
+      Checks to see if the file has changed.  If it has, the existing stream is
+      flushed and closed and the file opened again, typically as a precursor to
+      outputting the record to the file.
+
+      .. versionadded:: 3.6
+
+
    .. method:: emit(record)
 
-      Outputs the record to the file, but first checks to see if the file has
-      changed.  If it has, the existing stream is flushed and closed and the
-      file opened again, before outputting the record to the file.
+      Outputs the record to the file, but first calls :meth:`reopenIfNeeded` to
+      reopen the file if it has changed.
 
 .. _base-rotating-handler:
 
@@ -230,7 +235,7 @@ need to override.
       renamed to the destination.
 
       :param source: The source filename. This is normally the base
-                     filename, e.g. 'test.log'
+                     filename, e.g. 'test.log'.
       :param dest:   The destination filename. This is normally
                      what the source is rotated to, e.g. 'test.log.1'.
 
