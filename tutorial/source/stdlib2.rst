@@ -252,7 +252,7 @@ Python 自动进行内存管理（对大多数的对象进行引用计数和
    Traceback (most recent call last):
      File "<stdin>", line 1, in <module>
        d['primary']                # entry was automatically removed
-     File "C:/python34/lib/weakref.py", line 46, in __getitem__
+     File "C:/python35/lib/weakref.py", line 46, in __getitem__
        o = self.data[key]()
    KeyError: 'primary'
 

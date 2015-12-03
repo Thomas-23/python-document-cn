@@ -359,7 +359,7 @@ Python 自动进行内存管理（对大多数的对象进行引用计数和
    >>> sum([0.1]*10) == 1.0
    False
 
-`decimal <https://docs.python.org/3/library/decimal.html#module-decimal>`_ 提供了必须的高精度算法::
+`decimal 模块 <https://docs.python.org/3/library/decimal.html#module-decimal>`_ 提供了必须的高精度算法::
 
    >>> getcontext().prec = 36
    >>> Decimal(1) / Decimal(7)

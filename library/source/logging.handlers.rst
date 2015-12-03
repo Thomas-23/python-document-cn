@@ -158,16 +158,6 @@ for this value.
    with that encoding.  If *delay* is true, then file opening is deferred until the
    first call to :meth:`emit`.  By default, the file grows indefinitely.
 
-
-   .. method:: reopenIfNeeded()
-
-      Checks to see if the file has changed.  If it has, the existing stream is
-      flushed and closed and the file opened again, typically as a precursor to
-      outputting the record to the file.
-
-      .. versionadded:: 3.6
-
-
    .. method:: emit(record)
 
       Outputs the record to the file, but first calls :meth:`reopenIfNeeded` to
