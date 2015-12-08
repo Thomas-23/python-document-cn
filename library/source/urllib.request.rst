@@ -1,4 +1,4 @@
-:mod:`urllib.request` --- Extensible library for opening URLs
+:mod:`urllib.request` --- 针对于打开 URL 的扩展库
 =============================================================
 
 .. module:: urllib.request
@@ -8,212 +8,170 @@
 .. sectionauthor:: Senthil Kumaran <senthil@uthcode.com>
 
 
-The :mod:`urllib.request` module defines functions and classes which help in
-opening URLs (mostly HTTP) in a complex world --- basic and digest
-authentication, redirections, cookies and more.
+:mod:`urllib.request` 模块中定义的函数和类，用于帮助我们打开不同情形下的 URL (大多数为 HTTP) ---
+基本和加密认证，跳转，cookies 以及其他 .
 
 .. seealso::
 
-    The `Requests package <http://requests.readthedocs.org/>`_
-    is recommended for a higher-level http client interface.
+    对于更高级别的 http 客户端请求， 推荐 Requests 包
+    `Requests package <http://requests.readthedocs.org/>`_ .
 
 
-The :mod:`urllib.request` module defines the following functions:
+:mod:`urllib.request` 模块定义了下面的方法:
 
 
 .. function:: urlopen(url, data=None[, timeout], *, cafile=None, capath=None, cadefault=False, context=None)
 
-   Open the URL *url*, which can be either a string or a
-   :class:`Request` object.
+   打开 *url*, 这个 url 可以是一个字符串也可以是一个
+   :class:`Request` 对象.
 
-   *data* must be a bytes object specifying additional data to be sent to the
-   server, or ``None`` if no such data is needed. *data* may also be an
-   iterable object and in that case Content-Length value must be specified in
-   the headers. Currently HTTP requests are the only ones that use *data*; the
-   HTTP request will be a POST instead of a GET when the *data* parameter is
-   provided.
+   *data* 是一个指定发送到服务器的额外数据， 它必需是一个字节对象, 如果不需要这个数据
+   使用 ``None`` . *data* 也可以是一个迭代对象，这种情况下必需在请求
+   头部指定 Content-Length 的值. 当前的 HTTP 请求仅一次使用这个 *data*; 当 *data* 参数提供的
+   时候， HTTP 请求会使用 POST 代替 GET.
 
-   *data* should be a buffer in the standard
-   :mimetype:`application/x-www-form-urlencoded` format.  The
-   :func:`urllib.parse.urlencode` function takes a mapping or sequence of
-   2-tuples and returns a string in this format. It should be encoded to bytes
-   before being used as the *data* parameter. The charset parameter in
-   ``Content-Type`` header may be used to specify the encoding. If charset
-   parameter is not sent with the Content-Type header, the server following the
-   HTTP 1.1 recommendation may assume that the data is encoded in ISO-8859-1
-   encoding. It is advisable to use charset parameter with encoding used in
-   ``Content-Type`` header with the :class:`Request`.
+   *data* 应该是一个标准格式的
+   :mimetype:`application/x-www-form-urlencoded` buffer.  这个
+   :func:`urllib.parse.urlencode` 方法使用一个映射或者序列的二元元组，然后返回一个这种格式的 ASCII 
+   字符串文本. 它在作为  *data* 参数使用之前应该被编码为字节.
 
-   urllib.request module uses HTTP/1.1 and includes ``Connection:close`` header
-   in its HTTP requests.
+   urllib.request 模块使用 HTTP/1.1 并且在 HTTP 请求中包含 ``Connection:close`` 头部.
 
-   The optional *timeout* parameter specifies a timeout in seconds for
-   blocking operations like the connection attempt (if not specified,
-   the global default timeout setting will be used).  This actually
-   only works for HTTP, HTTPS and FTP connections.
+   可选的 *timeout* 参数制定一个一个以秒为单位的超时时间，用它来中断操作然后重试
+   ( 如果没有指定，使用设置的全局的默认超时时间) . 这仅对 HTTP, HTTPS 和 FTP 连接有用.
 
-   If *context* is specified, it must be a :class:`ssl.SSLContext` instance
-   describing the various SSL options. See :class:`~http.client.HTTPSConnection`
-   for more details.
+   如果指定了 *context* , 它必需是一个描述了不同 SSL 选项的 :class:`ssl.SSLContext` 实例. 
+   详情请看 :class:`~http.client.HTTPSConnection` .
 
-   The optional *cafile* and *capath* parameters specify a set of trusted
-   CA certificates for HTTPS requests.  *cafile* should point to a single
-   file containing a bundle of CA certificates, whereas *capath* should
-   point to a directory of hashed certificate files.  More information can
-   be found in :meth:`ssl.SSLContext.load_verify_locations`.
+   可选的 *cafile* 和 *capath* 参数指定了针对于 HTTPS 请求的一系列可信赖的 CA 证书.
+   *cafile* 应该指定一个单独的文件，这个文件中包含一批 CA 证书。 而 *capath* 应该
+   指定一个含有哈希证书文件的目录。更多的信息可以在 :meth:`ssl.SSLContext.load_verify_locations`
+   中找到。
 
-   The *cadefault* parameter is ignored.
+   *cadefault* 参数被忽略.
 
-   For http and https urls, this function returns a
-   :class:`http.client.HTTPResponse` object which has the following
-   :ref:`httpresponse-objects` methods.
+   这个函数通常返回一个对象，以
+   :term:`context manager` 方式运作， 并且它有如下方法
 
-   For ftp, file, and data urls and requests explicitly handled by legacy
-   :class:`URLopener` and :class:`FancyURLopener` classes, this function
-   returns a :class:`urllib.response.addinfourl` object which can work as
-   :term:`context manager` and has methods such as
+   * :meth:`~urllib.response.addinfourl.geturl` --- 返回检索资源的 URL ,
+     通常用来判别是否在其后有跳转
 
-   * :meth:`~urllib.response.addinfourl.geturl` --- return the URL of the resource retrieved,
-     commonly used to determine if a redirect was followed
+   * :meth:`~urllib.response.addinfourl.info` --- 返回页面的 meta-information , 例如头部,
+     :func:`email.message_from_string` 实例形式的 (查看关于 HTTP 头部的快速指南
+     `Quick Reference to HTTP Headers <http://www.cs.tut.fi/~jkorpela/http.html>`_ )
 
-   * :meth:`~urllib.response.addinfourl.info` --- return the meta-information of the page, such as headers,
-     in the form of an :func:`email.message_from_string` instance (see
-     `Quick Reference to HTTP Headers <http://www.cs.tut.fi/~jkorpela/http.html>`_)
+   * :meth:`~urllib.response.addinfourl.getcode` -- 返回 HTTP 响应结果的状态码.
 
-   * :meth:`~urllib.response.addinfourl.getcode` -- return the HTTP status code of the response.
+   对于 http 和 https urls, 这个函数悄悄的返回一个修改过的
+   :class:`http.client.HTTPResponse` 对象. 除上面这三个新方法，消息属性包含跟
+   :attr:`~http.client.HTTPResponse.reason` 属性相同的信息 --- reason 短语由服务器返回 --- 
+   代替了文档中它所指的响应头部
+   :class:`~http.client.HTTPResponse` .
 
-   Raises :exc:`~urllib.error.URLError` on errors.
+   对于显示通过遗留的 :class:`URLopener` 和 :class:`FancyURLopener` 类处理的
+   ftp, 文件, 数据 urls 和 请求 ,这个函数返回一个 :class:`urllib.response.addinfourl` 对象.
 
-   Note that ``None`` may be returned if no handler handles the request (though
-   the default installed global :class:`OpenerDirector` uses
-   :class:`UnknownHandler` to ensure this never happens).
+   对于错误抛出 :exc:`~urllib.error.URLError` .
 
-   In addition, if proxy settings are detected (for example, when a ``*_proxy``
-   environment variable like :envvar:`http_proxy` is set),
-   :class:`ProxyHandler` is default installed and makes sure the requests are
-   handled through the proxy.
+   注意如果没有处理器处理请求，将返回 ``None``  (因此默认安装的全局 :class:`OpenerDirector` 
+   使用了 :class:`UnknownHandler` 来确保这种情况不会发生).
 
-   The legacy ``urllib.urlopen`` function from Python 2.6 and earlier has been
-   discontinued; :func:`urllib.request.urlopen` corresponds to the old
-   ``urllib2.urlopen``.  Proxy handling, which was done by passing a dictionary
-   parameter to ``urllib.urlopen``, can be obtained by using
-   :class:`ProxyHandler` objects.
+   另外, 如果发现代理设置 (例如, 当设置了 ``*_proxy`` 环境变量，像 :envvar:`http_proxy` 这样),
+   默认会安装 :class:`ProxyHandler` ,这样就使得请求都是通过代理来处理的.
+
+   从 Python 2.6 或者更早的遗留的 ``urllib.urlopen`` 方法将不在支持；
+   :func:`urllib.request.urlopen` 代替了老的 ``urllib2.urlopen`` .  
+   对于通过传递字典参数的  ``urllib.urlopen`` 的代理处理, 可以通过使用 :class:`ProxyHandler` 对象来做.
 
    .. versionchanged:: 3.2
-      *cafile* and *capath* were added.
+      增加了 *cafile* 和 *capath* .
 
    .. versionchanged:: 3.2
-      HTTPS virtual hosts are now supported if possible (that is, if
-      :data:`ssl.HAS_SNI` is true).
+      如果可行， HTTPS 现在支持虚拟主机 (即, 是否
+      :data:`ssl.HAS_SNI` 为真).
 
    .. versionadded:: 3.2
-      *data* can be an iterable object.
+      *data* 可以是一个迭代对象.
 
    .. versionchanged:: 3.3
-      *cadefault* was added.
+      增加 *cadefault* .
 
    .. versionchanged:: 3.4.3
-      *context* was added.
+      增加 *context* .
 
 
 .. function:: install_opener(opener)
 
-   Install an :class:`OpenerDirector` instance as the default global opener.
-   Installing an opener is only necessary if you want urlopen to use that
-   opener; otherwise, simply call :meth:`OpenerDirector.open` instead of
-   :func:`~urllib.request.urlopen`.  The code does not check for a real
-   :class:`OpenerDirector`, and any class with the appropriate interface will
-   work.
+   安装一个 :class:`OpenerDirector` 实例作为默认的全局打开器.
+   安装打开器仅在你需要在 urlopen 中使用它时使用; 这样就可以简单调用 :meth:`OpenerDirector.open` 来代替
+   :func:`~urllib.request.urlopen` .  代码不会检查一个真实的
+   :class:`OpenerDirector`, 任何合适的接口类都可以工作.
 
 
 .. function:: build_opener([handler, ...])
 
-   Return an :class:`OpenerDirector` instance, which chains the handlers in the
-   order given. *handler*\s can be either instances of :class:`BaseHandler`, or
-   subclasses of :class:`BaseHandler` (in which case it must be possible to call
-   the constructor without any parameters).  Instances of the following classes
-   will be in front of the *handler*\s, unless the *handler*\s contain them,
-   instances of them or subclasses of them: :class:`ProxyHandler` (if proxy
-   settings are detected), :class:`UnknownHandler`, :class:`HTTPHandler`,
+   返回一个 :class:`OpenerDirector` 实例, 它是一个指定顺序的处理器链 . 
+   *处理器* 即可以是 :class:`BaseHandler` 实例, 也可以是 :class:`BaseHandler` 
+   子类 (在这种情况下，它必需可以调用没有任何参数的构造器).  实例化下面这些类
+   将会放在所有 *处理器* 之前， 除非这些 *处理器* 已经包含它们,
+   实例化它们或者子类化它们: :class:`ProxyHandler` (如果发现设置了代理),
+   :class:`UnknownHandler`, :class:`HTTPHandler`,
    :class:`HTTPDefaultErrorHandler`, :class:`HTTPRedirectHandler`,
    :class:`FTPHandler`, :class:`FileHandler`, :class:`HTTPErrorProcessor`.
 
-   If the Python installation has SSL support (i.e., if the :mod:`ssl` module
-   can be imported), :class:`HTTPSHandler` will also be added.
+   如果安装的 Python 支持 SSL (如果 :mod:`ssl` 模块可以被导入), :class:`HTTPSHandler` 也会添加上.
 
-   A :class:`BaseHandler` subclass may also change its :attr:`handler_order`
-   attribute to modify its position in the handlers list.
+   一个 :class:`BaseHandler` 子类也可以改变它的 :attr:`handler_order`
+   属性来改变它在处理器列表中的位置.
 
 
 .. function:: pathname2url(path)
 
-   Convert the pathname *path* from the local syntax for a path to the form used in
-   the path component of a URL.  This does not produce a complete URL.  The return
-   value will already be quoted using the :func:`~urllib.parse.quote` function.
+   从一个路径转换这个路径名为本地语法，用来以 URL 路径部分的格式使用. 
+   它不会生成一个完整的 URL.  返回的值可以使用  :func:`~urllib.parse.quote`  函数引起来.
 
 
 .. function:: url2pathname(path)
 
-   Convert the path component *path* from a percent-encoded URL to the local syntax for a
-   path.  This does not accept a complete URL.  This function uses
-   :func:`~urllib.parse.unquote` to decode *path*.
+   从一个 % 号转义的 URL中转换路径部分的 *path* 为本地路径的语法.  它不支持一个完整的 URL.  
+   这个函数使用 :func:`~urllib.parse.unquote` 来解码 *path*.
 
 .. function:: getproxies()
 
-   This helper function returns a dictionary of scheme to proxy server URL
-   mappings. It scans the environment for variables named ``<scheme>_proxy``,
-   in a case insensitive approach, for all operating systems first, and when it
-   cannot find it, looks for proxy information from Mac OSX System
-   Configuration for Mac OS X and Windows Systems Registry for Windows.
+   这个帮助函数返回针对于 代理服务器映射的一个字典形式的 sheme. 
+   对所有的操作系统，开始，他扫描环境变量中名字为 ``<scheme>_proxy`` 的变量, 不区分大小写，
+   如果他没有找到，对于苹果系统查看苹果的代理配置和信息，对于微软系统查看 Windows注册表。
 
 
-The following classes are provided:
+提供下面这些方法:
 
 .. class:: Request(url, data=None, headers={}, origin_req_host=None, unverifiable=False, method=None)
 
-   This class is an abstraction of a URL request.
+   这是一个关于 URL 请求的抽象类.
 
-   *url* should be a string containing a valid URL.
+   *url* 包含正确 URL 的字符串.
 
-   *data* must be a bytes object specifying additional data to send to the
-   server, or ``None`` if no such data is needed.  Currently HTTP requests are
-   the only ones that use *data*; the HTTP request will be a POST instead of a
-   GET when the *data* parameter is provided.  *data* should be a buffer in the
-   standard :mimetype:`application/x-www-form-urlencoded` format.
+   *data* 是一个指定发送到服务器的额外数据， 它必需是一个字节对象, 如果不需要这个数据
+   使用 ``None``。当前的 HTTP 请求仅一次使用这个 *data*; 当 *data* 参数提供的
+   时候， HTTP 请求会使用 POST 代替 GET. *data* 应该是一个标准格式的
+   :mimetype:`application/x-www-form-urlencoded` buffer. 这个
+   :func:`urllib.parse.urlencode` 方法使用一个映射或者序列的二元元组，然后返回一个这种格式的 ASCII 
+   字符串文本. 它在作为  *data* 参数使用之前应该被编码为字节.
 
-   The :func:`urllib.parse.urlencode` function takes a mapping or sequence of
-   2-tuples and returns a string in this format. It should be encoded to bytes
-   before being used as the *data* parameter. The charset parameter in
-   ``Content-Type`` header may be used to specify the encoding. If charset
-   parameter is not sent with the Content-Type header, the server following the
-   HTTP 1.1 recommendation may assume that the data is encoded in ISO-8859-1
-   encoding. It is advisable to use charset parameter with encoding used in
-   ``Content-Type`` header with the :class:`Request`.
+   *headers* 应该是一个字典, 并且作为参数被 :meth:`add_header`  调用了，将会当作是否包含每个键和值，
+   这通常用于骗过  ``User-Agent``  的头部, 使得使用起来就像浏览器一样 -- 一些 HTTP 服务器仅支持
+   来自浏览器的请求，而拒绝脚本的请求。例如, 火狐识别自己为 ``"Mozilla/5.0
+   (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"``, 而
+   在 Python 2.6 上 :mod:`urllib`' 的默认用户代理字符串是。
 
+   举个使用 ``Content-Type`` 头部的例子， *data* 参数应该会以像这样的 
+   ``{"Content-Type": "application/x-www-form-urlencoded"}`` 字典形式发送出去.
 
-   *headers* should be a dictionary, and will be treated as if
-   :meth:`add_header` was called with each key and value as arguments.
-   This is often used to "spoof" the ``User-Agent`` header, which is
-   used by a browser to identify itself -- some HTTP servers only
-   allow requests coming from common browsers as opposed to scripts.
-   For example, Mozilla Firefox may identify itself as ``"Mozilla/5.0
-   (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11"``, while
-   :mod:`urllib`'s default user agent string is
-   ``"Python-urllib/2.6"`` (on Python 2.6).
+   最后两个参数仅对正确处理第三方的 HTTP cookies 感兴趣:
 
-   An example of using ``Content-Type`` header with *data* argument would be
-   sending a dictionary like ``{"Content-Type":" application/x-www-form-urlencoded;charset=utf-8"}``
-
-   The final two arguments are only of interest for correct handling
-   of third-party HTTP cookies:
-
-   *origin_req_host* should be the request-host of the origin
-   transaction, as defined by :rfc:`2965`.  It defaults to
-   ``http.cookiejar.request_host(self)``.  This is the host name or IP
-   address of the original request that was initiated by the user.
-   For example, if the request is for an image in an HTML document,
-   this should be the request-host of the request for the page
-   containing the image.
+   *origin_req_host* 应该是最初交换的请求主机, 它在 :rfc:`2965` 中定义.  它默认为
+   ``http.cookiejar.request_host(self)``.  这是关于最初请求的一个主机名字或者 IP 地址
+   它由用户初始化。 例如如果在一个 HTML 文档中是一个图片请求，它应该是一个包含图片页面的请求主机。
 
    *unverifiable* should indicate whether the request is unverifiable,
    as defined by RFC 2965.  It defaults to ``False``.  An unverifiable
@@ -1168,7 +1126,7 @@ The code for the sample CGI used in the above example is::
    #!/usr/bin/env python
    import sys
    data = sys.stdin.read()
-   print('Content-type: text-plain\n\nGot Data: "%s"' % data)
+   print('Content-type: text/plain\n\nGot Data: "%s"' % data)
 
 Here is an example of doing a ``PUT`` request using :class:`Request`::
 
@@ -1230,7 +1188,7 @@ every :class:`Request`.  To change this::
    opener.open('http://www.example.com/')
 
 Also, remember that a few standard headers (:mailheader:`Content-Length`,
-:mailheader:`Content-Type` without charset parameter and :mailheader:`Host`)
+:mailheader:`Content-Type` and :mailheader:`Host`)
 are added when the :class:`Request` is passed to :func:`urlopen` (or
 :meth:`OpenerDirector.open`).
 
@@ -1253,11 +1211,8 @@ from urlencode is encoded to bytes before it is sent to urlopen as data::
    >>> import urllib.request
    >>> import urllib.parse
    >>> data = urllib.parse.urlencode({'spam': 1, 'eggs': 2, 'bacon': 0})
-   >>> data = data.encode('utf-8')
-   >>> request = urllib.request.Request("http://requestb.in/xrbl82xr")
-   >>> # adding charset parameter to the Content-Type header.
-   >>> request.add_header("Content-Type","application/x-www-form-urlencoded;charset=utf-8")
-   >>> with urllib.request.urlopen(request, data) as f:
+   >>> data = data.encode('ascii')
+   >>> with urllib.request.urlopen("http://requestb.in/xrbl82xr", data) as f:
    ...     print(f.read().decode('utf-8'))
    ...
 
@@ -1383,7 +1338,7 @@ some point in the future.
     .. method:: retrieve(url, filename=None, reporthook=None, data=None)
 
        Retrieves the contents of *url* and places it in *filename*.  The return value
-       is a tuple consisting of a local filename and either a
+       is a tuple consisting of a local filename and either an
        :class:`email.message.Message` object containing the response headers (for remote
        URLs) or ``None`` (for local URLs).  The caller must then open and read the
        contents of *filename*.  If *filename* is not given and the URL refers to a

@@ -15,9 +15,9 @@
 
    这个页面包含 API 参考信息. 对于入门教程和更高级的讨论， 请看
 
-   * :ref:`Basic Tutorial <logging-basic-tutorial>`
-   * :ref:`Advanced Tutorial <logging-advanced-tutorial>`
-   * :ref:`Logging Cookbook <logging-cookbook>`
+   * `日志基础入门教程`_
+   * `日志高级教程`_
+   * `日志 cookbook`_
 
 
 **Source code:** :source:`Lib/logging/__init__.py`
@@ -1184,3 +1184,7 @@ with the :mod:`warnings` module.
       and 2.2.x, which do not include the :mod:`logging` package in the standard
       library.
 
+      
+.. _日志基础入门教程: https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
+.. _日志高级教程: https://docs.python.org/3/howto/logging.html#logging-advanced-tutorial
+.. _日志 cookbook: https://docs.python.org/3/howto/logging-cookbook.html#logging-cookbook
