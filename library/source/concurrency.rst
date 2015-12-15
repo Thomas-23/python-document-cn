@@ -1,14 +1,12 @@
 .. _concurrency:
 
 ********************
-Concurrent Execution
+并发执行
 ********************
 
-The modules described in this chapter provide support for concurrent
-execution of code. The appropriate choice of tool will depend on the
-task to be executed (CPU bound vs IO bound) and preferred style of
-development (event driven cooperative multitasking vs preemptive
-multitasking). Here's an overview:
+这个章节描述的模块，支持并发执行代码, 根据所要执行的任务，选择恰当的工具
+(CPU 限制还是 IO 限制 )，这是首选的开发风格
+(事件驱动的协同多任务处理 与 抢先多任务处理 ). 这里是概览:
 
 
 .. toctree::
@@ -22,7 +20,7 @@ multitasking). Here's an overview:
    queue.rst
 
 
-The following are support modules for some of the above services:
+下面是针对于上面一些服务提供支持的模块:
 
 .. toctree::
 

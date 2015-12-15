@@ -29,7 +29,7 @@ Mock 非常易于使用，它为 :mod:`unittest` 而设计。 Mock 是基于 'ac
 **Source code:** :source:`Lib/unittest/mock.py`
 
 
-Quick Guide
+快速指南
 -----------
 
 在你使用 :class:`Mock` 和 :class:`MagicMock` 对象时， 它们为你创建了所有的属性和方法，
@@ -147,13 +147,12 @@ Auto-speccing 创建的仿对象与替换的对象的属性和方法是一样的
     ...
    TypeError: <lambda>() takes exactly 3 arguments (1 given)
 
-:func:`create_autospec` can also be used on classes, where it copies the signature of
-the ``__init__`` method, and on callable objects where it copies the signature of
-the ``__call__`` method.
+:func:`create_autospec` 同样可以在类里使用, 它拷贝 ``__init__`` 方法的签名, 
+并且可以以调用的对象，会拷贝 ``__call__`` 方法的签名.
 
 
 
-The Mock Class
+Mock 类
 --------------
 
 
